@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 わたし成長ノート</title>
+<style>
+  :root{
+    --bg:#f5f2ff;
+    --card:#ffffff;
+    --accent:#9775fa;
+    --accent-light:#efe9ff;
+    --accent-dark:#6741d9;
+    --text:#332b3d;
+    --sub:#726a80;
+    --border:#e3daff;
+    --warn:#ff6b6b;
+    --mint:#20c997;
+    --mint-light:#d3f9e5;
+    --sky:#4dabf7;
+    --sky-light:#e2f1ff;
+    --peach:#ff922b;
+    --pink:#ff6f9c;
+    --pink-light:#ffe3ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+    background:
+      radial-gradient(circle at 10% 0%, #e9f0ff 0%, transparent 45%),
+      radial-gradient(circle at 90% 10%, #eee3ff 0%, transparent 45%),
+      radial-gradient(circle at 50% 100%, #e2fff3 0%, transparent 50%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--text);
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  header{
+    background:linear-gradient(120deg, #74c0fc 0%, #9775fa 55%, #ff8fb3 100%);
+    color:#fff;
+    padding:34px 20px;
+    text-align:center;
+    border-radius:0 0 28px 28px;
+    box-shadow:0 4px 18px rgba(151,117,250,0.28);
+  }
+  header h1{
+    margin:0 0 8px;
+    font-size:1.65rem;
+    letter-spacing:.06em;
+    font-weight:800;
+    text-shadow:0 2px 6px rgba(0,0,0,0.08);
+  }
+  header p{
+    margin:0;
+    font-size:.96rem;
+    opacity:.96;
+  }
+  .container{
+    max-width:calc(820px + 4cm);
+    margin:0 auto;
+    padding:24px 16px 60px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:22px;
+    margin-bottom:22px;
+    box-shadow:0 6px 18px rgba(255,111,156,0.1);
+  }
+  .card h2{
+    margin:0 0 14px;
+    font-size:1.22rem;
+    font-weight:800;
+    color:var(--accent-dark);
+    border-left:6px solid var(--accent);
+    border-radius:3px;
+    padding-left:12px;
+  }
+  label{
+    display:block;
+    font-size:.94rem;
+    color:var(--sub);
+    margin:12px 0 4px;
+  }
+  input[type="date"], textarea, input[type="text"]{
+    width:100%;
+    padding:11px 14px;
+    border:2px solid var(--border);
+    border-radius:14px;
+    font-size:1rem;
+    font-family:inherit;
+    resize:vertical;
+    background:#fffafc;
+    color:var(--text);
+    transition:border-color .15s ease;
+  }
+  textarea{min-height:64px;}
+  input:focus, textarea:focus{
+    outline:none;
+    border-color:var(--accent);
+    background:#fff;
+  }
+  .btn{
+    display:inline-block;
+    border:none;
+    border-radius:999px;
+    padding:11px 22px;
+    font-size:.96rem;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover{
+    transform:translateY(-1px);
+  }
+  .btn-primary{
+    background:linear-gradient(120deg, #b197fc, #9775fa);
+    color:#fff;
+    margin-top:16px;
+    box-shadow:0 4px 12px rgba(151,117,250,0.35);
+  }
+  .btn-primary:hover{
+    box-shadow:0 6px 16px rgba(151,117,250,0.45);
+  }
+  .btn-secondary{
+    background:var(--accent-light);
+    color:var(--accent-dark);
+  }
+  .btn-danger{
+    background:transparent;
+    color:var(--warn);
+    padding:6px 12px;
+    font-size:.86rem;
+    font-weight:700;
+  }
+  .btn-text{
+    background:transparent;
+    color:var(--accent-dark);
+    padding:6px 12px;
+    font-size:.86rem;
+    font-weight:700;
+    text-decoration:underline;
+  }
+  .stats{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .stat{
+    flex:1;
+    min-width:110px;
+    background:linear-gradient(150deg, var(--accent-light), #fff);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:14px 12px;
+    text-align:center;
+  }
+  .stat .num{
+    font-size:1.7rem;
+    font-weight:800;
+    color:var(--accent-dark);
+  }
+  .stat .lbl{
+    font-size:.82rem;
+    color:var(--sub);
+    font-weight:600;
+  }
+  .toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-bottom:16px;
+  }
+  .toolbar input[type="text"]{
+    flex:1;
+    min-width:160px;
+  }
+  .entry{
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:14px;
+    background:#fffbfd;
+  }
+  .entry .date{
+    font-weight:800;
+    color:var(--accent-dark);
+    font-size:1.02rem;
+    margin-bottom:8px;
+  }
+  .entry .field{
+    margin-bottom:8px;
+  }
+  .entry .field .tag{
+    display:inline-block;
+    font-size:.78rem;
+    font-weight:700;
+    color:#fff;
+    background:linear-gradient(120deg, #b197fc, #9775fa);
+    border-radius:999px;
+    padding:3px 11px;
+    margin-bottom:4px;
+  }
+  .entry .field .txt{
+    white-space:pre-wrap;
+    font-size:.97rem;
+  }
+  .entry-actions{
+    margin-top:8px;
+    text-align:right;
+  }
+  .empty{
+    text-align:center;
+    color:var(--sub);
+    padding:30px 10px;
+    font-size:.96rem;
+  }
+  .hint{
+    font-size:.88rem;
+    color:var(--sub);
+    margin:-6px 0 10px;
+  }
+  .saved-msg{
+    margin-left:12px;
+    font-size:.86rem;
+    color:var(--accent-dark);
+  }
+  .week-range{
+    font-weight:700;
+    color:var(--accent-dark);
+    font-size:1.02rem;
+    margin-bottom:6px;
+  }
+  .week-banner:not(:empty){
+    margin-bottom:14px;
+  }
+  .banner{
+    border-radius:14px;
+    padding:11px 16px;
+    font-size:.92rem;
+    font-weight:600;
+  }
+  .banner-ok{
+    background:var(--mint-light);
+    color:#0a8f68;
+  }
+  .banner-alert{
+    background:#ffe8cf;
+    color:#c2610c;
+  }
+  #focusReminder:not(:empty){
+    margin-bottom:16px;
+  }
+  .pivot-day-wide{
+    flex-basis:150px;
+  }
+  .week-nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .week-nav .week-range{
+    margin-bottom:0;
+    text-align:center;
+  }
+  .pivot-block{
+    margin-bottom:18px;
+  }
+  .pivot-block:last-child{
+    margin-bottom:0;
+  }
+  .pivot-row{
+    display:flex;
+    gap:12px;
+    padding:8px 0;
+    border-bottom:1px solid var(--border);
+    font-size:.95rem;
+  }
+  .pivot-row:last-child{
+    border-bottom:none;
+  }
+  .pivot-day{
+    flex:0 0 88px;
+    color:var(--sub);
+    font-size:.86rem;
+    padding-top:1px;
+  }
+  .pivot-text{
+    flex:1;
+    white-space:pre-wrap;
+  }
+  .pivot-text.muted{
+    color:var(--sub);
+  }
+  .vision-card{
+    background:linear-gradient(160deg, #f7f3ff, #f4fffb);
+    border:3px dashed #d0bfff;
+  }
+  .vision-card-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .vision-card-head h2{
+    margin:0 0 14px;
+  }
+  .worksheet-badge{
+    flex:0 0 auto;
+    font-size:.75rem;
+    font-weight:800;
+    letter-spacing:.04em;
+    color:#fff;
+    border:none;
+    border-radius:999px;
+    padding:5px 12px;
+    transform:rotate(-4deg);
+    background:linear-gradient(120deg, #9775fa, #4dabf7);
+    box-shadow:0 3px 8px rgba(151,117,250,0.35);
+    white-space:nowrap;
+  }
+  .vision-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+    margin-top:6px;
+  }
+  .vision-col{
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+  }
+  .vision-col-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:11px 14px;
+    color:#fff;
+    font-weight:800;
+    font-size:.96rem;
+  }
+  .vision-col[data-point="week"] .vision-col-head{ background:linear-gradient(120deg, #74c0fc, #4dabf7); }
+  .vision-col[data-point="month"] .vision-col-head{ background:linear-gradient(120deg, #63e6be, #20c997); }
+  .vision-col[data-point="year"] .vision-col-head{ background:linear-gradient(120deg, #ffb366, #ff922b); }
+  .vision-col[data-point="leaving"] .vision-col-head{ background:linear-gradient(120deg, #b197fc, #9775fa); }
+  .vision-icon{
+    font-size:1.05rem;
+  }
+  .vision-items{
+    list-style:none;
+    margin:0;
+    padding:10px 14px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    min-height:16px;
+  }
+  .vision-item{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:8px;
+    font-size:.94rem;
+    border-bottom:1px dashed var(--border);
+    padding-bottom:8px;
+  }
+  .vision-item:last-child{
+    border-bottom:none;
+    padding-bottom:0;
+  }
+  .vision-check{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    flex:1;
+    cursor:pointer;
+  }
+  .vision-check input[type="checkbox"]{
+    margin-top:3px;
+    accent-color:var(--accent);
+  }
+  .vision-item.done .vision-text{
+    text-decoration:line-through;
+    color:var(--sub);
+  }
+  .vision-del{
+    background:none;
+    border:none;
+    color:var(--sub);
+    cursor:pointer;
+    font-size:1.1rem;
+    line-height:1;
+    padding:0 2px;
+  }
+  .vision-del:hover{ color:var(--warn); }
+  .vision-empty-hint{
+    color:var(--sub);
+    font-size:.86rem;
+  }
+  .vision-add-form{
+    display:flex;
+    gap:6px;
+    padding:10px 14px;
+    border-top:1px solid var(--border);
+    background:#fdfcf9;
+  }
+  .vision-add-input{
+    flex:1;
+    padding:8px 10px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    font-size:.94rem;
+    font-family:inherit;
+    background:#fff;
+  }
+  .vision-add-btn{
+    padding:8px 14px;
+    font-size:.86rem;
+  }
+  .vision-progress-group{
+    margin-bottom:12px;
+  }
+  .vision-progress-group:last-child{
+    margin-bottom:0;
+  }
+  .vision-progress-label{
+    font-size:.88rem;
+    font-weight:700;
+    color:var(--accent-dark);
+    margin-bottom:4px;
+  }
+  .vision-progress-group .vision-items{
+    padding:0;
+    gap:6px;
+  }
+  .vision-progress-group .vision-item{
+    border-bottom:none;
+    padding-bottom:0;
+    font-size:.93rem;
+  }
+  #adviceCard{
+    background:linear-gradient(140deg, var(--accent-light), #fff);
+  }
+  .advice-message div{
+    font-size:1rem;
+    font-weight:600;
+    color:var(--text);
+    line-height:1.9;
+  }
+  .year-progress-summary{
+    margin-bottom:18px;
+  }
+  .year-progress-title{
+    font-size:1.18rem;
+    font-weight:800;
+    color:var(--accent-dark);
+    margin-bottom:2px;
+  }
+  .year-progress-range{
+    font-size:.86rem;
+    color:var(--sub);
+    font-weight:600;
+    margin-bottom:12px;
+  }
+  .year-progress-stats{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  .yp-stat{
+    flex:1;
+    min-width:96px;
+    background:linear-gradient(150deg, var(--accent-light), #fff);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:10px 8px;
+    text-align:center;
+  }
+  .yp-num{
+    font-size:1.35rem;
+    font-weight:800;
+    color:var(--accent-dark);
+  }
+  .yp-num span{
+    font-size:.68rem;
+    font-weight:700;
+    margin-left:2px;
+  }
+  .yp-lbl{
+    font-size:.76rem;
+    color:var(--sub);
+    font-weight:600;
+    margin-top:2px;
+  }
+  .year-progress-bar{
+    position:relative;
+    height:14px;
+    background:var(--accent-light);
+    border-radius:7px;
+    overflow:hidden;
+  }
+  .year-progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, #b197fc, var(--accent));
+    border-radius:7px;
+  }
+  .ypb-tick{
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:1px;
+    background:rgba(255,255,255,0.85);
+    box-shadow:0 0 1px rgba(103,65,217,0.5);
+  }
+  .year-progress-month-labels{
+    position:relative;
+    height:16px;
+    margin-top:5px;
+  }
+  .year-progress-month-labels span{
+    position:absolute;
+    transform:translateX(-50%);
+    font-size:.66rem;
+    color:var(--sub);
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .year-progress-month-labels span.is-now{
+    color:var(--accent-dark);
+    font-weight:800;
+  }
+  .year-calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, 190px);
+    gap:14px;
+    justify-content:center;
+  }
+  .mini-month{
+    width:190px;
+    height:190px;
+    box-sizing:border-box;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:8px;
+    background:#fffcfe;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .mini-month.is-current-month{
+    border-color:var(--accent);
+    box-shadow:0 0 0 2px var(--accent);
+    background:#fff;
+  }
+  .mini-month-title{
+    flex:0 0 auto;
+    font-size:.86rem;
+    font-weight:700;
+    color:var(--accent-dark);
+    text-align:center;
+    margin-bottom:4px;
+  }
+  .mini-month-dow{
+    flex:0 0 auto;
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:1px;
+    margin-bottom:2px;
+  }
+  .mini-month-dow span{
+    font-size:.68rem;
+    font-weight:700;
+    color:var(--text);
+    text-align:center;
+    line-height:1.3;
+  }
+  .mini-month-days{
+    flex:1 1 auto;
+    min-height:0;
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    grid-auto-rows:1fr;
+    gap:1px;
+  }
+  .mini-day{
+    display:grid;
+    place-items:center;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    text-align:center;
+    font-size:.86rem;
+    font-weight:600;
+    line-height:1;
+    border-radius:50%;
+    color:var(--text);
+  }
+  .mini-day.empty{
+    visibility:hidden;
+  }
+  .mini-day.past{
+    opacity:.45;
+    text-decoration:line-through;
+  }
+  .mini-day.today{
+    background:linear-gradient(135deg, #ffc078, #ff922b);
+    color:#fff;
+    font-weight:800;
+    box-shadow:0 0 0 3px #ffe8cc, 0 2px 8px rgba(255,146,43,0.5);
+  }
+  .mini-day.future{
+    font-weight:600;
+  }
+  .mini-day.sun:not(.today){
+    color:#e03131;
+  }
+  .mini-day.sat:not(.today){
+    color:#4dabf7;
+  }
+  footer{
+    text-align:center;
+    font-size:.82rem;
+    color:var(--sub);
+    padding:24px;
+  }
+  @media print{
+    header, .card.input-card, .toolbar, .entry-actions, footer{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌸 わたし成長ノート 🌸</h1>
+  <p>毎日ちょっとずつ、なりたい自分に近づこう♪</p>
+</header>
+
+<div class="container">
+
+  <div class="card" id="adviceCard">
+    <h2>🌟 今日のひとこと</h2>
+    <div id="adviceMessage" class="advice-message"></div>
+  </div>
+
+  <div class="card" id="yearCalendarCard">
+    <h2>📅 年度カレンダー</h2>
+    <p class="hint">今年度（4月〜翌3月）の進み具合です。今日の位置と、年度末までの残り日数が一目で分かります。過ぎた日は薄く表示されます。</p>
+    <div id="yearProgressSummary" class="year-progress-summary"></div>
+    <div id="yearCalendarGrid" class="year-calendar-grid"></div>
+  </div>
+
+  <div class="card vision-card">
+    <div class="vision-card-head">
+      <h2>💗 なりたい姿</h2>
+      <span class="worksheet-badge">GOAL SHEET</span>
+    </div>
+    <p class="hint">「なりたい自分」を課題のように書き出しておきましょう。時期ごとにカードが分かれているので、いつの自分の姿かひと目で分かります。達成できたらチェックを入れましょう。</p>
+
+    <div class="vision-grid">
+
+      <div class="vision-col" data-point="leaving">
+        <div class="vision-col-head"><span class="vision-icon">🎓</span><span>この学校を去るとき</span></div>
+        <ul class="vision-items" id="visionItems-leaving"></ul>
+        <form class="vision-add-form" data-point="leaving">
+          <input type="text" class="vision-add-input" placeholder="学校を去るとき、なりたい自分を書く">
+          <button type="submit" class="btn btn-secondary vision-add-btn">追加</button>
+        </form>
+      </div>
+
+      <div class="vision-col" data-point="year">
+        <div class="vision-col-head"><span class="vision-icon">🌳</span><span>1年後</span></div>
+        <ul class="vision-items" id="visionItems-year"></ul>
+        <form class="vision-add-form" data-point="year">
+          <input type="text" class="vision-add-input" placeholder="1年後、なりたい自分を書く">
+          <button type="submit" class="btn btn-secondary vision-add-btn">追加</button>
+        </form>
+      </div>
+
+      <div class="vision-col" data-point="month">
+        <div class="vision-col-head"><span class="vision-icon">🌿</span><span>1か月後</span></div>
+        <ul class="vision-items" id="visionItems-month"></ul>
+        <form class="vision-add-form" data-point="month">
+          <input type="text" class="vision-add-input" placeholder="1か月後、なりたい自分を書く">
+          <button type="submit" class="btn btn-secondary vision-add-btn">追加</button>
+        </form>
+      </div>
+
+      <div class="vision-col" data-point="week">
+        <div class="vision-col-head"><span class="vision-icon">🌱</span><span>1週間後</span></div>
+        <ul class="vision-items" id="visionItems-week"></ul>
+        <form class="vision-add-form" data-point="week">
+          <input type="text" class="vision-add-input" placeholder="1週間後、なりたい自分を書く">
+          <button type="submit" class="btn btn-secondary vision-add-btn">追加</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>✨ 今の記録</h2>
+    <div class="stats">
+      <div class="stat"><div class="num" id="statTotal">0</div><div class="lbl">総記録数</div></div>
+      <div class="stat"><div class="num" id="statMonth">0</div><div class="lbl">今月の記録</div></div>
+      <div class="stat"><div class="num" id="statStreak">0</div><div class="lbl">連続記録日数</div></div>
+    </div>
+  </div>
+
+  <div class="card input-card">
+    <h2>✍️ 今日の記録を書く</h2>
+    <div id="focusReminder"></div>
+    <form id="entryForm">
+      <input type="hidden" id="editId">
+      <label for="date">日付</label>
+      <input type="date" id="date" required>
+
+      <label for="didToday">今日取り組んだこと</label>
+      <textarea id="didToday" placeholder="授業や生徒対応、校務などで取り組んだこと"></textarea>
+
+      <label for="learned">学んだこと・気づいたこと</label>
+      <textarea id="learned" placeholder="うまくいったこと、失敗から学んだこと、生徒から教わったことなど"></textarea>
+
+      <label for="nextSteps">今後やること</label>
+      <textarea id="nextSteps" placeholder="次に試したいこと、改善したいこと、調べたいことなど"></textarea>
+
+      <label for="note">一言メモ（任意）</label>
+      <input type="text" id="note" placeholder="今日の一言・感謝・振り返りなど">
+
+      <button type="submit" class="btn btn-primary" id="submitBtn">記録を保存</button>
+      <button type="button" class="btn btn-secondary" id="cancelEditBtn" style="display:none;">編集をやめる</button>
+    </form>
+  </div>
+
+  <div class="card" id="weeklyReviewCard">
+    <h2>🌷 週の振り返り</h2>
+    <div id="weeklyReviewPlaceholder" class="banner banner-ok" style="display:none;"></div>
+    <div id="weeklyReviewBody">
+      <div id="weekBanner" class="week-banner"></div>
+
+      <div class="week-nav">
+        <button type="button" class="btn btn-secondary" id="pivotPrevBtn">← 前の週</button>
+        <div id="pivotWeekLabel" class="week-range"></div>
+        <button type="button" class="btn btn-secondary" id="pivotNextBtn">次の週 →</button>
+      </div>
+      <p class="hint">その週の日々の記録を項目ごとにまとめて表示します。読み返してから振り返りを書きましょう。</p>
+      <div id="weekPivot"></div>
+
+      <form id="weeklyForm">
+        <input type="hidden" id="weeklyEditKey">
+        <label>対象の週</label>
+        <div id="weekRangeLabel" class="week-range"></div>
+
+        <label for="weeklyGood">うまくいったこと</label>
+        <textarea id="weeklyGood" placeholder="今週うまくいったこと"></textarea>
+
+        <label for="weeklyChallenge">課題・改善したいこと</label>
+        <textarea id="weeklyChallenge" placeholder="今週の課題、次に改善したいこと"></textarea>
+
+        <label for="weeklyLearning">今週全体の学び</label>
+        <textarea id="weeklyLearning" placeholder="今週の記録を振り返って気づいたこと・学び"></textarea>
+
+        <label>なりたい姿の進捗チェック</label>
+        <div id="weeklyVisionProgress"></div>
+
+        <label for="weeklyVisionCheck">「なりたい姿」に近づけているか</label>
+        <textarea id="weeklyVisionCheck" placeholder="なりたい自分に近づけているか、自己評価"></textarea>
+
+        <label for="weeklyNextFocus">来週の重点</label>
+        <textarea id="weeklyNextFocus" placeholder="来週、特に意識したいこと"></textarea>
+
+        <button type="submit" class="btn btn-primary" id="weeklySubmitBtn">この週の振り返りを保存</button>
+        <button type="button" class="btn btn-secondary" id="weeklyCancelBtn" style="display:none;">編集をやめる</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📖 これまでの週の振り返り</h2>
+    <div id="weeklyList"></div>
+  </div>
+
+  <div class="card" id="monthlyReviewCard">
+    <h2>🌈 月の振り返り</h2>
+    <div id="monthlyReviewPlaceholder" class="banner banner-ok" style="display:none;"></div>
+    <div id="monthlyReviewBody">
+      <div class="week-nav">
+        <button type="button" class="btn btn-secondary" id="monthPivotPrevBtn">← 前の月</button>
+        <div id="monthPivotLabel" class="week-range"></div>
+        <button type="button" class="btn btn-secondary" id="monthPivotNextBtn">次の月 →</button>
+      </div>
+      <p class="hint">その月の週の振り返りをまとめて表示します。</p>
+      <div id="monthPivot"></div>
+
+      <form id="monthlyForm">
+        <input type="hidden" id="monthlyEditKey">
+        <label>対象の月</label>
+        <div id="monthRangeLabel" class="week-range"></div>
+
+        <label for="monthlyGood">うまくいったこと</label>
+        <textarea id="monthlyGood" placeholder="今月うまくいったこと"></textarea>
+
+        <label for="monthlyChallenge">課題・改善したいこと</label>
+        <textarea id="monthlyChallenge" placeholder="今月の課題、次に改善したいこと"></textarea>
+
+        <label for="monthlyLearning">今月全体の学び</label>
+        <textarea id="monthlyLearning" placeholder="今月の記録を振り返って気づいたこと・学び"></textarea>
+
+        <label for="monthlyVisionCheck">「なりたい姿」に近づけているか</label>
+        <textarea id="monthlyVisionCheck" placeholder="なりたい自分に近づけているか、自己評価"></textarea>
+
+        <label for="monthlyNextFocus">来月の重点</label>
+        <textarea id="monthlyNextFocus" placeholder="来月、特に意識したいこと"></textarea>
+
+        <button type="submit" class="btn btn-primary" id="monthlySubmitBtn">この月の振り返りを保存</button>
+        <button type="button" class="btn btn-secondary" id="monthlyCancelBtn" style="display:none;">編集をやめる</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📖 これまでの月の振り返り</h2>
+    <div id="monthlyList"></div>
+  </div>
+
+  <div class="card" id="yearlyReviewCard">
+    <h2>🎀 年度の振り返り</h2>
+    <div id="yearlyReviewPlaceholder" class="banner banner-ok" style="display:none;"></div>
+    <div id="yearlyReviewBody">
+      <div class="week-nav">
+        <button type="button" class="btn btn-secondary" id="yearPivotPrevBtn">← 前の年度</button>
+        <div id="yearPivotLabel" class="week-range"></div>
+        <button type="button" class="btn btn-secondary" id="yearPivotNextBtn">次の年度 →</button>
+      </div>
+      <p class="hint">その年度（4月〜翌3月）の月の振り返りをまとめて表示します。</p>
+      <div id="yearPivot"></div>
+
+      <form id="yearlyForm">
+        <input type="hidden" id="yearlyEditKey">
+        <label>対象の年度</label>
+        <div id="yearRangeLabel" class="week-range"></div>
+
+        <label for="yearlyGood">うまくいったこと</label>
+        <textarea id="yearlyGood" placeholder="今年度うまくいったこと"></textarea>
+
+        <label for="yearlyChallenge">課題・改善したいこと</label>
+        <textarea id="yearlyChallenge" placeholder="今年度の課題、次に改善したいこと"></textarea>
+
+        <label for="yearlyLearning">今年度全体の学び</label>
+        <textarea id="yearlyLearning" placeholder="今年度の記録を振り返って気づいたこと・学び"></textarea>
+
+        <label for="yearlyVisionCheck">「なりたい姿」に近づけているか</label>
+        <textarea id="yearlyVisionCheck" placeholder="なりたい自分に近づけているか、自己評価"></textarea>
+
+        <label for="yearlyNextFocus">来年度の重点</label>
+        <textarea id="yearlyNextFocus" placeholder="来年度、特に意識したいこと"></textarea>
+
+        <button type="submit" class="btn btn-primary" id="yearlySubmitBtn">この年度の振り返りを保存</button>
+        <button type="button" class="btn btn-secondary" id="yearlyCancelBtn" style="display:none;">編集をやめる</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📖 これまでの年度の振り返り</h2>
+    <div id="yearlyList"></div>
+  </div>
+
+  <div class="card">
+    <h2>📚 これまでの記録</h2>
+    <div class="toolbar">
+      <input type="text" id="searchBox" placeholder="キーワードで検索...">
+      <button class="btn btn-secondary" id="exportBtn">書き出し（テキスト）</button>
+      <button class="btn btn-secondary" id="printBtn">印刷</button>
+    </div>
+    <div id="entryList"></div>
+  </div>
+
+</div>
+
+<footer>💌 記録はこのブラウザだけに保存されます（他のパソコンとは共有されません）</footer>
+
+<script>
+(function(){
+  const STORAGE_KEY = "teacherGrowthLog_entries";
+
+  function loadEntries(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function saveEntries(entries){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+  }
+
+  let entries = loadEntries();
+
+  const dateInput = document.getElementById('date');
+  const didTodayInput = document.getElementById('didToday');
+  const learnedInput = document.getElementById('learned');
+  const nextStepsInput = document.getElementById('nextSteps');
+  const noteInput = document.getElementById('note');
+  const editIdInput = document.getElementById('editId');
+  const form = document.getElementById('entryForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const cancelEditBtn = document.getElementById('cancelEditBtn');
+  const entryList = document.getElementById('entryList');
+  const searchBox = document.getElementById('searchBox');
+
+  function todayStr(){
+    const d = new Date();
+    const tz = d.getTimezoneOffset() * 60000;
+    return new Date(d - tz).toISOString().slice(0,10);
+  }
+  dateInput.value = todayStr();
+
+  function escapeHtml(str){
+    return (str || "").replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function formatDateLabel(dateStr){
+    const d = new Date(dateStr + "T00:00:00");
+    const days = ['日','月','火','水','木','金','土'];
+    return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日（${days[d.getDay()]}）`;
+  }
+
+  function render(){
+    entries.sort((a,b) => (b.date + b.createdAt).localeCompare(a.date + a.createdAt));
+
+    const q = searchBox.value.trim().toLowerCase();
+    const filtered = q ? entries.filter(e =>
+      [e.didToday, e.learned, e.nextSteps, e.note, e.date].join(' ').toLowerCase().includes(q)
+    ) : entries;
+
+    if(filtered.length === 0){
+      entryList.innerHTML = `<div class="empty">${q ? '該当する記録が見つかりません。' : 'まだ記録がありません。今日の記録から始めましょう。'}</div>`;
+    } else {
+      entryList.innerHTML = filtered.map(e => `
+        <div class="entry" data-id="${e.id}">
+          <div class="date">${formatDateLabel(e.date)}</div>
+          ${e.didToday ? `<div class="field"><div class="tag">取り組んだこと</div><div class="txt">${escapeHtml(e.didToday)}</div></div>` : ''}
+          ${e.learned ? `<div class="field"><div class="tag">学んだこと</div><div class="txt">${escapeHtml(e.learned)}</div></div>` : ''}
+          ${e.nextSteps ? `<div class="field"><div class="tag">今後やること</div><div class="txt">${escapeHtml(e.nextSteps)}</div></div>` : ''}
+          ${e.note ? `<div class="field"><div class="tag">一言メモ</div><div class="txt">${escapeHtml(e.note)}</div></div>` : ''}
+          <div class="entry-actions">
+            <button class="btn btn-text" data-action="edit" data-id="${e.id}">編集</button>
+            <button class="btn btn-danger" data-action="delete" data-id="${e.id}">削除</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    updateStats();
+  }
+
+  function updateStats(){
+    document.getElementById('statTotal').textContent = entries.length;
+
+    const now = new Date();
+    const ym = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    document.getElementById('statMonth').textContent = entries.filter(e => e.date.startsWith(ym)).length;
+
+    const dateSet = new Set(entries.map(e => e.date));
+    let streak = 0;
+    let cursor = new Date();
+    while(true){
+      const tz = cursor.getTimezoneOffset() * 60000;
+      const ds = new Date(cursor - tz).toISOString().slice(0,10);
+      if(dateSet.has(ds)){
+        streak++;
+        cursor.setDate(cursor.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    document.getElementById('statStreak').textContent = streak;
+  }
+
+  form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    const id = editIdInput.value;
+    const data = {
+      date: dateInput.value || todayStr(),
+      didToday: didTodayInput.value.trim(),
+      learned: learnedInput.value.trim(),
+      nextSteps: nextStepsInput.value.trim(),
+      note: noteInput.value.trim(),
+    };
+
+    if(!data.didToday && !data.learned && !data.nextSteps && !data.note){
+      alert('少なくとも1つの項目を入力してください。');
+      return;
+    }
+
+    if(id){
+      const idx = entries.findIndex(e => e.id === id);
+      if(idx > -1){
+        entries[idx] = { ...entries[idx], ...data };
+      }
+      exitEditMode();
+    } else {
+      entries.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+        createdAt: new Date().toISOString(),
+        ...data
+      });
+    }
+
+    saveEntries(entries);
+    form.reset();
+    dateInput.value = todayStr();
+    render();
+    if(typeof refreshPivot === 'function') refreshPivot();
+    if(typeof renderAdvice === 'function') renderAdvice();
+  });
+
+  function exitEditMode(){
+    editIdInput.value = '';
+    submitBtn.textContent = '記録を保存';
+    cancelEditBtn.style.display = 'none';
+  }
+
+  cancelEditBtn.addEventListener('click', function(){
+    form.reset();
+    dateInput.value = todayStr();
+    exitEditMode();
+  });
+
+  entryList.addEventListener('click', function(ev){
+    const btn = ev.target.closest('button[data-action]');
+    if(!btn) return;
+    const id = btn.dataset.id;
+    const action = btn.dataset.action;
+
+    if(action === 'delete'){
+      if(confirm('この記録を削除しますか？')){
+        entries = entries.filter(e => e.id !== id);
+        saveEntries(entries);
+        render();
+        if(typeof refreshPivot === 'function') refreshPivot();
+        if(typeof renderAdvice === 'function') renderAdvice();
+      }
+    } else if(action === 'edit'){
+      const e = entries.find(e => e.id === id);
+      if(!e) return;
+      dateInput.value = e.date;
+      didTodayInput.value = e.didToday;
+      learnedInput.value = e.learned;
+      nextStepsInput.value = e.nextSteps;
+      noteInput.value = e.note;
+      editIdInput.value = e.id;
+      submitBtn.textContent = '更新する';
+      cancelEditBtn.style.display = 'inline-block';
+      window.scrollTo({top: 0, behavior:'smooth'});
+    }
+  });
+
+  searchBox.addEventListener('input', render);
+
+  document.getElementById('exportBtn').addEventListener('click', function(){
+    if(entries.length === 0){ alert('書き出す記録がありません。'); return; }
+    const sorted = [...entries].sort((a,b) => a.date.localeCompare(b.date));
+    let text = '教員成長記録\n書き出し日: ' + todayStr() + '\n\n';
+    sorted.forEach(e => {
+      text += '==============================\n';
+      text += formatDateLabel(e.date) + '\n';
+      if(e.didToday) text += '\n【今日取り組んだこと】\n' + e.didToday + '\n';
+      if(e.learned) text += '\n【学んだこと・気づいたこと】\n' + e.learned + '\n';
+      if(e.nextSteps) text += '\n【今後やること】\n' + e.nextSteps + '\n';
+      if(e.note) text += '\n【一言メモ】\n' + e.note + '\n';
+      text += '\n';
+    });
+    const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '教員成長記録_' + todayStr() + '.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById('printBtn').addEventListener('click', function(){
+    window.print();
+  });
+
+  // ---- なりたい姿 (vision goal sheet) ----
+  const VISION_KEY = "teacherGrowthLog_vision";
+  const VISION_ITEMS_KEY = "teacherGrowthLog_visionItems";
+  const VISION_POINTS = ['week', 'month', 'year', 'leaving'];
+
+  function loadVisionItems(){
+    try{
+      const raw = localStorage.getItem(VISION_ITEMS_KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){ /* fall through to migration */ }
+
+    // 旧形式（時期ごとに1つのテキスト）からの移行
+    try{
+      const old = JSON.parse(localStorage.getItem(VISION_KEY));
+      if(old){
+        const migrated = [];
+        VISION_POINTS.forEach(function(point){
+          if(old[point] && old[point].trim()){
+            migrated.push({
+              id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+              point,
+              text: old[point].trim(),
+              done: false,
+              createdAt: new Date().toISOString(),
+            });
+          }
+        });
+        if(migrated.length){
+          localStorage.setItem(VISION_ITEMS_KEY, JSON.stringify(migrated));
+          return migrated;
+        }
+      }
+    }catch(e){ /* ignore */ }
+
+    return [];
+  }
+  function saveVisionItems(items){
+    localStorage.setItem(VISION_ITEMS_KEY, JSON.stringify(items));
+  }
+
+  let visionItems = loadVisionItems();
+
+  function renderVisionItems(){
+    VISION_POINTS.forEach(function(point){
+      const list = document.getElementById('visionItems-' + point);
+      const items = visionItems.filter(v => v.point === point);
+      if(items.length === 0){
+        list.innerHTML = `<li class="vision-empty-hint">まだ書かれていません</li>`;
+        return;
+      }
+      list.innerHTML = items.map(v => `
+        <li class="vision-item ${v.done ? 'done' : ''}" data-id="${v.id}">
+          <label class="vision-check">
+            <input type="checkbox" ${v.done ? 'checked' : ''} data-action="toggle" data-id="${v.id}">
+            <span class="vision-text">${escapeHtml(v.text)}</span>
+          </label>
+          <button type="button" class="vision-del" data-action="delete" data-id="${v.id}" title="削除">×</button>
+        </li>
+      `).join('');
+    });
+  }
+
+  document.querySelectorAll('.vision-add-form').forEach(function(f){
+    f.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      const point = f.dataset.point;
+      const input = f.querySelector('.vision-add-input');
+      const text = input.value.trim();
+      if(!text) return;
+      visionItems.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+        point,
+        text,
+        done: false,
+        createdAt: new Date().toISOString(),
+      });
+      saveVisionItems(visionItems);
+      input.value = '';
+      renderVisionItems();
+      if(typeof renderAdvice === 'function') renderAdvice();
+    });
+  });
+
+  document.querySelectorAll('.vision-items').forEach(function(list){
+    list.addEventListener('click', function(ev){
+      const target = ev.target;
+      const action = target.dataset.action;
+      if(!action) return;
+      const id = target.dataset.id;
+      if(action === 'delete'){
+        if(confirm('この項目を削除しますか？')){
+          visionItems = visionItems.filter(v => v.id !== id);
+          saveVisionItems(visionItems);
+          renderVisionItems();
+          renderWeeklyVisionProgress();
+          if(typeof renderAdvice === 'function') renderAdvice();
+        }
+      }
+    });
+    list.addEventListener('change', function(ev){
+      const target = ev.target;
+      if(target.dataset.action === 'toggle'){
+        const id = target.dataset.id;
+        const item = visionItems.find(v => v.id === id);
+        if(item){
+          item.done = target.checked;
+          saveVisionItems(visionItems);
+          renderVisionItems();
+          renderWeeklyVisionProgress();
+          if(typeof renderAdvice === 'function') renderAdvice();
+        }
+      }
+    });
+  });
+
+  const VISION_POINT_META = {
+    leaving: {label:'この学校を去るとき', icon:'🎓'},
+    year: {label:'1年後', icon:'🌳'},
+    month: {label:'1か月後', icon:'🌿'},
+    week: {label:'1週間後', icon:'🌱'}
+  };
+
+  function renderWeeklyVisionProgress(){
+    const container = document.getElementById('weeklyVisionProgress');
+    if(!container) return;
+    if(visionItems.length === 0){
+      container.innerHTML = `<div class="vision-empty-hint">なりたい姿がまだ登録されていません。上の「なりたい姿」で書いてみましょう。</div>`;
+      return;
+    }
+    container.innerHTML = VISION_POINTS.slice().reverse().map(function(point){
+      const items = visionItems.filter(v => v.point === point);
+      if(items.length === 0) return '';
+      const meta = VISION_POINT_META[point];
+      const rows = items.map(v => `
+        <li class="vision-item ${v.done ? 'done' : ''}" data-id="${v.id}">
+          <label class="vision-check">
+            <input type="checkbox" ${v.done ? 'checked' : ''} data-action="toggle-weekly" data-id="${v.id}">
+            <span class="vision-text">${escapeHtml(v.text)}</span>
+          </label>
+        </li>
+      `).join('');
+      return `<div class="vision-progress-group"><div class="vision-progress-label">${meta.icon} ${meta.label}</div><ul class="vision-items">${rows}</ul></div>`;
+    }).join('');
+  }
+
+  document.getElementById('weeklyVisionProgress').addEventListener('change', function(ev){
+    const target = ev.target;
+    if(target.dataset.action === 'toggle-weekly'){
+      const id = target.dataset.id;
+      const item = visionItems.find(v => v.id === id);
+      if(item){
+        item.done = target.checked;
+        saveVisionItems(visionItems);
+        renderVisionItems();
+        renderWeeklyVisionProgress();
+        if(typeof renderAdvice === 'function') renderAdvice();
+      }
+    }
+  });
+
+  renderVisionItems();
+  renderWeeklyVisionProgress();
+
+  // ---- 週の振り返り (weekly review) ----
+  const WEEKLY_KEY = "teacherGrowthLog_weekly";
+  function loadWeekly(){
+    try{
+      const raw = localStorage.getItem(WEEKLY_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function saveWeeklyData(list){ localStorage.setItem(WEEKLY_KEY, JSON.stringify(list)); }
+  let weeklyEntries = loadWeekly();
+
+  function getMonday(dateObj){
+    const d = new Date(dateObj);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    d.setDate(diff);
+    d.setHours(0,0,0,0);
+    return d;
+  }
+  function toDateStr(d){
+    const tz = d.getTimezoneOffset() * 60000;
+    return new Date(d - tz).toISOString().slice(0,10);
+  }
+  function weekLabel(mondayStr){
+    const monday = new Date(mondayStr + "T00:00:00");
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    const days = ['日','月','火','水','木','金','土'];
+    const fmt = d => `${d.getMonth()+1}/${d.getDate()}(${days[d.getDay()]})`;
+    return `${fmt(monday)} 〜 ${fmt(sunday)}`;
+  }
+
+  const currentWeekKey = toDateStr(getMonday(new Date()));
+
+  const weeklyForm = document.getElementById('weeklyForm');
+  const weeklyEditKey = document.getElementById('weeklyEditKey');
+  const weekRangeLabelEl = document.getElementById('weekRangeLabel');
+  const weeklyGood = document.getElementById('weeklyGood');
+  const weeklyChallenge = document.getElementById('weeklyChallenge');
+  const weeklyLearning = document.getElementById('weeklyLearning');
+  const weeklyVisionCheck = document.getElementById('weeklyVisionCheck');
+  const weeklyNextFocus = document.getElementById('weeklyNextFocus');
+  const weeklySubmitBtn = document.getElementById('weeklySubmitBtn');
+  const weeklyCancelBtn = document.getElementById('weeklyCancelBtn');
+  const weekBanner = document.getElementById('weekBanner');
+  const weeklyList = document.getElementById('weeklyList');
+  const pivotPrevBtn = document.getElementById('pivotPrevBtn');
+  const pivotNextBtn = document.getElementById('pivotNextBtn');
+  const pivotWeekLabelEl = document.getElementById('pivotWeekLabel');
+  const weekPivotEl = document.getElementById('weekPivot');
+
+  const CATEGORIES = [
+    {key:'didToday', label:'取り組んだこと'},
+    {key:'learned', label:'学んだこと・気づいたこと'},
+    {key:'nextSteps', label:'今後やること'},
+    {key:'note', label:'一言メモ'}
+  ];
+
+  let activeWeekKey = currentWeekKey;
+
+  function getWeekDates(weekKey){
+    const monday = new Date(weekKey + "T00:00:00");
+    const dates = [];
+    for(let i=0;i<7;i++){
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      dates.push(toDateStr(d));
+    }
+    return dates;
+  }
+
+  function dayLabel(dateStr){
+    const d = new Date(dateStr + "T00:00:00");
+    const days = ['日','月','火','水','木','金','土'];
+    return `${d.getMonth()+1}/${d.getDate()}(${days[d.getDay()]})`;
+  }
+
+  function renderWeekPivot(weekKey){
+    pivotWeekLabelEl.textContent = weekLabel(weekKey);
+    const dates = getWeekDates(weekKey);
+    const byDate = {};
+    dates.forEach(ds => { byDate[ds] = entries.find(e => e.date === ds); });
+
+    const hasAny = dates.some(ds => byDate[ds]);
+    if(!hasAny){
+      weekPivotEl.innerHTML = `<div class="empty">この週の日々の記録はまだありません。</div>`;
+      return;
+    }
+
+    weekPivotEl.innerHTML = CATEGORIES.map(cat => {
+      const rows = dates.map(ds => {
+        const e = byDate[ds];
+        const val = e && e[cat.key];
+        const cellClass = val ? 'pivot-text' : 'pivot-text muted';
+        return `<div class="pivot-row"><div class="pivot-day">${dayLabel(ds)}</div><div class="${cellClass}">${val ? escapeHtml(val) : '-'}</div></div>`;
+      }).join('');
+      return `<div class="pivot-block"><div class="tag">${cat.label}</div>${rows}</div>`;
+    }).join('');
+  }
+
+  function refreshPivot(){
+    renderWeekPivot(activeWeekKey);
+  }
+
+  function goToWeek(weekKey){
+    activeWeekKey = weekKey;
+    renderWeekPivot(weekKey);
+    setWeeklyFormWeek(weekKey);
+    weeklyCancelBtn.style.display = (weekKey === currentWeekKey) ? 'none' : 'inline-block';
+  }
+
+  pivotPrevBtn.addEventListener('click', function(){
+    const d = new Date(activeWeekKey + "T00:00:00");
+    d.setDate(d.getDate() - 7);
+    goToWeek(toDateStr(d));
+  });
+
+  pivotNextBtn.addEventListener('click', function(){
+    const d = new Date(activeWeekKey + "T00:00:00");
+    d.setDate(d.getDate() + 7);
+    goToWeek(toDateStr(d));
+  });
+
+  function setWeeklyFormWeek(weekKey){
+    weeklyEditKey.value = weekKey;
+    weekRangeLabelEl.textContent = weekLabel(weekKey);
+    const existing = weeklyEntries.find(w => w.weekKey === weekKey);
+    if(existing){
+      weeklyGood.value = existing.good || '';
+      weeklyChallenge.value = existing.challenge || '';
+      weeklyLearning.value = existing.learning || '';
+      weeklyVisionCheck.value = existing.visionCheck || '';
+      weeklyNextFocus.value = existing.nextFocus || '';
+      weeklySubmitBtn.textContent = '更新する';
+    } else {
+      weeklyGood.value = '';
+      weeklyChallenge.value = '';
+      weeklyLearning.value = '';
+      weeklyVisionCheck.value = '';
+      weeklyNextFocus.value = '';
+      weeklySubmitBtn.textContent = 'この週の振り返りを保存';
+    }
+  }
+
+  function renderWeekBanner(){
+    const has = weeklyEntries.some(w => w.weekKey === currentWeekKey);
+    const isSunday = new Date().getDay() === 0;
+    if(has){
+      weekBanner.innerHTML = `<div class="banner banner-ok">今週（${weekLabel(currentWeekKey)}）の振り返りは記入済みです。</div>`;
+    } else if(isSunday){
+      weekBanner.innerHTML = `<div class="banner banner-alert">今日は日曜日です。今週（${weekLabel(currentWeekKey)}）の振り返りを書きましょう。</div>`;
+    } else {
+      weekBanner.innerHTML = '';
+    }
+  }
+
+  weeklyForm.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    const weekKey = weeklyEditKey.value || currentWeekKey;
+    const data = {
+      weekKey,
+      good: weeklyGood.value.trim(),
+      challenge: weeklyChallenge.value.trim(),
+      learning: weeklyLearning.value.trim(),
+      visionCheck: weeklyVisionCheck.value.trim(),
+      nextFocus: weeklyNextFocus.value.trim(),
+      updatedAt: new Date().toISOString(),
+    };
+    if(!data.good && !data.challenge && !data.learning && !data.visionCheck && !data.nextFocus){
+      alert('少なくとも1つの項目を入力してください。');
+      return;
+    }
+    const idx = weeklyEntries.findIndex(w => w.weekKey === weekKey);
+    if(idx > -1){ weeklyEntries[idx] = data; } else { weeklyEntries.push(data); }
+    saveWeeklyData(weeklyEntries);
+    goToWeek(currentWeekKey);
+    renderWeekBanner();
+    renderWeeklyList();
+    renderFocusReminder();
+    updateWeeklyCardVisibility();
+    if(typeof refreshMonthPivot === 'function') refreshMonthPivot();
+  });
+
+  weeklyCancelBtn.addEventListener('click', function(){
+    goToWeek(currentWeekKey);
+    updateWeeklyCardVisibility();
+  });
+
+  const weeklyReviewBody = document.getElementById('weeklyReviewBody');
+  const weeklyReviewPlaceholder = document.getElementById('weeklyReviewPlaceholder');
+
+  function updateWeeklyCardVisibility(forceShow){
+    const isSunday = new Date().getDay() === 0;
+    const show = isSunday || forceShow;
+    weeklyReviewBody.style.display = show ? '' : 'none';
+    weeklyReviewPlaceholder.style.display = show ? 'none' : '';
+    if(!show){
+      weeklyReviewPlaceholder.textContent = '週の振り返りは日曜日になると表示されます。';
+    }
+  }
+
+  function renderFocusReminder(){
+    const el = document.getElementById('focusReminder');
+    if(!el) return;
+    const prevMonday = new Date(currentWeekKey + "T00:00:00");
+    prevMonday.setDate(prevMonday.getDate() - 7);
+    const prevWeekKey = toDateStr(prevMonday);
+    const prev = weeklyEntries.find(w => w.weekKey === prevWeekKey);
+    if(prev && prev.nextFocus){
+      el.innerHTML = `<div class="banner banner-ok">今週の重点（先週の振り返りより）: ${escapeHtml(prev.nextFocus)}</div>`;
+    } else {
+      el.innerHTML = '';
+    }
+  }
+
+  function renderWeeklyList(){
+    const sorted = [...weeklyEntries].sort((a,b) => b.weekKey.localeCompare(a.weekKey));
+    if(sorted.length === 0){
+      weeklyList.innerHTML = `<div class="empty">まだ週の振り返りがありません。</div>`;
+      return;
+    }
+    weeklyList.innerHTML = sorted.map(w => `
+      <div class="entry" data-weekkey="${w.weekKey}">
+        <div class="date">${weekLabel(w.weekKey)}</div>
+        ${w.good ? `<div class="field"><div class="tag">うまくいったこと</div><div class="txt">${escapeHtml(w.good)}</div></div>` : ''}
+        ${w.challenge ? `<div class="field"><div class="tag">課題・改善したいこと</div><div class="txt">${escapeHtml(w.challenge)}</div></div>` : ''}
+        ${w.learning ? `<div class="field"><div class="tag">今週全体の学び</div><div class="txt">${escapeHtml(w.learning)}</div></div>` : ''}
+        ${w.visionCheck ? `<div class="field"><div class="tag">なりたい姿との比較</div><div class="txt">${escapeHtml(w.visionCheck)}</div></div>` : ''}
+        ${w.nextFocus ? `<div class="field"><div class="tag">来週の重点</div><div class="txt">${escapeHtml(w.nextFocus)}</div></div>` : ''}
+        <div class="entry-actions">
+          <button class="btn btn-text" data-weekaction="edit" data-weekkey="${w.weekKey}">編集</button>
+          <button class="btn btn-danger" data-weekaction="delete" data-weekkey="${w.weekKey}">削除</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  weeklyList.addEventListener('click', function(ev){
+    const btn = ev.target.closest('button[data-weekaction]');
+    if(!btn) return;
+    const weekKey = btn.dataset.weekkey;
+    const action = btn.dataset.weekaction;
+    if(action === 'delete'){
+      if(confirm('この週の振り返りを削除しますか？')){
+        weeklyEntries = weeklyEntries.filter(w => w.weekKey !== weekKey);
+        saveWeeklyData(weeklyEntries);
+        renderWeeklyList();
+        renderWeekBanner();
+        renderFocusReminder();
+        if(typeof refreshMonthPivot === 'function') refreshMonthPivot();
+      }
+    } else if(action === 'edit'){
+      goToWeek(weekKey);
+      updateWeeklyCardVisibility(true);
+      window.scrollTo({top: weeklyForm.offsetTop - 20, behavior:'smooth'});
+    }
+  });
+
+  goToWeek(currentWeekKey);
+  renderWeekBanner();
+  renderWeeklyList();
+  renderFocusReminder();
+  updateWeeklyCardVisibility();
+
+  // ---- 月の振り返り (monthly review) ----
+  const MONTHLY_KEY = "teacherGrowthLog_monthly";
+  function loadMonthly(){
+    try{
+      const raw = localStorage.getItem(MONTHLY_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function saveMonthlyData(list){ localStorage.setItem(MONTHLY_KEY, JSON.stringify(list)); }
+  let monthlyEntries = loadMonthly();
+
+  function getMonthKey(d){
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+  }
+  function monthLabel(monthKey){
+    const parts = monthKey.split('-');
+    return `${parts[0]}年${parseInt(parts[1],10)}月`;
+  }
+  function shiftMonthKey(monthKey, diff){
+    const parts = monthKey.split('-').map(Number);
+    const d = new Date(parts[0], parts[1] - 1 + diff, 1);
+    return getMonthKey(d);
+  }
+  function weeksInMonth(monthKey){
+    const parts = monthKey.split('-').map(Number);
+    const firstDay = new Date(parts[0], parts[1] - 1, 1);
+    const lastDay = new Date(parts[0], parts[1], 0);
+    const mondaySet = new Set();
+    for(let d = new Date(firstDay); d <= lastDay; d.setDate(d.getDate() + 1)){
+      const monday = getMonday(d);
+      if(getMonthKey(monday) === monthKey){
+        mondaySet.add(toDateStr(monday));
+      }
+    }
+    return Array.from(mondaySet).sort();
+  }
+
+  const currentMonthKey = getMonthKey(new Date());
+  let activeMonthKey = currentMonthKey;
+
+  const monthlyForm = document.getElementById('monthlyForm');
+  const monthlyEditKey = document.getElementById('monthlyEditKey');
+  const monthRangeLabelEl = document.getElementById('monthRangeLabel');
+  const monthlyGood = document.getElementById('monthlyGood');
+  const monthlyChallenge = document.getElementById('monthlyChallenge');
+  const monthlyLearning = document.getElementById('monthlyLearning');
+  const monthlyVisionCheck = document.getElementById('monthlyVisionCheck');
+  const monthlyNextFocus = document.getElementById('monthlyNextFocus');
+  const monthlySubmitBtn = document.getElementById('monthlySubmitBtn');
+  const monthlyCancelBtn = document.getElementById('monthlyCancelBtn');
+  const monthlyList = document.getElementById('monthlyList');
+  const monthPivotPrevBtn = document.getElementById('monthPivotPrevBtn');
+  const monthPivotNextBtn = document.getElementById('monthPivotNextBtn');
+  const monthPivotLabelEl = document.getElementById('monthPivotLabel');
+  const monthPivotEl = document.getElementById('monthPivot');
+
+  const MONTH_PIVOT_CATS = [
+    {key:'good', label:'うまくいったこと'},
+    {key:'challenge', label:'課題・改善したいこと'},
+    {key:'learning', label:'その週の学び'},
+    {key:'nextFocus', label:'その週の重点'}
+  ];
+
+  function renderMonthPivot(monthKey){
+    monthPivotLabelEl.textContent = monthLabel(monthKey);
+    const weeks = weeksInMonth(monthKey);
+    const byWeek = {};
+    weeks.forEach(wk => { byWeek[wk] = weeklyEntries.find(w => w.weekKey === wk); });
+    const hasAny = weeks.some(wk => byWeek[wk]);
+    if(weeks.length === 0 || !hasAny){
+      monthPivotEl.innerHTML = `<div class="empty">この月の週の振り返りはまだありません。</div>`;
+      return;
+    }
+    monthPivotEl.innerHTML = MONTH_PIVOT_CATS.map(cat => {
+      const rows = weeks.map(wk => {
+        const w = byWeek[wk];
+        const val = w && w[cat.key];
+        const cellClass = val ? 'pivot-text' : 'pivot-text muted';
+        return `<div class="pivot-row"><div class="pivot-day pivot-day-wide">${weekLabel(wk)}</div><div class="${cellClass}">${val ? escapeHtml(val) : '-'}</div></div>`;
+      }).join('');
+      return `<div class="pivot-block"><div class="tag">${cat.label}</div>${rows}</div>`;
+    }).join('');
+  }
+
+  function refreshMonthPivot(){
+    renderMonthPivot(activeMonthKey);
+  }
+
+  function setMonthlyFormMonth(monthKey){
+    monthlyEditKey.value = monthKey;
+    monthRangeLabelEl.textContent = monthLabel(monthKey);
+    const existing = monthlyEntries.find(m => m.monthKey === monthKey);
+    if(existing){
+      monthlyGood.value = existing.good || '';
+      monthlyChallenge.value = existing.challenge || '';
+      monthlyLearning.value = existing.learning || '';
+      monthlyVisionCheck.value = existing.visionCheck || '';
+      monthlyNextFocus.value = existing.nextFocus || '';
+      monthlySubmitBtn.textContent = '更新する';
+    } else {
+      monthlyGood.value = '';
+      monthlyChallenge.value = '';
+      monthlyLearning.value = '';
+      monthlyVisionCheck.value = '';
+      monthlyNextFocus.value = '';
+      monthlySubmitBtn.textContent = 'この月の振り返りを保存';
+    }
+  }
+
+  function goToMonth(monthKey){
+    activeMonthKey = monthKey;
+    renderMonthPivot(monthKey);
+    setMonthlyFormMonth(monthKey);
+    monthlyCancelBtn.style.display = (monthKey === currentMonthKey) ? 'none' : 'inline-block';
+  }
+
+  monthPivotPrevBtn.addEventListener('click', function(){
+    goToMonth(shiftMonthKey(activeMonthKey, -1));
+  });
+  monthPivotNextBtn.addEventListener('click', function(){
+    goToMonth(shiftMonthKey(activeMonthKey, 1));
+  });
+
+  monthlyForm.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    const monthKey = monthlyEditKey.value || currentMonthKey;
+    const data = {
+      monthKey,
+      good: monthlyGood.value.trim(),
+      challenge: monthlyChallenge.value.trim(),
+      learning: monthlyLearning.value.trim(),
+      visionCheck: monthlyVisionCheck.value.trim(),
+      nextFocus: monthlyNextFocus.value.trim(),
+      updatedAt: new Date().toISOString(),
+    };
+    if(!data.good && !data.challenge && !data.learning && !data.visionCheck && !data.nextFocus){
+      alert('少なくとも1つの項目を入力してください。');
+      return;
+    }
+    const idx = monthlyEntries.findIndex(m => m.monthKey === monthKey);
+    if(idx > -1){ monthlyEntries[idx] = data; } else { monthlyEntries.push(data); }
+    saveMonthlyData(monthlyEntries);
+    goToMonth(currentMonthKey);
+    renderMonthlyList();
+    updateMonthlyCardVisibility();
+    if(typeof refreshYearPivot === 'function') refreshYearPivot();
+  });
+
+  monthlyCancelBtn.addEventListener('click', function(){
+    goToMonth(currentMonthKey);
+    updateMonthlyCardVisibility();
+  });
+
+  const monthlyReviewBody = document.getElementById('monthlyReviewBody');
+  const monthlyReviewPlaceholder = document.getElementById('monthlyReviewPlaceholder');
+
+  function isLastDayOfMonth(d){
+    const next = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1);
+    return next.getDate() === 1;
+  }
+
+  function updateMonthlyCardVisibility(forceShow){
+    const isLast = isLastDayOfMonth(new Date());
+    const show = isLast || forceShow;
+    monthlyReviewBody.style.display = show ? '' : 'none';
+    monthlyReviewPlaceholder.style.display = show ? 'none' : '';
+    if(!show){
+      monthlyReviewPlaceholder.textContent = '月の振り返りは月の最終日になると表示されます。';
+    }
+  }
+
+  function renderMonthlyList(){
+    const sorted = [...monthlyEntries].sort((a,b) => b.monthKey.localeCompare(a.monthKey));
+    if(sorted.length === 0){
+      monthlyList.innerHTML = `<div class="empty">まだ月の振り返りがありません。</div>`;
+      return;
+    }
+    monthlyList.innerHTML = sorted.map(m => `
+      <div class="entry" data-monthkey="${m.monthKey}">
+        <div class="date">${monthLabel(m.monthKey)}</div>
+        ${m.good ? `<div class="field"><div class="tag">うまくいったこと</div><div class="txt">${escapeHtml(m.good)}</div></div>` : ''}
+        ${m.challenge ? `<div class="field"><div class="tag">課題・改善したいこと</div><div class="txt">${escapeHtml(m.challenge)}</div></div>` : ''}
+        ${m.learning ? `<div class="field"><div class="tag">今月全体の学び</div><div class="txt">${escapeHtml(m.learning)}</div></div>` : ''}
+        ${m.visionCheck ? `<div class="field"><div class="tag">なりたい姿との比較</div><div class="txt">${escapeHtml(m.visionCheck)}</div></div>` : ''}
+        ${m.nextFocus ? `<div class="field"><div class="tag">来月の重点</div><div class="txt">${escapeHtml(m.nextFocus)}</div></div>` : ''}
+        <div class="entry-actions">
+          <button class="btn btn-text" data-monthaction="edit" data-monthkey="${m.monthKey}">編集</button>
+          <button class="btn btn-danger" data-monthaction="delete" data-monthkey="${m.monthKey}">削除</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  monthlyList.addEventListener('click', function(ev){
+    const btn = ev.target.closest('button[data-monthaction]');
+    if(!btn) return;
+    const monthKey = btn.dataset.monthkey;
+    const action = btn.dataset.monthaction;
+    if(action === 'delete'){
+      if(confirm('この月の振り返りを削除しますか？')){
+        monthlyEntries = monthlyEntries.filter(m => m.monthKey !== monthKey);
+        saveMonthlyData(monthlyEntries);
+        renderMonthlyList();
+        if(typeof refreshYearPivot === 'function') refreshYearPivot();
+      }
+    } else if(action === 'edit'){
+      goToMonth(monthKey);
+      updateMonthlyCardVisibility(true);
+      window.scrollTo({top: monthlyForm.offsetTop - 20, behavior:'smooth'});
+    }
+  });
+
+  goToMonth(currentMonthKey);
+  renderMonthlyList();
+  updateMonthlyCardVisibility();
+
+  // ---- 年の振り返り (yearly review) ----
+  const YEARLY_KEY = "teacherGrowthLog_yearly";
+  function loadYearly(){
+    try{
+      const raw = localStorage.getItem(YEARLY_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function saveYearlyData(list){ localStorage.setItem(YEARLY_KEY, JSON.stringify(list)); }
+  let yearlyEntries = loadYearly();
+
+  // 教員の年度に合わせて4月始まり・翌3月終わりで年度を計算する
+  function getYearKey(d){
+    const y = d.getFullYear();
+    const m = d.getMonth(); // 0-indexed（4月 = 3）
+    return m >= 3 ? `${y}` : `${y - 1}`;
+  }
+  function yearLabel(yearKey){
+    const y = parseInt(yearKey, 10);
+    return `${y}年度（${y}年4月〜${y + 1}年3月）`;
+  }
+  function shiftYearKey(yearKey, diff){ return String(parseInt(yearKey, 10) + diff); }
+  function monthsInYear(yearKey){
+    const y = parseInt(yearKey, 10);
+    const months = [];
+    for(let m = 4; m <= 12; m++){
+      months.push(`${y}-${String(m).padStart(2,'0')}`);
+    }
+    for(let m = 1; m <= 3; m++){
+      months.push(`${y + 1}-${String(m).padStart(2,'0')}`);
+    }
+    return months;
+  }
+  function isLastDayOfAcademicYear(d){
+    const next = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1);
+    return next.getMonth() === 3 && next.getDate() === 1; // 翌日が4月1日 = 今日は3月31日
+  }
+
+  const currentYearKey = getYearKey(new Date());
+  let activeYearKey = currentYearKey;
+
+  const yearlyForm = document.getElementById('yearlyForm');
+  const yearlyEditKey = document.getElementById('yearlyEditKey');
+  const yearRangeLabelEl = document.getElementById('yearRangeLabel');
+  const yearlyGood = document.getElementById('yearlyGood');
+  const yearlyChallenge = document.getElementById('yearlyChallenge');
+  const yearlyLearning = document.getElementById('yearlyLearning');
+  const yearlyVisionCheck = document.getElementById('yearlyVisionCheck');
+  const yearlyNextFocus = document.getElementById('yearlyNextFocus');
+  const yearlySubmitBtn = document.getElementById('yearlySubmitBtn');
+  const yearlyCancelBtn = document.getElementById('yearlyCancelBtn');
+  const yearlyList = document.getElementById('yearlyList');
+  const yearPivotPrevBtn = document.getElementById('yearPivotPrevBtn');
+  const yearPivotNextBtn = document.getElementById('yearPivotNextBtn');
+  const yearPivotLabelEl = document.getElementById('yearPivotLabel');
+  const yearPivotEl = document.getElementById('yearPivot');
+
+  const YEAR_PIVOT_CATS = [
+    {key:'good', label:'うまくいったこと'},
+    {key:'challenge', label:'課題・改善したいこと'},
+    {key:'learning', label:'その月の学び'},
+    {key:'nextFocus', label:'その月の重点'}
+  ];
+
+  function renderYearPivot(yearKey){
+    yearPivotLabelEl.textContent = yearLabel(yearKey);
+    const months = monthsInYear(yearKey);
+    const byMonth = {};
+    months.forEach(mk => { byMonth[mk] = monthlyEntries.find(m => m.monthKey === mk); });
+    const hasAny = months.some(mk => byMonth[mk]);
+    if(!hasAny){
+      yearPivotEl.innerHTML = `<div class="empty">この年度の月の振り返りはまだありません。</div>`;
+      return;
+    }
+    yearPivotEl.innerHTML = YEAR_PIVOT_CATS.map(cat => {
+      const rows = months.map(mk => {
+        const m = byMonth[mk];
+        const val = m && m[cat.key];
+        const cellClass = val ? 'pivot-text' : 'pivot-text muted';
+        return `<div class="pivot-row"><div class="pivot-day pivot-day-wide">${monthLabel(mk)}</div><div class="${cellClass}">${val ? escapeHtml(val) : '-'}</div></div>`;
+      }).join('');
+      return `<div class="pivot-block"><div class="tag">${cat.label}</div>${rows}</div>`;
+    }).join('');
+  }
+
+  function refreshYearPivot(){
+    renderYearPivot(activeYearKey);
+  }
+
+  function setYearlyFormYear(yearKey){
+    yearlyEditKey.value = yearKey;
+    yearRangeLabelEl.textContent = yearLabel(yearKey);
+    const existing = yearlyEntries.find(y => y.yearKey === yearKey);
+    if(existing){
+      yearlyGood.value = existing.good || '';
+      yearlyChallenge.value = existing.challenge || '';
+      yearlyLearning.value = existing.learning || '';
+      yearlyVisionCheck.value = existing.visionCheck || '';
+      yearlyNextFocus.value = existing.nextFocus || '';
+      yearlySubmitBtn.textContent = '更新する';
+    } else {
+      yearlyGood.value = '';
+      yearlyChallenge.value = '';
+      yearlyLearning.value = '';
+      yearlyVisionCheck.value = '';
+      yearlyNextFocus.value = '';
+      yearlySubmitBtn.textContent = 'この年度の振り返りを保存';
+    }
+  }
+
+  function goToYear(yearKey){
+    activeYearKey = yearKey;
+    renderYearPivot(yearKey);
+    setYearlyFormYear(yearKey);
+    yearlyCancelBtn.style.display = (yearKey === currentYearKey) ? 'none' : 'inline-block';
+  }
+
+  yearPivotPrevBtn.addEventListener('click', function(){
+    goToYear(shiftYearKey(activeYearKey, -1));
+  });
+  yearPivotNextBtn.addEventListener('click', function(){
+    goToYear(shiftYearKey(activeYearKey, 1));
+  });
+
+  yearlyForm.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    const yearKey = yearlyEditKey.value || currentYearKey;
+    const data = {
+      yearKey,
+      good: yearlyGood.value.trim(),
+      challenge: yearlyChallenge.value.trim(),
+      learning: yearlyLearning.value.trim(),
+      visionCheck: yearlyVisionCheck.value.trim(),
+      nextFocus: yearlyNextFocus.value.trim(),
+      updatedAt: new Date().toISOString(),
+    };
+    if(!data.good && !data.challenge && !data.learning && !data.visionCheck && !data.nextFocus){
+      alert('少なくとも1つの項目を入力してください。');
+      return;
+    }
+    const idx = yearlyEntries.findIndex(y => y.yearKey === yearKey);
+    if(idx > -1){ yearlyEntries[idx] = data; } else { yearlyEntries.push(data); }
+    saveYearlyData(yearlyEntries);
+    goToYear(currentYearKey);
+    renderYearlyList();
+    updateYearlyCardVisibility();
+  });
+
+  yearlyCancelBtn.addEventListener('click', function(){
+    goToYear(currentYearKey);
+    updateYearlyCardVisibility();
+  });
+
+  const yearlyReviewBody = document.getElementById('yearlyReviewBody');
+  const yearlyReviewPlaceholder = document.getElementById('yearlyReviewPlaceholder');
+
+  function updateYearlyCardVisibility(forceShow){
+    const isLast = isLastDayOfAcademicYear(new Date());
+    const show = isLast || forceShow;
+    yearlyReviewBody.style.display = show ? '' : 'none';
+    yearlyReviewPlaceholder.style.display = show ? 'none' : '';
+    if(!show){
+      yearlyReviewPlaceholder.textContent = '年度の振り返りは年度末（3月31日）になると表示されます。';
+    }
+  }
+
+  function renderYearlyList(){
+    const sorted = [...yearlyEntries].sort((a,b) => b.yearKey.localeCompare(a.yearKey));
+    if(sorted.length === 0){
+      yearlyList.innerHTML = `<div class="empty">まだ年度の振り返りがありません。</div>`;
+      return;
+    }
+    yearlyList.innerHTML = sorted.map(y => `
+      <div class="entry" data-yearkey="${y.yearKey}">
+        <div class="date">${yearLabel(y.yearKey)}</div>
+        ${y.good ? `<div class="field"><div class="tag">うまくいったこと</div><div class="txt">${escapeHtml(y.good)}</div></div>` : ''}
+        ${y.challenge ? `<div class="field"><div class="tag">課題・改善したいこと</div><div class="txt">${escapeHtml(y.challenge)}</div></div>` : ''}
+        ${y.learning ? `<div class="field"><div class="tag">今年度全体の学び</div><div class="txt">${escapeHtml(y.learning)}</div></div>` : ''}
+        ${y.visionCheck ? `<div class="field"><div class="tag">なりたい姿との比較</div><div class="txt">${escapeHtml(y.visionCheck)}</div></div>` : ''}
+        ${y.nextFocus ? `<div class="field"><div class="tag">来年度の重点</div><div class="txt">${escapeHtml(y.nextFocus)}</div></div>` : ''}
+        <div class="entry-actions">
+          <button class="btn btn-text" data-yearaction="edit" data-yearkey="${y.yearKey}">編集</button>
+          <button class="btn btn-danger" data-yearaction="delete" data-yearkey="${y.yearKey}">削除</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  yearlyList.addEventListener('click', function(ev){
+    const btn = ev.target.closest('button[data-yearaction]');
+    if(!btn) return;
+    const yearKey = btn.dataset.yearkey;
+    const action = btn.dataset.yearaction;
+    if(action === 'delete'){
+      if(confirm('この年度の振り返りを削除しますか？')){
+        yearlyEntries = yearlyEntries.filter(y => y.yearKey !== yearKey);
+        saveYearlyData(yearlyEntries);
+        renderYearlyList();
+      }
+    } else if(action === 'edit'){
+      goToYear(yearKey);
+      updateYearlyCardVisibility(true);
+      window.scrollTo({top: yearlyForm.offsetTop - 20, behavior:'smooth'});
+    }
+  });
+
+  goToYear(currentYearKey);
+  renderYearlyList();
+  updateYearlyCardVisibility();
+
+  // ---- 年度カレンダー (academic year calendar) ----
+  function renderYearCalendar(){
+    const grid = document.getElementById('yearCalendarGrid');
+    const summaryEl = document.getElementById('yearProgressSummary');
+    if(!grid || !summaryEl) return;
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    const fyStartYear = today.getMonth() >= 3 ? today.getFullYear() : today.getFullYear() - 1;
+    const fyStart = new Date(fyStartYear, 3, 1);
+    const fyEnd = new Date(fyStartYear + 1, 2, 31);
+    const totalDays = Math.round((fyEnd - fyStart) / 86400000) + 1;
+    const rawDayIndex = Math.round((today - fyStart) / 86400000) + 1;
+    const dayIndex = Math.min(Math.max(rawDayIndex, 0), totalDays);
+    const remainingDays = Math.max(totalDays - dayIndex, 0);
+    const percent = Math.min(Math.max(Math.round((dayIndex / totalDays) * 100), 0), 100);
+
+    // 月の区切り線と月ラベルの位置を計算（4月始まり）
+    let ticksHtml = '';
+    let labelsHtml = '';
+    for(let i = 0; i < 12; i++){
+      const monthDate = new Date(fyStartYear, 3 + i, 1);
+      const y = monthDate.getFullYear();
+      const m = monthDate.getMonth();
+      const startOffsetDays = Math.round((monthDate - fyStart) / 86400000);
+      const daysInThisMonth = new Date(y, m + 1, 0).getDate();
+      const startPct = (startOffsetDays / totalDays) * 100;
+      const midPct = ((startOffsetDays + daysInThisMonth / 2) / totalDays) * 100;
+      const isNow = (y === today.getFullYear() && m === today.getMonth());
+
+      if(i > 0){
+        ticksHtml += `<div class="ypb-tick" style="left:${startPct}%"></div>`;
+      }
+      labelsHtml += `<span class="${isNow ? 'is-now' : ''}" style="left:${midPct}%">${m + 1}月</span>`;
+    }
+
+    summaryEl.innerHTML = `
+      <div class="year-progress-title">${fyStartYear}年度</div>
+      <div class="year-progress-range">${fyStartYear}年4月1日 〜 ${fyStartYear + 1}年3月31日</div>
+      <div class="year-progress-stats">
+        <div class="yp-stat"><div class="yp-num">${dayIndex}<span>日目</span></div><div class="yp-lbl">経過日数</div></div>
+        <div class="yp-stat"><div class="yp-num">${remainingDays}<span>日</span></div><div class="yp-lbl">年度末まで</div></div>
+      </div>
+      <div class="year-progress-bar">
+        <div class="year-progress-fill" style="width:${percent}%"></div>
+        ${ticksHtml}
+      </div>
+      <div class="year-progress-month-labels">${labelsHtml}</div>
+    `;
+
+    const dowLabels = ['日','月','火','水','木','金','土'];
+    const months = [];
+    for(let i = 0; i < 12; i++){
+      months.push(new Date(fyStartYear, 3 + i, 1));
+    }
+
+    grid.innerHTML = months.map(monthDate => {
+      const y = monthDate.getFullYear();
+      const m = monthDate.getMonth();
+      const firstDay = new Date(y, m, 1);
+      const lastDate = new Date(y, m + 1, 0).getDate();
+      const startOffset = firstDay.getDay();
+      const isCurrentMonth = (y === today.getFullYear() && m === today.getMonth());
+
+      let cells = '';
+      for(let i = 0; i < startOffset; i++){
+        cells += `<span class="mini-day empty"></span>`;
+      }
+      for(let d = 1; d <= lastDate; d++){
+        const cellDate = new Date(y, m, d);
+        let stateClass = 'future';
+        if(cellDate.getTime() === today.getTime()) stateClass = 'today';
+        else if(cellDate.getTime() < today.getTime()) stateClass = 'past';
+        const dow = cellDate.getDay();
+        let dowClass = '';
+        if(dow === 0) dowClass = ' sun';
+        else if(dow === 6) dowClass = ' sat';
+        cells += `<span class="mini-day ${stateClass}${dowClass}">${d}</span>`;
+      }
+      const usedCells = startOffset + lastDate;
+      const trailingEmpty = 42 - usedCells; // 常に6行（7列×6）で揃える
+      for(let i = 0; i < trailingEmpty; i++){
+        cells += `<span class="mini-day empty"></span>`;
+      }
+
+      return `
+        <div class="mini-month${isCurrentMonth ? ' is-current-month' : ''}">
+          <div class="mini-month-title">${y}年${m + 1}月</div>
+          <div class="mini-month-dow">${dowLabels.map(l => `<span>${l}</span>`).join('')}</div>
+          <div class="mini-month-days">${cells}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  renderYearCalendar();
+
+  // ---- 今日のひとこと（AIなし・無料のルールベース応援メッセージ） ----
+  function renderAdvice(){
+    const el = document.getElementById('adviceMessage');
+    if(!el) return;
+
+    const dateSet = new Set(entries.map(e => e.date));
+    let streak = 0;
+    let cursor = new Date();
+    while(true){
+      const tz = cursor.getTimezoneOffset() * 60000;
+      const ds = new Date(cursor - tz).toISOString().slice(0,10);
+      if(dateSet.has(ds)){
+        streak++;
+        cursor.setDate(cursor.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+
+    const visionDone = visionItems.filter(v => v.done).length;
+    const visionTotal = visionItems.length;
+
+    const messages = [];
+
+    if(entries.length === 0){
+      messages.push('🌱 まだ記録がありません。今日の一歩を書いてみましょう。小さなことでも大丈夫です。');
+    } else if(streak >= 14){
+      messages.push(`🔥 ${streak}日連続で記録が続いています！この積み重ねが、確実にあなたを成長させています。`);
+    } else if(streak >= 7){
+      messages.push(`✨ ${streak}日連続で記録できています。継続は力なり、その調子です！`);
+    } else if(streak >= 1){
+      messages.push(`📝 ${streak}日連続で記録中。焦らず、自分のペースで続けていきましょう。`);
+    } else {
+      messages.push('☁️ 少し間があいたみたいですね。今日からまた始めれば大丈夫。完璧じゃなくていいんです。');
+    }
+
+    if(visionTotal > 0){
+      const pct = Math.round((visionDone / visionTotal) * 100);
+      if(pct >= 80){
+        messages.push(`💗 なりたい姿の${pct}%を達成済み！なりたい自分にどんどん近づいています。`);
+      } else if(pct >= 40){
+        messages.push(`🌈 なりたい姿は${visionDone}/${visionTotal}個が達成済み。着実に前進しています。`);
+      } else {
+        messages.push('💭 「なりたい姿」を時々見返すと、日々の記録に意味が見えてきますよ。');
+      }
+    } else {
+      messages.push('🎯 「なりたい姿」に書いた目標がまだありません。上のカードに書いてみましょう。');
+    }
+
+    el.innerHTML = messages.map(m => `<div>${escapeHtml(m)}</div>`).join('');
+  }
+
+  renderAdvice();
+
+  render();
+})();
+</script>
+
+</body>
+</html>

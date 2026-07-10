@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌸 わたし成長ノート</title>
+<title>🧭 メタ認知ノート</title>
 <style>
   :root{
     --bg:#f5f2ff;
@@ -38,12 +38,12 @@
     overflow-x:hidden;
   }
   header{
-    background:linear-gradient(120deg, #74c0fc 0%, #9775fa 55%, #ff8fb3 100%);
+    background:linear-gradient(120deg, #6741d9 0%, #4a3f72 100%);
     color:#fff;
-    padding:34px 20px;
+    padding:30px 20px;
     text-align:center;
-    border-radius:0 0 28px 28px;
-    box-shadow:0 4px 18px rgba(151,117,250,0.28);
+    border-radius:0 0 20px 20px;
+    box-shadow:0 3px 12px rgba(74,63,114,0.25);
   }
   header h1{
     margin:0 0 8px;
@@ -61,6 +61,155 @@
     max-width:calc(820px + 4cm);
     margin:0 auto;
     padding:24px 16px 60px;
+  }
+  .tab-panel{
+    display:none;
+  }
+  .tab-panel.active{
+    display:block;
+  }
+  .tab-nav{
+    display:flex;
+    gap:10px;
+    max-width:calc(820px + 4cm);
+    margin:20px auto 0;
+    padding:0 16px;
+  }
+  .tab-btn{
+    flex:1;
+    padding:12px 14px;
+    border:2px solid var(--border);
+    border-radius:999px;
+    background:#fff;
+    color:var(--sub);
+    font-weight:800;
+    font-size:.94rem;
+    cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .tab-btn:hover{
+    transform:translateY(-1px);
+  }
+  .tab-btn.active{
+    background:var(--accent-dark);
+    color:#fff;
+    border-color:transparent;
+    box-shadow:0 2px 8px rgba(103,65,217,0.25);
+  }
+  .grade-tab-nav{
+    display:flex;
+    gap:8px;
+    margin:0 0 18px;
+  }
+  .grade-tab-btn{
+    flex:1;
+    padding:10px 12px;
+    border:2px solid var(--border);
+    border-radius:999px;
+    background:#fff;
+    color:var(--sub);
+    font-weight:800;
+    font-size:.92rem;
+    cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .grade-tab-btn:hover{ transform:translateY(-1px); }
+  .grade-tab-btn.active{ color:#fff; border-color:transparent; }
+  .grade-tab-btn.active[data-grade="7"]{ background:linear-gradient(120deg, #74c0fc, #4dabf7); box-shadow:0 4px 12px rgba(77,171,247,0.35); }
+  .grade-tab-btn.active[data-grade="8"]{ background:linear-gradient(120deg, #63e6be, #20c997); box-shadow:0 4px 12px rgba(32,201,151,0.35); }
+  .grade-tab-btn.active[data-grade="9"]{ background:linear-gradient(120deg, #ffb366, #ff922b); box-shadow:0 4px 12px rgba(255,146,43,0.35); }
+  .grade-panel{ display:none; }
+  .grade-panel.active{ display:block; }
+  .lesson-month-group{
+    margin-bottom:22px;
+  }
+  .lesson-month-group:last-child{
+    margin-bottom:0;
+  }
+  .lesson-month-heading{
+    font-weight:800;
+    font-size:1rem;
+    color:var(--accent-dark);
+    margin:0 0 8px;
+    padding-left:2px;
+  }
+  .lesson-table-wrap{
+    overflow-x:auto;
+    border:1px solid var(--border);
+    border-radius:14px;
+  }
+  .lesson-table{
+    width:100%;
+    min-width:640px;
+    border-collapse:collapse;
+    font-size:.86rem;
+    background:#fff;
+  }
+  .lesson-table th, .lesson-table td{
+    padding:9px 10px;
+    border-bottom:1px solid var(--border);
+    text-align:left;
+    vertical-align:top;
+  }
+  .lesson-table th{
+    background:var(--accent-light);
+    color:var(--accent-dark);
+    font-weight:800;
+    white-space:nowrap;
+    position:sticky;
+    top:0;
+  }
+  .lesson-table tbody tr:last-child td{
+    border-bottom:none;
+  }
+  .lesson-table tbody tr:hover{
+    background:#faf8ff;
+  }
+  .lesson-table td.lesson-cell-date{
+    white-space:nowrap;
+    font-weight:700;
+    color:var(--accent-dark);
+  }
+  .lesson-table td.lesson-cell-actions{
+    white-space:nowrap;
+  }
+  .lesson-table .btn{
+    padding:4px 10px;
+    font-size:.78rem;
+  }
+  .lesson-check-label{
+    display:flex !important;
+    align-items:center;
+    gap:8px;
+    width:fit-content;
+    margin:10px 0 4px !important;
+    padding:8px 14px;
+    border:2px solid var(--mint-light);
+    border-radius:999px;
+    background:var(--mint-light);
+    color:#0a8f68;
+    font-weight:700;
+    font-size:.9rem;
+    cursor:pointer;
+  }
+  .lesson-check-label input[type="checkbox"]{
+    accent-color:var(--mint);
+    width:16px;
+    height:16px;
+    cursor:pointer;
+  }
+  .lesson-cell-pre{
+    text-align:center;
+    white-space:nowrap;
+  }
+  .lesson-pre-yes{
+    color:#0a8f68;
+    font-weight:800;
+  }
+  .lesson-pre-no{
+    color:var(--sub);
   }
   .card{
     background:var(--card);
@@ -643,11 +792,16 @@
 <body>
 
 <header>
-  <h1>🌸 わたし成長ノート 🌸</h1>
-  <p>毎日ちょっとずつ、なりたい自分に近づこう♪</p>
+  <h1>🧭 メタ認知ノート</h1>
+  <p>日々の実践をふりかえり、次につなげる</p>
 </header>
 
-<div class="container">
+<div class="tab-nav">
+  <button type="button" class="tab-btn active" data-tab="growth">🧭 メタ認知ノート</button>
+  <button type="button" class="tab-btn" data-tab="lesson">📝 授業の振り返り</button>
+</div>
+
+<div class="container tab-panel active" id="tab-growth">
 
   <div class="card" id="adviceCard">
     <h2>🌟 今日のひとこと</h2>
@@ -663,7 +817,7 @@
 
   <div class="card vision-card">
     <div class="vision-card-head">
-      <h2>💗 なりたい姿</h2>
+      <h2>🎯 なりたい姿</h2>
       <span class="worksheet-badge">GOAL SHEET</span>
     </div>
     <p class="hint">「なりたい自分」を課題のように書き出しておきましょう。時期ごとにカードが分かれているので、いつの自分の姿かひと目で分かります。達成できたらチェックを入れましょう。</p>
@@ -680,10 +834,10 @@
       </div>
 
       <div class="vision-col" data-point="year">
-        <div class="vision-col-head"><span class="vision-icon">🌳</span><span>1年後</span></div>
+        <div class="vision-col-head"><span class="vision-icon">🌳</span><span>年度末</span></div>
         <ul class="vision-items" id="visionItems-year"></ul>
         <form class="vision-add-form" data-point="year">
-          <input type="text" class="vision-add-input" placeholder="1年後、なりたい自分を書く">
+          <input type="text" class="vision-add-input" placeholder="年度末、なりたい自分を書く">
           <button type="submit" class="btn btn-secondary vision-add-btn">追加</button>
         </form>
       </div>
@@ -710,7 +864,7 @@
   </div>
 
   <div class="card">
-    <h2>✨ 今の記録</h2>
+    <h2>📊 今の記録</h2>
     <div class="stats">
       <div class="stat"><div class="num" id="statTotal">0</div><div class="lbl">総記録数</div></div>
       <div class="stat"><div class="num" id="statMonth">0</div><div class="lbl">今月の記録</div></div>
@@ -744,7 +898,7 @@
   </div>
 
   <div class="card" id="weeklyReviewCard">
-    <h2>🌷 週の振り返り</h2>
+    <h2>📅 週の振り返り</h2>
     <div id="weeklyReviewPlaceholder" class="banner banner-ok" style="display:none;"></div>
     <div id="weeklyReviewBody">
       <div id="weekBanner" class="week-banner"></div>
@@ -792,7 +946,7 @@
   </div>
 
   <div class="card" id="monthlyReviewCard">
-    <h2>🌈 月の振り返り</h2>
+    <h2>🗓️ 月の振り返り</h2>
     <div id="monthlyReviewPlaceholder" class="banner banner-ok" style="display:none;"></div>
     <div id="monthlyReviewBody">
       <div class="week-nav">
@@ -835,7 +989,7 @@
   </div>
 
   <div class="card" id="yearlyReviewCard">
-    <h2>🎀 年度の振り返り</h2>
+    <h2>📆 年度の振り返り</h2>
     <div id="yearlyReviewPlaceholder" class="banner banner-ok" style="display:none;"></div>
     <div id="yearlyReviewBody">
       <div class="week-nav">
@@ -889,10 +1043,40 @@
 
 </div>
 
-<footer>💌 記録はこのブラウザだけに保存されます（他のパソコンとは共有されません）</footer>
+<div class="container tab-panel" id="tab-lesson">
+
+  <div class="grade-tab-nav" id="gradeTabNav"></div>
+  <div id="gradePanels"></div>
+
+</div>
+
+<footer>記録はこのブラウザだけに保存されます（他のパソコンとは共有されません）</footer>
 
 <script>
 (function(){
+  // ---- タブ切り替え ----
+  const TAB_KEY = "teacherGrowthLog_activeTab";
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+
+  function switchTab(tabName){
+    tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tabName));
+    tabPanels.forEach(p => p.classList.toggle('active', p.id === 'tab-' + tabName));
+    try{ localStorage.setItem(TAB_KEY, tabName); }catch(e){ /* ignore */ }
+  }
+
+  tabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      switchTab(btn.dataset.tab);
+    });
+  });
+
+  (function initTab(){
+    let saved = 'growth';
+    try{ saved = localStorage.getItem(TAB_KEY) || 'growth'; }catch(e){ /* ignore */ }
+    switchTab(saved);
+  })();
+
   const STORAGE_KEY = "teacherGrowthLog_entries";
 
   function loadEntries(){
@@ -1214,7 +1398,7 @@
 
   const VISION_POINT_META = {
     leaving: {label:'この学校を去るとき', icon:'🎓'},
-    year: {label:'1年後', icon:'🌳'},
+    year: {label:'年度末', icon:'🌳'},
     month: {label:'1か月後', icon:'🌿'},
     week: {label:'1週間後', icon:'🌱'}
   };
@@ -2073,34 +2257,474 @@
     const messages = [];
 
     if(entries.length === 0){
-      messages.push('🌱 まだ記録がありません。今日の一歩を書いてみましょう。小さなことでも大丈夫です。');
+      messages.push('まだ記録がありません。今日の一歩を書いてみましょう。小さなことでも大丈夫です。');
     } else if(streak >= 14){
-      messages.push(`🔥 ${streak}日連続で記録が続いています！この積み重ねが、確実にあなたを成長させています。`);
+      messages.push(`${streak}日連続で記録が続いています。この積み重ねが、着実な成長につながっています。`);
     } else if(streak >= 7){
-      messages.push(`✨ ${streak}日連続で記録できています。継続は力なり、その調子です！`);
+      messages.push(`${streak}日連続で記録できています。継続は力なり、その調子です。`);
     } else if(streak >= 1){
-      messages.push(`📝 ${streak}日連続で記録中。焦らず、自分のペースで続けていきましょう。`);
+      messages.push(`${streak}日連続で記録中です。焦らず、自分のペースで続けていきましょう。`);
     } else {
-      messages.push('☁️ 少し間があいたみたいですね。今日からまた始めれば大丈夫。完璧じゃなくていいんです。');
+      messages.push('少し間があいたようです。今日からまた始めれば大丈夫です。完璧でなくてかまいません。');
     }
 
     if(visionTotal > 0){
       const pct = Math.round((visionDone / visionTotal) * 100);
       if(pct >= 80){
-        messages.push(`💗 なりたい姿の${pct}%を達成済み！なりたい自分にどんどん近づいています。`);
+        messages.push(`なりたい姿の${pct}%を達成済みです。着実に近づいています。`);
       } else if(pct >= 40){
-        messages.push(`🌈 なりたい姿は${visionDone}/${visionTotal}個が達成済み。着実に前進しています。`);
+        messages.push(`なりたい姿は${visionDone}/${visionTotal}個が達成済みです。着実に前進しています。`);
       } else {
-        messages.push('💭 「なりたい姿」を時々見返すと、日々の記録に意味が見えてきますよ。');
+        messages.push('「なりたい姿」を時々見返すと、日々の記録の意味が見えてきます。');
       }
     } else {
-      messages.push('🎯 「なりたい姿」に書いた目標がまだありません。上のカードに書いてみましょう。');
+      messages.push('「なりたい姿」に書いた目標がまだありません。上のカードに書いてみましょう。');
     }
 
     el.innerHTML = messages.map(m => `<div>${escapeHtml(m)}</div>`).join('');
   }
 
   renderAdvice();
+
+  // ---- 授業の振り返り (lesson reflection) : 学年（7年・8年・9年）ごとに管理 ----
+  const GRADES = ['7','8','9'];
+  const LESSON_KEY = "teacherGrowthLog_lessons";
+  const LESSON_GOALS_KEY = "teacherGrowthLog_lessonGoals";
+  const LESSON_GRADE_TAB_KEY = "teacherGrowthLog_lessonGradeTab";
+
+  function loadLessons(){
+    try{
+      const raw = localStorage.getItem(LESSON_KEY);
+      let list = raw ? JSON.parse(raw) : [];
+      let migrated = false;
+      list = list.map(function(l){
+        if(l.grade) return l;
+        migrated = true;
+        let grade = '7';
+        const src = (l.subject || '') + (l.note || '');
+        const m = src.match(/[789]/);
+        if(m) grade = m[0];
+        return {
+          id: l.id,
+          createdAt: l.createdAt,
+          grade: grade,
+          date: l.date,
+          unit: l.subject || '',
+          good: l.good || '',
+          challenge: l.challenge || '',
+          next: l.next || ''
+        };
+      });
+      if(migrated) localStorage.setItem(LESSON_KEY, JSON.stringify(list));
+      return list;
+    }catch(e){ return []; }
+  }
+  function saveLessons(list){
+    localStorage.setItem(LESSON_KEY, JSON.stringify(list));
+  }
+
+  function loadLessonGoals(){
+    try{
+      const raw = localStorage.getItem(LESSON_GOALS_KEY);
+      const obj = raw ? JSON.parse(raw) : {};
+      GRADES.forEach(function(g){ if(!Array.isArray(obj[g])) obj[g] = []; });
+      return obj;
+    }catch(e){
+      const obj = {};
+      GRADES.forEach(function(g){ obj[g] = []; });
+      return obj;
+    }
+  }
+  function saveLessonGoals(obj){
+    localStorage.setItem(LESSON_GOALS_KEY, JSON.stringify(obj));
+  }
+
+  let lessons = loadLessons();
+  let lessonGoals = loadLessonGoals();
+
+  const gradeTabNav = document.getElementById('gradeTabNav');
+  const gradePanels = document.getElementById('gradePanels');
+
+  gradeTabNav.innerHTML = GRADES.map(function(g, i){
+    return `<button type="button" class="grade-tab-btn${i===0?' active':''}" data-grade="${g}">${g}年</button>`;
+  }).join('');
+
+  gradePanels.innerHTML = GRADES.map(function(g, i){
+    return `
+      <div class="grade-panel${i===0?' active':''}" data-grade-panel="${g}">
+
+        <div class="card vision-card lesson-goal-card">
+          <div class="vision-card-head">
+            <h2>🔬 理科${g}年 授業づくりの課題</h2>
+            <span class="worksheet-badge">課題プリント</span>
+          </div>
+          <p class="hint">この学年の授業づくりで頑張りたいことを書いて、できたらチェックしましょう。</p>
+          <ul class="vision-items lesson-goal-items" id="lessonGoalItems-${g}"></ul>
+          <form class="vision-add-form lesson-goal-add-form" data-grade="${g}">
+            <input type="text" class="vision-add-input lesson-goal-input" placeholder="例：発問を工夫して考える時間を増やす">
+            <button type="submit" class="btn btn-secondary vision-add-btn">追加</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>📝 授業の振り返りを書く（${g}年）</h2>
+          <p class="hint">授業者として、その日の授業を振り返りましょう。</p>
+          <div class="lessonFocusReminder"></div>
+          <form class="lessonForm" data-grade="${g}">
+            <input type="hidden" class="lessonEditId">
+            <label>日付</label>
+            <input type="date" class="lessonDate" required>
+
+            <label>単元名</label>
+            <input type="text" class="lessonUnit" placeholder="例：電流とその利用">
+
+            <label class="lesson-check-label">
+              <input type="checkbox" class="lessonPreExperiment">
+              <span>予備実験をした</span>
+            </label>
+
+            <label>うまくいったこと</label>
+            <textarea class="lessonGood" placeholder="授業の中でうまくいった工夫や場面"></textarea>
+
+            <label>課題・改善したいこと</label>
+            <textarea class="lessonChallenge" placeholder="次はこうしたい、という点"></textarea>
+
+            <label>次回に活かすこと</label>
+            <textarea class="lessonNext" placeholder="次の授業や単元に向けての改善策"></textarea>
+
+            <button type="submit" class="btn btn-primary lessonSubmitBtn">授業の記録を保存</button>
+            <button type="button" class="btn btn-secondary lessonCancelBtn" style="display:none;">編集をやめる</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>📚 これまでの授業の振り返り（${g}年）</h2>
+          <div class="toolbar">
+            <input type="text" class="lessonSearchBox" placeholder="キーワードで検索...">
+            <button class="btn btn-secondary lessonExportBtn">書き出し（テキスト）</button>
+          </div>
+          <div class="lessonList"></div>
+        </div>
+
+      </div>
+    `;
+  }).join('');
+
+  // ---- 学年タブ切り替え ----
+  function switchGradeTab(grade){
+    gradeTabNav.querySelectorAll('.grade-tab-btn').forEach(function(b){
+      b.classList.toggle('active', b.dataset.grade === grade);
+    });
+    gradePanels.querySelectorAll('.grade-panel').forEach(function(p){
+      p.classList.toggle('active', p.dataset.gradePanel === grade);
+    });
+    try{ localStorage.setItem(LESSON_GRADE_TAB_KEY, grade); }catch(e){ /* ignore */ }
+  }
+  gradeTabNav.querySelectorAll('.grade-tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ switchGradeTab(btn.dataset.grade); });
+  });
+  (function initGradeTab(){
+    let saved = '7';
+    try{ saved = localStorage.getItem(LESSON_GRADE_TAB_KEY) || '7'; }catch(e){ /* ignore */ }
+    if(GRADES.indexOf(saved) === -1) saved = '7';
+    switchGradeTab(saved);
+  })();
+
+  // ---- 授業づくりの課題（学年ごとの常設チェックリスト） ----
+  function renderLessonGoals(){
+    GRADES.forEach(function(g){
+      const list = document.getElementById('lessonGoalItems-' + g);
+      if(!list) return;
+      const items = lessonGoals[g] || [];
+      if(items.length === 0){
+        list.innerHTML = `<li class="vision-empty-hint">まだ書かれていません</li>`;
+        return;
+      }
+      list.innerHTML = items.map(function(it){
+        return `
+        <li class="vision-item ${it.done ? 'done' : ''}" data-id="${it.id}">
+          <label class="vision-check">
+            <input type="checkbox" ${it.done ? 'checked' : ''} data-action="toggle" data-id="${it.id}">
+            <span class="vision-text">${escapeHtml(it.text)}</span>
+          </label>
+          <button type="button" class="vision-del" data-action="delete" data-id="${it.id}" title="削除">×</button>
+        </li>`;
+      }).join('');
+    });
+  }
+
+  document.querySelectorAll('.lesson-goal-add-form').forEach(function(f){
+    f.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      const g = f.dataset.grade;
+      const input = f.querySelector('.lesson-goal-input');
+      const text = input.value.trim();
+      if(!text) return;
+      lessonGoals[g].push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+        text: text,
+        done: false,
+        createdAt: new Date().toISOString()
+      });
+      saveLessonGoals(lessonGoals);
+      input.value = '';
+      renderLessonGoals();
+    });
+  });
+
+  document.querySelectorAll('.lesson-goal-items').forEach(function(list){
+    list.addEventListener('click', function(ev){
+      const target = ev.target;
+      const action = target.dataset.action;
+      if(!action) return;
+      const id = target.dataset.id;
+      const g = list.id.replace('lessonGoalItems-', '');
+      if(action === 'delete'){
+        if(confirm('この課題を削除しますか？')){
+          lessonGoals[g] = (lessonGoals[g] || []).filter(function(it){ return it.id !== id; });
+          saveLessonGoals(lessonGoals);
+          renderLessonGoals();
+        }
+      }
+    });
+    list.addEventListener('change', function(ev){
+      const target = ev.target;
+      if(target.dataset.action === 'toggle'){
+        const id = target.dataset.id;
+        const g = list.id.replace('lessonGoalItems-', '');
+        const item = (lessonGoals[g] || []).find(function(it){ return it.id === id; });
+        if(item){
+          item.done = target.checked;
+          saveLessonGoals(lessonGoals);
+          renderLessonGoals();
+        }
+      }
+    });
+  });
+
+  renderLessonGoals();
+
+  // ---- 授業の振り返り（学年ごとのフォーム・一覧） ----
+  function renderLessonsForGrade(g){
+    const panel = gradePanels.querySelector('.grade-panel[data-grade-panel="' + g + '"]');
+    if(!panel) return;
+    const listEl = panel.querySelector('.lessonList');
+    const searchBox = panel.querySelector('.lessonSearchBox');
+    const q = searchBox.value.trim().toLowerCase();
+    const gradeLessons = lessons.filter(function(l){ return l.grade === g; });
+    const filtered = q ? gradeLessons.filter(function(l){
+      return [l.unit, l.good, l.challenge, l.next, l.date].join(' ').toLowerCase().includes(q);
+    }) : gradeLessons;
+
+    if(filtered.length === 0){
+      listEl.innerHTML = `<div class="empty">${q ? '該当する記録が見つかりません。' : 'まだ授業の記録がありません。今日の授業から振り返ってみましょう。'}</div>`;
+    } else {
+      // 月ごとにグループ化し、それぞれ表で表示
+      const groups = {};
+      filtered.forEach(function(l){
+        const mk = (l.date || '').slice(0,7);
+        if(!groups[mk]) groups[mk] = [];
+        groups[mk].push(l);
+      });
+      const monthKeys = Object.keys(groups).sort().reverse();
+
+      listEl.innerHTML = monthKeys.map(function(mk){
+        const rows = groups[mk]
+          .sort(function(a,b){ return (a.date + a.createdAt).localeCompare(b.date + b.createdAt); })
+          .map(function(l){
+            return `
+            <tr data-id="${l.id}">
+              <td class="lesson-cell-date">${formatDateLabel(l.date)}</td>
+              <td>${l.unit ? escapeHtml(l.unit) : '-'}</td>
+              <td class="lesson-cell-pre">${l.preExperiment ? '<span class="lesson-pre-yes">✓ 済</span>' : '<span class="lesson-pre-no">-</span>'}</td>
+              <td>${l.good ? escapeHtml(l.good) : '-'}</td>
+              <td>${l.challenge ? escapeHtml(l.challenge) : '-'}</td>
+              <td>${l.next ? escapeHtml(l.next) : '-'}</td>
+              <td class="lesson-cell-actions">
+                <button class="btn btn-text" data-action="edit" data-id="${l.id}">編集</button>
+                <button class="btn btn-danger" data-action="delete" data-id="${l.id}">削除</button>
+              </td>
+            </tr>`;
+          }).join('');
+        return `
+        <div class="lesson-month-group">
+          <div class="lesson-month-heading">${monthLabel(mk)}</div>
+          <div class="lesson-table-wrap">
+            <table class="lesson-table">
+              <thead>
+                <tr>
+                  <th>日付</th>
+                  <th>単元</th>
+                  <th>予備実験</th>
+                  <th>うまくいったこと</th>
+                  <th>課題・改善したいこと</th>
+                  <th>次回に活かすこと</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  function renderAllLessons(){
+    GRADES.forEach(renderLessonsForGrade);
+  }
+
+  // ---- 前回の「次回に活かすこと」を、次の振り返りを書くときに表示 ----
+  function renderLessonFocusReminder(g){
+    const panel = gradePanels.querySelector('.grade-panel[data-grade-panel="' + g + '"]');
+    if(!panel) return;
+    const el = panel.querySelector('.lessonFocusReminder');
+    if(!el) return;
+    const prev = lessons
+      .filter(function(l){ return l.grade === g && l.next; })
+      .sort(function(a,b){ return (b.date + b.createdAt).localeCompare(a.date + a.createdAt); })[0];
+    if(prev){
+      const label = formatDateLabel(prev.date) + (prev.unit ? '・' + prev.unit : '');
+      el.innerHTML = `<div class="banner banner-ok">前回（${escapeHtml(label)}）の「次回に活かすこと」: ${escapeHtml(prev.next)}</div>`;
+    } else {
+      el.innerHTML = '';
+    }
+  }
+
+  function renderAllLessonFocusReminders(){
+    GRADES.forEach(renderLessonFocusReminder);
+  }
+
+  function exitLessonEditMode(form){
+    const panel = form.closest('.grade-panel');
+    form.querySelector('.lessonEditId').value = '';
+    panel.querySelector('.lessonSubmitBtn').textContent = '授業の記録を保存';
+    panel.querySelector('.lessonCancelBtn').style.display = 'none';
+  }
+
+  document.querySelectorAll('.lessonForm').forEach(function(form){
+    const g = form.dataset.grade;
+    form.querySelector('.lessonDate').value = todayStr();
+
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      const idInput = form.querySelector('.lessonEditId');
+      const id = idInput.value;
+      const data = {
+        grade: g,
+        date: form.querySelector('.lessonDate').value || todayStr(),
+        unit: form.querySelector('.lessonUnit').value.trim(),
+        preExperiment: form.querySelector('.lessonPreExperiment').checked,
+        good: form.querySelector('.lessonGood').value.trim(),
+        challenge: form.querySelector('.lessonChallenge').value.trim(),
+        next: form.querySelector('.lessonNext').value.trim()
+      };
+
+      if(!data.unit && !data.good && !data.challenge && !data.next){
+        alert('少なくとも1つの項目を入力してください。');
+        return;
+      }
+
+      if(id){
+        const idx = lessons.findIndex(function(l){ return l.id === id; });
+        if(idx > -1){
+          lessons[idx] = Object.assign({}, lessons[idx], data);
+        }
+        exitLessonEditMode(form);
+      } else {
+        lessons.push(Object.assign({
+          id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+          createdAt: new Date().toISOString()
+        }, data));
+      }
+
+      saveLessons(lessons);
+      form.reset();
+      form.querySelector('.lessonDate').value = todayStr();
+      renderLessonsForGrade(g);
+      renderLessonFocusReminder(g);
+    });
+
+    form.querySelector('.lessonCancelBtn').addEventListener('click', function(){
+      form.reset();
+      form.querySelector('.lessonDate').value = todayStr();
+      exitLessonEditMode(form);
+    });
+  });
+
+  gradePanels.querySelectorAll('.lessonList').forEach(function(listEl){
+    listEl.addEventListener('click', function(ev){
+      const btn = ev.target.closest('button[data-action]');
+      if(!btn) return;
+      const id = btn.dataset.id;
+      const action = btn.dataset.action;
+      const panel = listEl.closest('.grade-panel');
+      const g = panel.dataset.gradePanel;
+
+      if(action === 'delete'){
+        if(confirm('この授業の記録を削除しますか？')){
+          lessons = lessons.filter(function(l){ return l.id !== id; });
+          saveLessons(lessons);
+          renderLessonsForGrade(g);
+          renderLessonFocusReminder(g);
+        }
+      } else if(action === 'edit'){
+        const l = lessons.find(function(l){ return l.id === id; });
+        if(!l) return;
+        const form = panel.querySelector('.lessonForm');
+        form.querySelector('.lessonDate').value = l.date;
+        form.querySelector('.lessonUnit').value = l.unit || '';
+        form.querySelector('.lessonPreExperiment').checked = !!l.preExperiment;
+        form.querySelector('.lessonGood').value = l.good || '';
+        form.querySelector('.lessonChallenge').value = l.challenge || '';
+        form.querySelector('.lessonNext').value = l.next || '';
+        form.querySelector('.lessonEditId').value = l.id;
+        panel.querySelector('.lessonSubmitBtn').textContent = '更新する';
+        panel.querySelector('.lessonCancelBtn').style.display = 'inline-block';
+        switchGradeTab(g);
+        window.scrollTo({top: 0, behavior:'smooth'});
+      }
+    });
+  });
+
+  gradePanels.querySelectorAll('.lessonSearchBox').forEach(function(box){
+    box.addEventListener('input', function(){
+      const panel = box.closest('.grade-panel');
+      renderLessonsForGrade(panel.dataset.gradePanel);
+    });
+  });
+
+  gradePanels.querySelectorAll('.lessonExportBtn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const panel = btn.closest('.grade-panel');
+      const g = panel.dataset.gradePanel;
+      const gradeLessons = lessons.filter(function(l){ return l.grade === g; });
+      if(gradeLessons.length === 0){ alert('書き出す記録がありません。'); return; }
+      const sorted = gradeLessons.slice().sort(function(a,b){ return a.date.localeCompare(b.date); });
+      let text = '授業の振り返り（' + g + '年）\n書き出し日: ' + todayStr() + '\n\n';
+      sorted.forEach(function(l){
+        text += '==============================\n';
+        text += formatDateLabel(l.date) + (l.unit ? '　' + l.unit : '') + '\n';
+        text += '予備実験: ' + (l.preExperiment ? 'した' : 'していない') + '\n';
+        if(l.good) text += '\n【うまくいったこと】\n' + l.good + '\n';
+        if(l.challenge) text += '\n【課題・改善したいこと】\n' + l.challenge + '\n';
+        if(l.next) text += '\n【次回に活かすこと】\n' + l.next + '\n';
+        text += '\n';
+      });
+      const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = '授業の振り返り_' + g + '年_' + todayStr() + '.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  });
+
+  renderAllLessons();
+  renderAllLessonFocusReminders();
 
   render();
 })();

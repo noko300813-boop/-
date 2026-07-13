@@ -200,6 +200,29 @@
     height:16px;
     cursor:pointer;
   }
+  .lessonForm{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:6px 18px;
+    align-items:start;
+  }
+  .lesson-field label{
+    margin:0 0 4px;
+  }
+  .lesson-field-check{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    grid-column:1 / -1;
+  }
+  .lesson-field-wide{
+    grid-column:span 1;
+  }
+  .lesson-field-actions{
+    grid-column:1 / -1;
+    margin-top:10px;
+  }
   .lesson-cell-pre{
     text-align:center;
     white-space:nowrap;
@@ -539,9 +562,17 @@
     margin-top:3px;
     accent-color:var(--accent);
   }
+  .vision-text{
+    font-size:1.22rem;
+    font-weight:800;
+    color:#1f1730;
+    letter-spacing:.01em;
+    line-height:1.5;
+  }
   .vision-item.done .vision-text{
     text-decoration:line-through;
     color:var(--sub);
+    font-weight:600;
   }
   .vision-del{
     background:none;
@@ -553,6 +584,104 @@
     padding:0 2px;
   }
   .vision-del:hover{ color:var(--warn); }
+  .review-close-row{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:4px;
+  }
+  .review-close-row .btn-text{
+    font-size:.85rem;
+    padding:2px 4px;
+  }
+  .topic-chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:12px 0 16px;
+  }
+  .topic-chip{
+    padding:8px 14px;
+    border:2px solid var(--border);
+    border-radius:999px;
+    background:#fff;
+    color:var(--sub);
+    font-weight:800;
+    font-size:.88rem;
+    cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .topic-chip:hover{ transform:translateY(-1px); }
+  .topic-chip.active{
+    background:var(--accent-dark);
+    color:#fff;
+    border-color:transparent;
+    box-shadow:0 2px 8px rgba(103,65,217,0.25);
+  }
+  .topic-empty-hint{
+    color:var(--sub);
+    font-size:.9rem;
+  }
+  .topic-url-row{
+    display:flex;
+    gap:6px;
+    margin-bottom:6px;
+  }
+  .topic-url-input{
+    flex:1;
+    padding:8px 10px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    font-size:.9rem;
+    font-family:inherit;
+    background:#fff;
+  }
+  .topic-url-remove{
+    background:none;
+    border:none;
+    color:var(--sub);
+    cursor:pointer;
+    font-size:1.1rem;
+    line-height:1;
+    padding:0 6px;
+  }
+  .topic-url-remove:hover{ color:var(--warn); }
+  .topic-note-urls{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    margin-top:8px;
+  }
+  .topic-note-urls a{
+    color:var(--sky);
+    font-size:.88rem;
+    text-decoration:none;
+    word-break:break-all;
+  }
+  .topic-note-urls a:hover{ text-decoration:underline; }
+  .topic-group{
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:14px;
+    margin-bottom:14px;
+    background:#fdfcff;
+  }
+  .topic-group:last-child{ margin-bottom:0; }
+  .topic-group-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .topic-group-title{
+    font-weight:800;
+    font-size:1rem;
+    color:var(--accent-dark);
+  }
+  .topic-group .entry{
+    margin-top:10px;
+  }
   .vision-empty-hint{
     color:var(--sub);
     font-size:.86rem;
@@ -798,6 +927,7 @@
 
 <div class="tab-nav">
   <button type="button" class="tab-btn active" data-tab="growth">🧭 メタ認知ノート</button>
+  <button type="button" class="tab-btn" data-tab="topics">🗂 トピックまとめ</button>
   <button type="button" class="tab-btn" data-tab="lesson">📝 授業の振り返り</button>
 </div>
 
@@ -901,6 +1031,7 @@
     <h2>📅 週の振り返り</h2>
     <div id="weeklyReviewPlaceholder" class="banner banner-ok" style="display:none;"></div>
     <div id="weeklyReviewBody">
+      <div class="review-close-row"><button type="button" class="btn btn-text" id="weeklyCloseBtn">✕ 閉じる</button></div>
       <div id="weekBanner" class="week-banner"></div>
 
       <div class="week-nav">
@@ -949,6 +1080,7 @@
     <h2>🗓️ 月の振り返り</h2>
     <div id="monthlyReviewPlaceholder" class="banner banner-ok" style="display:none;"></div>
     <div id="monthlyReviewBody">
+      <div class="review-close-row"><button type="button" class="btn btn-text" id="monthlyCloseBtn">✕ 閉じる</button></div>
       <div class="week-nav">
         <button type="button" class="btn btn-secondary" id="monthPivotPrevBtn">← 前の月</button>
         <div id="monthPivotLabel" class="week-range"></div>
@@ -992,6 +1124,7 @@
     <h2>📆 年度の振り返り</h2>
     <div id="yearlyReviewPlaceholder" class="banner banner-ok" style="display:none;"></div>
     <div id="yearlyReviewBody">
+      <div class="review-close-row"><button type="button" class="btn btn-text" id="yearlyCloseBtn">✕ 閉じる</button></div>
       <div class="week-nav">
         <button type="button" class="btn btn-secondary" id="yearPivotPrevBtn">← 前の年度</button>
         <div id="yearPivotLabel" class="week-range"></div>
@@ -1039,6 +1172,45 @@
       <button class="btn btn-secondary" id="printBtn">印刷</button>
     </div>
     <div id="entryList"></div>
+  </div>
+
+</div>
+
+<div class="container tab-panel" id="tab-topics">
+
+  <div class="card topic-card">
+    <div class="vision-card-head">
+      <h2>🗂 トピックまとめ</h2>
+      <span class="worksheet-badge">TOPIC BOARD</span>
+    </div>
+    <p class="hint">同じ話題の記録やリンクをまとめておく場所です。トピック名・内容・URL（Canvaのリンクなど）をまとめて書いて保存できます。同じトピック名で書けば自動的に同じところにまとまります。</p>
+
+    <form id="topicNoteForm">
+      <input type="hidden" id="topicNoteEditId">
+
+      <label for="topicNameInput">トピック名</label>
+      <input type="text" id="topicNameInput" list="topicNameOptions" placeholder="例：文化祭準備、電流の授業 など">
+      <datalist id="topicNameOptions"></datalist>
+
+      <label for="topicNoteText">内容</label>
+      <textarea id="topicNoteText" placeholder="内容をまとめて書く"></textarea>
+
+      <label>URL（Canvaのリンクなど、複数貼れます）</label>
+      <div id="topicNoteUrlList"></div>
+      <button type="button" class="btn btn-secondary" id="topicNoteAddUrlBtn">＋ URLを追加</button>
+
+      <button type="submit" class="btn btn-primary" id="topicNoteSubmitBtn" style="margin-top:14px;">メモを保存</button>
+      <button type="button" class="btn btn-secondary" id="topicNoteCancelBtn" style="display:none;">編集をやめる</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="toolbar">
+      <h2 style="margin:0;">📚 トピックごとのまとめ</h2>
+      <button type="button" class="btn btn-danger" id="topicClearAllBtn">すべて削除</button>
+    </div>
+    <div class="topic-chip-row" id="topicChipRow"></div>
+    <div id="topicGroupedList"></div>
   </div>
 
 </div>
@@ -1635,15 +1807,35 @@
   const weeklyReviewBody = document.getElementById('weeklyReviewBody');
   const weeklyReviewPlaceholder = document.getElementById('weeklyReviewPlaceholder');
 
+  function weeklyPlaceholderHTML(){
+    return '週の振り返りは日曜日になると表示されます。書き忘れた週がある場合は下のボタンからいつでも書けます。<button type="button" class="btn btn-secondary" id="weeklyForceShowBtn" style="margin-left:8px;">今すぐ書く</button>';
+  }
+
   function updateWeeklyCardVisibility(forceShow){
     const isSunday = new Date().getDay() === 0;
     const show = isSunday || forceShow;
     weeklyReviewBody.style.display = show ? '' : 'none';
     weeklyReviewPlaceholder.style.display = show ? 'none' : '';
     if(!show){
-      weeklyReviewPlaceholder.textContent = '週の振り返りは日曜日になると表示されます。';
+      weeklyReviewPlaceholder.innerHTML = weeklyPlaceholderHTML();
     }
   }
+
+  function closeWeeklyCard(){
+    weeklyReviewBody.style.display = 'none';
+    weeklyReviewPlaceholder.style.display = '';
+    weeklyReviewPlaceholder.innerHTML = weeklyPlaceholderHTML();
+  }
+
+  weeklyReviewPlaceholder.addEventListener('click', function(ev){
+    if(ev.target && ev.target.id === 'weeklyForceShowBtn'){
+      updateWeeklyCardVisibility(true);
+      window.scrollTo({top: weeklyForm.offsetTop - 20, behavior:'smooth'});
+    }
+  });
+
+  const weeklyCloseBtn = document.getElementById('weeklyCloseBtn');
+  if(weeklyCloseBtn){ weeklyCloseBtn.addEventListener('click', closeWeeklyCard); }
 
   function renderFocusReminder(){
     const el = document.getElementById('focusReminder');
@@ -1869,15 +2061,35 @@
     return next.getDate() === 1;
   }
 
+  function monthlyPlaceholderHTML(){
+    return '月の振り返りは月の最終日になると表示されます。書き忘れた月がある場合は下のボタンからいつでも書けます。<button type="button" class="btn btn-secondary" id="monthlyForceShowBtn" style="margin-left:8px;">今すぐ書く</button>';
+  }
+
   function updateMonthlyCardVisibility(forceShow){
     const isLast = isLastDayOfMonth(new Date());
     const show = isLast || forceShow;
     monthlyReviewBody.style.display = show ? '' : 'none';
     monthlyReviewPlaceholder.style.display = show ? 'none' : '';
     if(!show){
-      monthlyReviewPlaceholder.textContent = '月の振り返りは月の最終日になると表示されます。';
+      monthlyReviewPlaceholder.innerHTML = monthlyPlaceholderHTML();
     }
   }
+
+  function closeMonthlyCard(){
+    monthlyReviewBody.style.display = 'none';
+    monthlyReviewPlaceholder.style.display = '';
+    monthlyReviewPlaceholder.innerHTML = monthlyPlaceholderHTML();
+  }
+
+  monthlyReviewPlaceholder.addEventListener('click', function(ev){
+    if(ev.target && ev.target.id === 'monthlyForceShowBtn'){
+      updateMonthlyCardVisibility(true);
+      window.scrollTo({top: monthlyForm.offsetTop - 20, behavior:'smooth'});
+    }
+  });
+
+  const monthlyCloseBtn = document.getElementById('monthlyCloseBtn');
+  if(monthlyCloseBtn){ monthlyCloseBtn.addEventListener('click', closeMonthlyCard); }
 
   function renderMonthlyList(){
     const sorted = [...monthlyEntries].sort((a,b) => b.monthKey.localeCompare(a.monthKey));
@@ -2080,15 +2292,35 @@
   const yearlyReviewBody = document.getElementById('yearlyReviewBody');
   const yearlyReviewPlaceholder = document.getElementById('yearlyReviewPlaceholder');
 
+  function yearlyPlaceholderHTML(){
+    return '年度の振り返りは年度末（3月31日）になると表示されます。書き忘れた年度がある場合は下のボタンからいつでも書けます。<button type="button" class="btn btn-secondary" id="yearlyForceShowBtn" style="margin-left:8px;">今すぐ書く</button>';
+  }
+
   function updateYearlyCardVisibility(forceShow){
     const isLast = isLastDayOfAcademicYear(new Date());
     const show = isLast || forceShow;
     yearlyReviewBody.style.display = show ? '' : 'none';
     yearlyReviewPlaceholder.style.display = show ? 'none' : '';
     if(!show){
-      yearlyReviewPlaceholder.textContent = '年度の振り返りは年度末（3月31日）になると表示されます。';
+      yearlyReviewPlaceholder.innerHTML = yearlyPlaceholderHTML();
     }
   }
+
+  function closeYearlyCard(){
+    yearlyReviewBody.style.display = 'none';
+    yearlyReviewPlaceholder.style.display = '';
+    yearlyReviewPlaceholder.innerHTML = yearlyPlaceholderHTML();
+  }
+
+  yearlyReviewPlaceholder.addEventListener('click', function(ev){
+    if(ev.target && ev.target.id === 'yearlyForceShowBtn'){
+      updateYearlyCardVisibility(true);
+      window.scrollTo({top: yearlyForm.offsetTop - 20, behavior:'smooth'});
+    }
+  });
+
+  const yearlyCloseBtn = document.getElementById('yearlyCloseBtn');
+  if(yearlyCloseBtn){ yearlyCloseBtn.addEventListener('click', closeYearlyCard); }
 
   function renderYearlyList(){
     const sorted = [...yearlyEntries].sort((a,b) => b.yearKey.localeCompare(a.yearKey));
@@ -2372,28 +2604,50 @@
           <div class="lessonFocusReminder"></div>
           <form class="lessonForm" data-grade="${g}">
             <input type="hidden" class="lessonEditId">
-            <label>日付</label>
-            <input type="date" class="lessonDate" required>
+            <div class="lesson-field">
+              <label>日付</label>
+              <input type="date" class="lessonDate" required>
+            </div>
 
-            <label>単元名</label>
-            <input type="text" class="lessonUnit" placeholder="例：電流とその利用">
+            <div class="lesson-field">
+              <label>単元名</label>
+              <input type="text" class="lessonUnit" placeholder="例：電流とその利用">
+            </div>
 
-            <label class="lesson-check-label">
-              <input type="checkbox" class="lessonPreExperiment">
-              <span>予備実験をした</span>
-            </label>
+            <div class="lesson-field lesson-field-check">
+              <label class="lesson-check-label">
+                <input type="checkbox" class="lessonPreExperiment">
+                <span>予備実験をした</span>
+              </label>
+              <label class="lesson-check-label">
+                <input type="checkbox" class="lessonReadGuide">
+                <span>指導書を読んだ</span>
+              </label>
+              <label class="lesson-check-label">
+                <input type="checkbox" class="lessonCheckedTest">
+                <span>単元テストを確認した</span>
+              </label>
+            </div>
 
-            <label>うまくいったこと</label>
-            <textarea class="lessonGood" placeholder="授業の中でうまくいった工夫や場面"></textarea>
+            <div class="lesson-field lesson-field-wide">
+              <label>うまくいったこと</label>
+              <textarea class="lessonGood" placeholder="授業の中でうまくいった工夫や場面"></textarea>
+            </div>
 
-            <label>課題・改善したいこと</label>
-            <textarea class="lessonChallenge" placeholder="次はこうしたい、という点"></textarea>
+            <div class="lesson-field lesson-field-wide">
+              <label>課題・改善したいこと</label>
+              <textarea class="lessonChallenge" placeholder="次はこうしたい、という点"></textarea>
+            </div>
 
-            <label>次回に活かすこと</label>
-            <textarea class="lessonNext" placeholder="次の授業や単元に向けての改善策"></textarea>
+            <div class="lesson-field lesson-field-wide">
+              <label>次回に活かすこと</label>
+              <textarea class="lessonNext" placeholder="次の授業や単元に向けての改善策"></textarea>
+            </div>
 
-            <button type="submit" class="btn btn-primary lessonSubmitBtn">授業の記録を保存</button>
-            <button type="button" class="btn btn-secondary lessonCancelBtn" style="display:none;">編集をやめる</button>
+            <div class="lesson-field-actions">
+              <button type="submit" class="btn btn-primary lessonSubmitBtn">授業の記録を保存</button>
+              <button type="button" class="btn btn-secondary lessonCancelBtn" style="display:none;">編集をやめる</button>
+            </div>
           </form>
         </div>
 
@@ -2537,6 +2791,8 @@
               <td class="lesson-cell-date">${formatDateLabel(l.date)}</td>
               <td>${l.unit ? escapeHtml(l.unit) : '-'}</td>
               <td class="lesson-cell-pre">${l.preExperiment ? '<span class="lesson-pre-yes">✓ 済</span>' : '<span class="lesson-pre-no">-</span>'}</td>
+              <td class="lesson-cell-pre">${l.readGuide ? '<span class="lesson-pre-yes">✓ 済</span>' : '<span class="lesson-pre-no">-</span>'}</td>
+              <td class="lesson-cell-pre">${l.checkedTest ? '<span class="lesson-pre-yes">✓ 済</span>' : '<span class="lesson-pre-no">-</span>'}</td>
               <td>${l.good ? escapeHtml(l.good) : '-'}</td>
               <td>${l.challenge ? escapeHtml(l.challenge) : '-'}</td>
               <td>${l.next ? escapeHtml(l.next) : '-'}</td>
@@ -2556,6 +2812,8 @@
                   <th>日付</th>
                   <th>単元</th>
                   <th>予備実験</th>
+                  <th>指導書</th>
+                  <th>単元テスト</th>
                   <th>うまくいったこと</th>
                   <th>課題・改善したいこと</th>
                   <th>次回に活かすこと</th>
@@ -2617,6 +2875,8 @@
         date: form.querySelector('.lessonDate').value || todayStr(),
         unit: form.querySelector('.lessonUnit').value.trim(),
         preExperiment: form.querySelector('.lessonPreExperiment').checked,
+        readGuide: form.querySelector('.lessonReadGuide').checked,
+        checkedTest: form.querySelector('.lessonCheckedTest').checked,
         good: form.querySelector('.lessonGood').value.trim(),
         challenge: form.querySelector('.lessonChallenge').value.trim(),
         next: form.querySelector('.lessonNext').value.trim()
@@ -2677,6 +2937,8 @@
         form.querySelector('.lessonDate').value = l.date;
         form.querySelector('.lessonUnit').value = l.unit || '';
         form.querySelector('.lessonPreExperiment').checked = !!l.preExperiment;
+        form.querySelector('.lessonReadGuide').checked = !!l.readGuide;
+        form.querySelector('.lessonCheckedTest').checked = !!l.checkedTest;
         form.querySelector('.lessonGood').value = l.good || '';
         form.querySelector('.lessonChallenge').value = l.challenge || '';
         form.querySelector('.lessonNext').value = l.next || '';
@@ -2708,6 +2970,8 @@
         text += '==============================\n';
         text += formatDateLabel(l.date) + (l.unit ? '　' + l.unit : '') + '\n';
         text += '予備実験: ' + (l.preExperiment ? 'した' : 'していない') + '\n';
+        text += '指導書を読んだ: ' + (l.readGuide ? 'した' : 'していない') + '\n';
+        text += '単元テストを確認した: ' + (l.checkedTest ? 'した' : 'していない') + '\n';
         if(l.good) text += '\n【うまくいったこと】\n' + l.good + '\n';
         if(l.challenge) text += '\n【課題・改善したいこと】\n' + l.challenge + '\n';
         if(l.next) text += '\n【次回に活かすこと】\n' + l.next + '\n';
@@ -2726,7 +2990,279 @@
   renderAllLessons();
   renderAllLessonFocusReminders();
 
-  render();
+  // ---- トピックまとめ ----
+  const TOPICS_KEY = "teacherGrowthLog_topics";
+  const TOPIC_NOTES_KEY = "teacherGrowthLog_topicNotes";
+
+  function loadTopics(){
+    try{
+      const raw = localStorage.getItem(TOPICS_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function saveTopics(list){ localStorage.setItem(TOPICS_KEY, JSON.stringify(list)); }
+
+  function loadTopicNotes(){
+    try{
+      const raw = localStorage.getItem(TOPIC_NOTES_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function saveTopicNotes(list){ localStorage.setItem(TOPIC_NOTES_KEY, JSON.stringify(list)); }
+
+  let topics = loadTopics();
+  let topicNotes = loadTopicNotes();
+  let activeFilterTopicId = null;
+
+  const topicNoteForm = document.getElementById('topicNoteForm');
+  const topicNoteEditId = document.getElementById('topicNoteEditId');
+  const topicNameInput = document.getElementById('topicNameInput');
+  const topicNameOptionsEl = document.getElementById('topicNameOptions');
+  const topicNoteText = document.getElementById('topicNoteText');
+  const topicNoteUrlList = document.getElementById('topicNoteUrlList');
+  const topicNoteAddUrlBtn = document.getElementById('topicNoteAddUrlBtn');
+  const topicNoteSubmitBtn = document.getElementById('topicNoteSubmitBtn');
+  const topicNoteCancelBtn = document.getElementById('topicNoteCancelBtn');
+  const topicChipRow = document.getElementById('topicChipRow');
+  const topicGroupedList = document.getElementById('topicGroupedList');
+  const topicClearAllBtn = document.getElementById('topicClearAllBtn');
+
+  function isValidUrl(str){
+    try{
+      const u = new URL(str);
+      return u.protocol === 'http:' || u.protocol === 'https:';
+    }catch(e){ return false; }
+  }
+
+  function addUrlRow(value){
+    const row = document.createElement('div');
+    row.className = 'topic-url-row';
+    const input = document.createElement('input');
+    input.type = 'url';
+    input.className = 'topic-url-input';
+    input.placeholder = 'https://www.canva.com/... など';
+    input.value = value || '';
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'topic-url-remove';
+    removeBtn.title = '削除';
+    removeBtn.textContent = '×';
+    removeBtn.addEventListener('click', function(){
+      if(topicNoteUrlList.children.length > 1){
+        row.remove();
+      } else {
+        input.value = '';
+      }
+    });
+    row.appendChild(input);
+    row.appendChild(removeBtn);
+    topicNoteUrlList.appendChild(row);
+  }
+
+  function resetUrlRows(values){
+    topicNoteUrlList.innerHTML = '';
+    const vals = (values && values.length) ? values : [''];
+    vals.forEach(v => addUrlRow(v));
+  }
+
+  topicNoteAddUrlBtn.addEventListener('click', function(){
+    addUrlRow('');
+  });
+
+  function findOrCreateTopic(title){
+    let topic = topics.find(t => t.title === title);
+    if(!topic){
+      topic = {
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+        title,
+        createdAt: new Date().toISOString(),
+      };
+      topics.push(topic);
+      saveTopics(topics);
+    }
+    return topic;
+  }
+
+  function renderTopicNameOptions(){
+    topicNameOptionsEl.innerHTML = topics.map(t => `<option value="${escapeHtml(t.title)}"></option>`).join('');
+  }
+
+  function renderTopicChips(){
+    if(topics.length === 0){
+      topicChipRow.innerHTML = '';
+      return;
+    }
+    const allChip = `<button type="button" class="topic-chip${activeFilterTopicId === null ? ' active' : ''}" data-id="">すべて</button>`;
+    topicChipRow.innerHTML = allChip + topics.map(t => `<button type="button" class="topic-chip${t.id === activeFilterTopicId ? ' active' : ''}" data-id="${t.id}">${escapeHtml(t.title)}</button>`).join('');
+  }
+
+  topicChipRow.addEventListener('click', function(ev){
+    const btn = ev.target.closest('.topic-chip');
+    if(!btn) return;
+    activeFilterTopicId = btn.dataset.id || null;
+    renderTopicChips();
+    renderGroupedList();
+  });
+
+  function exitTopicNoteEditMode(){
+    topicNoteEditId.value = '';
+    topicNameInput.value = '';
+    topicNoteText.value = '';
+    resetUrlRows([]);
+    topicNoteSubmitBtn.textContent = 'メモを保存';
+    topicNoteCancelBtn.style.display = 'none';
+  }
+
+  topicNoteCancelBtn.addEventListener('click', exitTopicNoteEditMode);
+
+  topicNoteForm.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    const title = topicNameInput.value.trim();
+    const text = topicNoteText.value.trim();
+    const urls = Array.from(topicNoteUrlList.querySelectorAll('.topic-url-input'))
+      .map(i => i.value.trim())
+      .filter(Boolean);
+    const invalid = urls.filter(u => !isValidUrl(u));
+
+    if(!title){
+      alert('トピック名を入力してください。');
+      return;
+    }
+    if(invalid.length){
+      alert('URLの形式が正しくないものがあります。http:// または https:// から始まるURLを入力してください。\n' + invalid.join('\n'));
+      return;
+    }
+    if(!text && urls.length === 0){
+      alert('内容かURLのどちらかを入力してください。');
+      return;
+    }
+
+    const topic = findOrCreateTopic(title);
+    const editId = topicNoteEditId.value;
+    if(editId){
+      const idx = topicNotes.findIndex(n => n.id === editId);
+      if(idx > -1){
+        topicNotes[idx] = { ...topicNotes[idx], topicId: topic.id, text, urls };
+      }
+    } else {
+      topicNotes.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+        topicId: topic.id,
+        text,
+        urls,
+        createdAt: new Date().toISOString(),
+      });
+    }
+    saveTopicNotes(topicNotes);
+    exitTopicNoteEditMode();
+    renderTopicNameOptions();
+    renderTopicChips();
+    renderGroupedList();
+  });
+
+  function renderGroupedList(){
+    const groupTopics = activeFilterTopicId ? topics.filter(t => t.id === activeFilterTopicId) : topics;
+    const latestOf = (topicId) => topicNotes
+      .filter(n => n.topicId === topicId)
+      .reduce((max, n) => Math.max(max, new Date(n.createdAt).getTime()), 0);
+    const sortedTopics = [...groupTopics].sort((a,b) => latestOf(b.id) - latestOf(a.id));
+
+    if(sortedTopics.length === 0){
+      topicGroupedList.innerHTML = '<div class="empty">まだトピックがありません。上のフォームから書いてみましょう。</div>';
+      return;
+    }
+
+    topicGroupedList.innerHTML = sortedTopics.map(t => {
+      const notes = topicNotes.filter(n => n.topicId === t.id).sort((a,b) => b.createdAt.localeCompare(a.createdAt));
+      const notesHtml = notes.length ? notes.map(n => `
+        <div class="entry" data-id="${n.id}">
+          ${n.text ? `<div class="txt">${escapeHtml(n.text)}</div>` : ''}
+          ${n.urls && n.urls.length ? `<div class="topic-note-urls">${n.urls.map(u => `<a href="${escapeHtml(u)}" target="_blank" rel="noopener">🔗 ${escapeHtml(u)}</a>`).join('')}</div>` : ''}
+          <div class="entry-actions">
+            <button class="btn btn-text" data-action="edit" data-id="${n.id}">編集</button>
+            <button class="btn btn-danger" data-action="delete" data-id="${n.id}">削除</button>
+          </div>
+        </div>
+      `).join('') : '<div class="empty">このトピックのメモはまだありません。</div>';
+
+      return `
+        <div class="topic-group">
+          <div class="topic-group-head">
+            <span class="topic-group-title">🗂 ${escapeHtml(t.title)}</span>
+            <button type="button" class="btn btn-text topic-group-delete" data-topic-id="${t.id}">このトピックを削除</button>
+          </div>
+          ${notesHtml}
+        </div>
+      `;
+    }).join('');
+  }
+
+  topicGroupedList.addEventListener('click', function(ev){
+    const delTopicBtn = ev.target.closest('.topic-group-delete');
+    if(delTopicBtn){
+      const topicId = delTopicBtn.dataset.topicId;
+      const topic = topics.find(t => t.id === topicId);
+      if(!topic) return;
+      if(confirm(`「${topic.title}」を削除しますか？このトピックのメモもすべて削除されます。`)){
+        topics = topics.filter(t => t.id !== topicId);
+        topicNotes = topicNotes.filter(n => n.topicId !== topicId);
+        saveTopics(topics);
+        saveTopicNotes(topicNotes);
+        if(activeFilterTopicId === topicId) activeFilterTopicId = null;
+        renderTopicNameOptions();
+        renderTopicChips();
+        renderGroupedList();
+      }
+      return;
+    }
+
+    const btn = ev.target.closest('button[data-action]');
+    if(!btn) return;
+    const id = btn.dataset.id;
+    const action = btn.dataset.action;
+    if(action === 'delete'){
+      if(confirm('このメモを削除しますか？')){
+        topicNotes = topicNotes.filter(n => n.id !== id);
+        saveTopicNotes(topicNotes);
+        renderGroupedList();
+      }
+    } else if(action === 'edit'){
+      const n = topicNotes.find(n => n.id === id);
+      if(!n) return;
+      const topic = topics.find(t => t.id === n.topicId);
+      topicNoteEditId.value = n.id;
+      topicNameInput.value = topic ? topic.title : '';
+      topicNoteText.value = n.text || '';
+      resetUrlRows(n.urls && n.urls.length ? n.urls : ['']);
+      topicNoteSubmitBtn.textContent = '更新する';
+      topicNoteCancelBtn.style.display = 'inline-block';
+      window.scrollTo({top: topicNoteForm.offsetTop - 20, behavior:'smooth'});
+    }
+  });
+
+  topicClearAllBtn.addEventListener('click', function(){
+    if(topics.length === 0 && topicNotes.length === 0){
+      alert('削除するトピックがありません。');
+      return;
+    }
+    if(confirm('トピックとメモをすべて削除します。元に戻せませんが、よろしいですか？')){
+      topics = [];
+      topicNotes = [];
+      saveTopics(topics);
+      saveTopicNotes(topicNotes);
+      activeFilterTopicId = null;
+      renderTopicNameOptions();
+      renderTopicChips();
+      renderGroupedList();
+    }
+  });
+
+  resetUrlRows([]);
+  renderTopicNameOptions();
+  renderTopicChips();
+  renderGroupedList();
+
+    render();
 })();
 </script>
 

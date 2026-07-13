@@ -58,9 +58,9 @@
     opacity:.96;
   }
   .container{
-    max-width:calc(820px + 4cm);
+    max-width:100%;
     margin:0 auto;
-    padding:24px 16px 60px;
+    padding:24px 24px 60px;
   }
   .tab-panel{
     display:none;
@@ -71,9 +71,9 @@
   .tab-nav{
     display:flex;
     gap:10px;
-    max-width:calc(820px + 4cm);
+    max-width:100%;
     margin:20px auto 0;
-    padding:0 16px;
+    padding:0 24px;
   }
   .tab-btn{
     flex:1;
@@ -217,7 +217,7 @@
     grid-column:1 / -1;
   }
   .lesson-field-wide{
-    grid-column:span 1;
+    grid-column:1 / -1;
   }
   .lesson-field-actions{
     grid-column:1 / -1;
@@ -269,7 +269,7 @@
     color:var(--text);
     transition:border-color .15s ease;
   }
-  textarea{min-height:64px;}
+  textarea{min-height:64px; resize:none; overflow:hidden;}
   input:focus, textarea:focus{
     outline:none;
     border-color:var(--accent);
@@ -378,10 +378,33 @@
     padding:3px 11px;
     margin-bottom:4px;
   }
-  .entry .field .txt{
+  .entry .field .txt, .entry .txt{
     white-space:pre-wrap;
     font-size:.97rem;
   }
+  .txt-clamp{
+    display:-webkit-box;
+    -webkit-line-clamp:4;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .txt-clamp.expanded{
+    display:block;
+    overflow:visible;
+  }
+  .txt-toggle{
+    display:none;
+    margin-top:4px;
+    background:none;
+    border:none;
+    color:var(--sky);
+    font-size:.85rem;
+    font-weight:700;
+    cursor:pointer;
+    padding:0;
+    font-family:inherit;
+  }
+  .txt-toggle:hover{ text-decoration:underline; }
   .entry-actions{
     margin-top:8px;
     text-align:right;
@@ -1288,6 +1311,48 @@
     });
   }
 
+  // ---- テキストエリアの自動高さ調整（スクロールせず全文表示） ----
+  function autoGrow(el){
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+  function autoGrowAll(root){
+    (root || document).querySelectorAll('textarea').forEach(autoGrow);
+  }
+  document.addEventListener('input', function(ev){
+    if(ev.target && ev.target.tagName === 'TEXTAREA'){
+      autoGrow(ev.target);
+    }
+  });
+
+  // ---- 長文の折りたたみ（続きを読む） ----
+  function updateClampToggles(root){
+    (root || document).querySelectorAll('.txt-block').forEach(function(block){
+      const txt = block.querySelector('.txt-clamp');
+      const btn = block.querySelector('.txt-toggle');
+      if(!txt || !btn) return;
+      if(txt.classList.contains('expanded')){
+        btn.style.display = '';
+        btn.textContent = '閉じる';
+        return;
+      }
+      const overflowing = txt.scrollHeight > txt.clientHeight + 2;
+      btn.style.display = overflowing ? '' : 'none';
+      btn.textContent = '続きを読む';
+    });
+  }
+
+  document.addEventListener('click', function(ev){
+    const btn = ev.target.closest('.txt-toggle');
+    if(!btn) return;
+    const block = btn.closest('.txt-block');
+    if(!block) return;
+    const txt = block.querySelector('.txt-clamp');
+    if(!txt) return;
+    const expanded = txt.classList.toggle('expanded');
+    btn.textContent = expanded ? '閉じる' : '続きを読む';
+  });
+
   function formatDateLabel(dateStr){
     const d = new Date(dateStr + "T00:00:00");
     const days = ['日','月','火','水','木','金','土'];
@@ -1308,10 +1373,10 @@
       entryList.innerHTML = filtered.map(e => `
         <div class="entry" data-id="${e.id}">
           <div class="date">${formatDateLabel(e.date)}</div>
-          ${e.didToday ? `<div class="field"><div class="tag">取り組んだこと</div><div class="txt">${escapeHtml(e.didToday)}</div></div>` : ''}
-          ${e.learned ? `<div class="field"><div class="tag">学んだこと</div><div class="txt">${escapeHtml(e.learned)}</div></div>` : ''}
-          ${e.nextSteps ? `<div class="field"><div class="tag">今後やること</div><div class="txt">${escapeHtml(e.nextSteps)}</div></div>` : ''}
-          ${e.note ? `<div class="field"><div class="tag">一言メモ</div><div class="txt">${escapeHtml(e.note)}</div></div>` : ''}
+          ${e.didToday ? `<div class="field"><div class="tag">取り組んだこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(e.didToday)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+          ${e.learned ? `<div class="field"><div class="tag">学んだこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(e.learned)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+          ${e.nextSteps ? `<div class="field"><div class="tag">今後やること</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(e.nextSteps)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+          ${e.note ? `<div class="field"><div class="tag">一言メモ</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(e.note)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
           <div class="entry-actions">
             <button class="btn btn-text" data-action="edit" data-id="${e.id}">編集</button>
             <button class="btn btn-danger" data-action="delete" data-id="${e.id}">削除</button>
@@ -1320,6 +1385,7 @@
       `).join('');
     }
 
+    updateClampToggles(entryList);
     updateStats();
   }
 
@@ -1379,6 +1445,7 @@
     saveEntries(entries);
     form.reset();
     dateInput.value = todayStr();
+    autoGrowAll(form);
     render();
     if(typeof refreshPivot === 'function') refreshPivot();
     if(typeof renderAdvice === 'function') renderAdvice();
@@ -1393,6 +1460,7 @@
   cancelEditBtn.addEventListener('click', function(){
     form.reset();
     dateInput.value = todayStr();
+    autoGrowAll(form);
     exitEditMode();
   });
 
@@ -1421,6 +1489,7 @@
       editIdInput.value = e.id;
       submitBtn.textContent = '更新する';
       cancelEditBtn.style.display = 'inline-block';
+      autoGrowAll(form);
       window.scrollTo({top: 0, behavior:'smooth'});
     }
   });
@@ -1758,6 +1827,7 @@
       weeklyNextFocus.value = '';
       weeklySubmitBtn.textContent = 'この週の振り返りを保存';
     }
+    autoGrowAll(weeklyForm);
   }
 
   function renderWeekBanner(){
@@ -1860,17 +1930,18 @@
     weeklyList.innerHTML = sorted.map(w => `
       <div class="entry" data-weekkey="${w.weekKey}">
         <div class="date">${weekLabel(w.weekKey)}</div>
-        ${w.good ? `<div class="field"><div class="tag">うまくいったこと</div><div class="txt">${escapeHtml(w.good)}</div></div>` : ''}
-        ${w.challenge ? `<div class="field"><div class="tag">課題・改善したいこと</div><div class="txt">${escapeHtml(w.challenge)}</div></div>` : ''}
-        ${w.learning ? `<div class="field"><div class="tag">今週全体の学び</div><div class="txt">${escapeHtml(w.learning)}</div></div>` : ''}
-        ${w.visionCheck ? `<div class="field"><div class="tag">なりたい姿との比較</div><div class="txt">${escapeHtml(w.visionCheck)}</div></div>` : ''}
-        ${w.nextFocus ? `<div class="field"><div class="tag">来週の重点</div><div class="txt">${escapeHtml(w.nextFocus)}</div></div>` : ''}
+        ${w.good ? `<div class="field"><div class="tag">うまくいったこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(w.good)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${w.challenge ? `<div class="field"><div class="tag">課題・改善したいこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(w.challenge)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${w.learning ? `<div class="field"><div class="tag">今週全体の学び</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(w.learning)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${w.visionCheck ? `<div class="field"><div class="tag">なりたい姿との比較</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(w.visionCheck)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${w.nextFocus ? `<div class="field"><div class="tag">来週の重点</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(w.nextFocus)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
         <div class="entry-actions">
           <button class="btn btn-text" data-weekaction="edit" data-weekkey="${w.weekKey}">編集</button>
           <button class="btn btn-danger" data-weekaction="delete" data-weekkey="${w.weekKey}">削除</button>
         </div>
       </div>
     `).join('');
+    updateClampToggles(weeklyList);
   }
 
   weeklyList.addEventListener('click', function(ev){
@@ -2007,6 +2078,7 @@
       monthlyNextFocus.value = '';
       monthlySubmitBtn.textContent = 'この月の振り返りを保存';
     }
+    autoGrowAll(monthlyForm);
   }
 
   function goToMonth(monthKey){
@@ -2100,17 +2172,18 @@
     monthlyList.innerHTML = sorted.map(m => `
       <div class="entry" data-monthkey="${m.monthKey}">
         <div class="date">${monthLabel(m.monthKey)}</div>
-        ${m.good ? `<div class="field"><div class="tag">うまくいったこと</div><div class="txt">${escapeHtml(m.good)}</div></div>` : ''}
-        ${m.challenge ? `<div class="field"><div class="tag">課題・改善したいこと</div><div class="txt">${escapeHtml(m.challenge)}</div></div>` : ''}
-        ${m.learning ? `<div class="field"><div class="tag">今月全体の学び</div><div class="txt">${escapeHtml(m.learning)}</div></div>` : ''}
-        ${m.visionCheck ? `<div class="field"><div class="tag">なりたい姿との比較</div><div class="txt">${escapeHtml(m.visionCheck)}</div></div>` : ''}
-        ${m.nextFocus ? `<div class="field"><div class="tag">来月の重点</div><div class="txt">${escapeHtml(m.nextFocus)}</div></div>` : ''}
+        ${m.good ? `<div class="field"><div class="tag">うまくいったこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(m.good)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${m.challenge ? `<div class="field"><div class="tag">課題・改善したいこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(m.challenge)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${m.learning ? `<div class="field"><div class="tag">今月全体の学び</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(m.learning)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${m.visionCheck ? `<div class="field"><div class="tag">なりたい姿との比較</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(m.visionCheck)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${m.nextFocus ? `<div class="field"><div class="tag">来月の重点</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(m.nextFocus)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
         <div class="entry-actions">
           <button class="btn btn-text" data-monthaction="edit" data-monthkey="${m.monthKey}">編集</button>
           <button class="btn btn-danger" data-monthaction="delete" data-monthkey="${m.monthKey}">削除</button>
         </div>
       </div>
     `).join('');
+    updateClampToggles(monthlyList);
   }
 
   monthlyList.addEventListener('click', function(ev){
@@ -2244,6 +2317,7 @@
       yearlyNextFocus.value = '';
       yearlySubmitBtn.textContent = 'この年度の振り返りを保存';
     }
+    autoGrowAll(yearlyForm);
   }
 
   function goToYear(yearKey){
@@ -2331,17 +2405,18 @@
     yearlyList.innerHTML = sorted.map(y => `
       <div class="entry" data-yearkey="${y.yearKey}">
         <div class="date">${yearLabel(y.yearKey)}</div>
-        ${y.good ? `<div class="field"><div class="tag">うまくいったこと</div><div class="txt">${escapeHtml(y.good)}</div></div>` : ''}
-        ${y.challenge ? `<div class="field"><div class="tag">課題・改善したいこと</div><div class="txt">${escapeHtml(y.challenge)}</div></div>` : ''}
-        ${y.learning ? `<div class="field"><div class="tag">今年度全体の学び</div><div class="txt">${escapeHtml(y.learning)}</div></div>` : ''}
-        ${y.visionCheck ? `<div class="field"><div class="tag">なりたい姿との比較</div><div class="txt">${escapeHtml(y.visionCheck)}</div></div>` : ''}
-        ${y.nextFocus ? `<div class="field"><div class="tag">来年度の重点</div><div class="txt">${escapeHtml(y.nextFocus)}</div></div>` : ''}
+        ${y.good ? `<div class="field"><div class="tag">うまくいったこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(y.good)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${y.challenge ? `<div class="field"><div class="tag">課題・改善したいこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(y.challenge)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${y.learning ? `<div class="field"><div class="tag">今年度全体の学び</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(y.learning)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${y.visionCheck ? `<div class="field"><div class="tag">なりたい姿との比較</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(y.visionCheck)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+        ${y.nextFocus ? `<div class="field"><div class="tag">来年度の重点</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(y.nextFocus)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
         <div class="entry-actions">
           <button class="btn btn-text" data-yearaction="edit" data-yearkey="${y.yearKey}">編集</button>
           <button class="btn btn-danger" data-yearaction="delete" data-yearkey="${y.yearKey}">削除</button>
         </div>
       </div>
     `).join('');
+    updateClampToggles(yearlyList);
   }
 
   yearlyList.addEventListener('click', function(ev){
@@ -2903,6 +2978,7 @@
       saveLessons(lessons);
       form.reset();
       form.querySelector('.lessonDate').value = todayStr();
+      autoGrowAll(form);
       renderLessonsForGrade(g);
       renderLessonFocusReminder(g);
     });
@@ -2910,6 +2986,7 @@
     form.querySelector('.lessonCancelBtn').addEventListener('click', function(){
       form.reset();
       form.querySelector('.lessonDate').value = todayStr();
+      autoGrowAll(form);
       exitLessonEditMode(form);
     });
   });
@@ -2945,6 +3022,7 @@
         form.querySelector('.lessonEditId').value = l.id;
         panel.querySelector('.lessonSubmitBtn').textContent = '更新する';
         panel.querySelector('.lessonCancelBtn').style.display = 'inline-block';
+        autoGrowAll(form);
         switchGradeTab(g);
         window.scrollTo({top: 0, behavior:'smooth'});
       }
@@ -3111,6 +3189,7 @@
     resetUrlRows([]);
     topicNoteSubmitBtn.textContent = 'メモを保存';
     topicNoteCancelBtn.style.display = 'none';
+    autoGrowAll(topicNoteForm);
   }
 
   topicNoteCancelBtn.addEventListener('click', exitTopicNoteEditMode);
@@ -3176,7 +3255,7 @@
       const notes = topicNotes.filter(n => n.topicId === t.id).sort((a,b) => b.createdAt.localeCompare(a.createdAt));
       const notesHtml = notes.length ? notes.map(n => `
         <div class="entry" data-id="${n.id}">
-          ${n.text ? `<div class="txt">${escapeHtml(n.text)}</div>` : ''}
+          ${n.text ? `<div class="txt-block"><div class="txt txt-clamp">${escapeHtml(n.text)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div>` : ''}
           ${n.urls && n.urls.length ? `<div class="topic-note-urls">${n.urls.map(u => `<a href="${escapeHtml(u)}" target="_blank" rel="noopener">🔗 ${escapeHtml(u)}</a>`).join('')}</div>` : ''}
           <div class="entry-actions">
             <button class="btn btn-text" data-action="edit" data-id="${n.id}">編集</button>
@@ -3195,6 +3274,7 @@
         </div>
       `;
     }).join('');
+    updateClampToggles(topicGroupedList);
   }
 
   topicGroupedList.addEventListener('click', function(ev){
@@ -3236,6 +3316,7 @@
       resetUrlRows(n.urls && n.urls.length ? n.urls : ['']);
       topicNoteSubmitBtn.textContent = '更新する';
       topicNoteCancelBtn.style.display = 'inline-block';
+      autoGrowAll(topicNoteForm);
       window.scrollTo({top: topicNoteForm.offsetTop - 20, behavior:'smooth'});
     }
   });
@@ -3262,7 +3343,8 @@
   renderTopicChips();
   renderGroupedList();
 
-    render();
+  render();
+  autoGrowAll(document);
 })();
 </script>
 

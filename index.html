@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🧭 メタ認知ノート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#f5f2ff;
@@ -939,6 +941,190 @@
   @media print{
     header, .card.input-card, .toolbar, .entry-actions, footer{display:none;}
   }
+
+
+  /* ==== 夏休み計画表タブ (scoped under #tab-summer) ==== */
+#tab-summer {
+    --blue-bg:#EAF4FB; --blue:#2E86C1; --blue-dark:#1B5E85;
+    --green-bg:#EBF7EE; --green:#4CAF6D; --green-dark:#2E7D4F;
+    --orange-bg:#FDF1E6; --orange:#E8823C; --orange-dark:#C1631F;
+    --pink-bg:#FCEAF1; --pink:#D9678F; --pink-dark:#B8446C;
+    --yellow-bg:#FFF6DA; --yellow:#E0A72E; --yellow-dark:#B8811A;
+    --ink:#3A3226;
+    --text-muted:#8A8070;
+    --paper:#FFFCF5;
+    --line:#EFE6D2; }
+#tab-summer {
+    margin:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family:'Zen Maru Gothic', sans-serif;
+    padding: 20px 16px 60px; }
+#tab-summer .wrap { max-width: 1040px; margin:0 auto; }
+#tab-summer h1, #tab-summer h2, #tab-summer h3 { font-family:'M PLUS Rounded 1c', sans-serif; margin:0; }
+#tab-summer .hero { text-align:center; padding: 22px 16px 26px; }
+#tab-summer .mascot { font-size:66px; line-height:1; margin-bottom:6px; }
+#tab-summer .hero h1 { font-size: clamp(39px,7.5vw,54px); font-weight:800; color: var(--blue-dark); margin-bottom: 12px; }
+#tab-summer .subtitle-pill {
+    display:inline-block; background: var(--blue-dark); color:#fff;
+    font-size: 19.5px; font-weight:500; padding: 13px 30px; border-radius: 999px;
+    box-shadow: 0 3px 0 rgba(27,94,133,0.35); }
+#tab-summer .axis-row { display:grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 26px 0 30px; }
+#tab-summer .axis-circle { border-radius: 22px; padding: 20px 14px 16px; text-align:center; border: 3px solid; }
+#tab-summer .axis-circle.blue { background:var(--blue-bg); border-color:var(--blue); }
+#tab-summer .axis-circle.green { background:var(--green-bg); border-color:var(--green); }
+#tab-summer .axis-circle.orange { background:var(--orange-bg); border-color:var(--orange); }
+#tab-summer .circle-icon {
+    width:84px; height:84px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:39px; margin:0 auto 8px; background:#fff; box-shadow: 0 2px 0 rgba(0,0,0,0.06); }
+#tab-summer .axis-circle h3 { font-size:24px; margin-bottom:4px; }
+#tab-summer .axis-circle.blue h3 { color:var(--blue-dark); }
+#tab-summer .axis-circle.green h3 { color:var(--green-dark); }
+#tab-summer .axis-circle.orange h3 { color:var(--orange-dark); }
+#tab-summer .axis-circle p { font-size:18px; color:var(--text-muted); margin:0; line-height:1.5; }
+#tab-summer .progress-card {
+    background:#fff; border: 2px solid var(--line); border-radius: 18px;
+    padding: 18px 20px 16px; margin-bottom: 30px; }
+#tab-summer .progress-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:6px; }
+#tab-summer .progress-title { font-family:'M PLUS Rounded 1c', sans-serif; font-size:21px; font-weight:700; color:var(--blue-dark); }
+#tab-summer .progress-stat { font-family:'M PLUS Rounded 1c', sans-serif; font-size:19.5px; color:var(--orange-dark); font-weight:700; }
+#tab-summer .progress-track {
+    position:relative; height: 21px; background: #F1EEE3; border-radius: 999px; margin: 0 6px 40px; }
+#tab-summer .progress-fill {
+    position:absolute; left:0; top:0; bottom:0; border-radius: 999px;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    transition: width .3s ease; }
+#tab-summer .progress-today {
+    position:absolute; top:-20px; transform: translateX(-50%);
+    display:flex; flex-direction:column; align-items:center;
+    z-index:3; }
+#tab-summer .progress-today .pin { font-size:30px; line-height:1; }
+#tab-summer .progress-today .pin-label {
+    font-size:14px; font-weight:700; color:#fff; background:var(--orange);
+    padding:2px 9px; border-radius:999px; margin-top:2px; white-space:nowrap; }
+#tab-summer .progress-milestone {
+    position:absolute; top:24px; transform: translateX(-50%);
+    display:flex; flex-direction:column; align-items:center;
+    font-size:14px; color:var(--text-muted); white-space:nowrap;
+    z-index:2; }
+#tab-summer .progress-milestone .dot { font-size:21px; margin-bottom:2px; }
+#tab-summer .progress-endlabel {
+    position:absolute; top:24px; font-size:15px; color:var(--text-muted); font-weight:500; }
+#tab-summer .progress-note { font-size:18px; color:var(--text-muted); text-align:center; margin-top: 2px; }
+#tab-summer .table-wrap {
+    background:#fff; border-radius: 18px; overflow:hidden;
+    border: 2px solid var(--line); margin-bottom: 24px; }
+#tab-summer .scroll-x { overflow-x:auto; }
+#tab-summer table.plan { border-collapse: collapse; width:100%; min-width: 1020px; }
+#tab-summer table.plan th {
+    font-family:'M PLUS Rounded 1c', sans-serif; font-size:17px; font-weight:700;
+    color:#fff; background: var(--blue-dark);
+    padding: 15px 15px; text-align:left; white-space:nowrap; }
+#tab-summer table.plan td {
+    padding: 18px 15px; font-size:19px; vertical-align:middle;
+    border-bottom: 1px solid #F1EEE3; }
+#tab-summer table.plan tr.today-row td {
+    box-shadow: inset 0 0 0 3px var(--orange-dark); }
+#tab-summer table.plan tr.today-row td:first-child { position:relative; }
+#tab-summer .today-arrow {
+    display:inline-block; margin-right:4px; color:var(--orange-dark); font-weight:700; }
+#tab-summer tr.phase-row td {
+    padding: 13px 18px;
+    font-family:'M PLUS Rounded 1c', sans-serif; font-weight:700; font-size:19px;
+    color:#fff; }
+#tab-summer tr.phase-row.blue td { background:var(--blue); }
+#tab-summer tr.phase-row.green td { background:var(--green); }
+#tab-summer tr.phase-row.orange td { background:var(--orange); }
+#tab-summer tr.phase-row.pink td { background:var(--pink); }
+#tab-summer tr.phase-row.yellow td { background:var(--yellow-dark); }
+#tab-summer .phase-row-inner { display:flex; align-items:center; gap:10px; }
+#tab-summer .phase-row-num {
+    width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.3);
+    display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+#tab-summer .phase-row-range { margin-left:auto; font-weight:500; opacity:0.9; font-size:16px; }
+#tab-summer td.c-date { font-family:'M PLUS Rounded 1c', sans-serif; font-weight:700; white-space:nowrap; }
+#tab-summer td.c-weekday { color:var(--text-muted); font-size:16px; white-space:nowrap; }
+#tab-summer td.c-weekday .wd-sat { color:#2E86C1; font-weight:700; }
+#tab-summer td.c-weekday .wd-sun { color:#D9534F; font-weight:700; }
+#tab-summer .tag { display:inline-block; font-size:15px; padding:3px 13px; border-radius:999px; font-weight:700; white-space:nowrap; }
+#tab-summer select.tag-select {
+    appearance:none; -webkit-appearance:none; -moz-appearance:none;
+    border:none; cursor:pointer; font-family:'Zen Maru Gothic', sans-serif; }
+#tab-summer select.tag-select:focus { outline:2px solid var(--blue); outline-offset:1px; }
+#tab-summer .tag-work { background:#E6E0D2; color:#6B6248; }
+#tab-summer .tag-work-full { background:#D8CFB6; color:#544C36; }
+#tab-summer .tag-off { background:#F1EEE3; color:#9B9280; }
+#tab-summer .tag-camp { background:var(--green); color:#fff; }
+#tab-summer .tag-friend { background:var(--pink); color:#fff; }
+#tab-summer td.c-study, #tab-summer td.c-exercise { min-width: 240px; }
+#tab-summer .milestone-badge { margin-left:5px; }
+#tab-summer .cell-row { display:flex; align-items:flex-start; gap:7px; }
+#tab-summer .stamp {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px; flex-shrink:0; margin-top:3px;
+    border:2px solid #D8CFB6; border-radius:50%;
+    cursor:pointer; user-select:none; -webkit-tap-highlight-color:transparent;
+    transition: all .15s ease; }
+#tab-summer .stamp.done { background:#B9AF95; border-color:#B9AF95; }
+#tab-summer .stamp:hover { border-color:#C1631F; }
+#tab-summer td.c-meal { min-width: 250px; }
+#tab-summer .food-chips { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
+#tab-summer .food-chip {
+    display:inline-flex; align-items:center; gap:3px;
+    font-size:13px; padding:3px 9px; border-radius:999px;
+    border:1.5px solid #E2D9C0; color:#A99B7E; cursor:pointer; user-select:none;
+    transition: all .15s ease; -webkit-tap-highlight-color:transparent; white-space:nowrap; }
+#tab-summer .food-chip[data-group="carb"].active { background:#FDF1E6; border-color:#E8823C; color:#C1631F; font-weight:700; }
+#tab-summer .food-chip[data-group="protein"].active { background:#FCEAF1; border-color:#D9678F; color:#B8446C; font-weight:700; }
+#tab-summer .food-chip[data-group="veggie"].active { background:#EBF7EE; border-color:#4CAF6D; color:#2E7D4F; font-weight:700; }
+#tab-summer .cell-input {
+    position:relative;
+    font-size:18px; color: var(--ink); border-bottom: 1.5px dashed #E2D9C0;
+    min-height:24px; padding:2px 3px; outline:none; display:inline-block; width:100%; }
+#tab-summer .cell-input:focus { border-bottom-color: var(--orange); }
+#tab-summer .cell-input:empty::before { content: attr(data-placeholder); color:#D8CFB6; }
+#tab-summer .cell-input.circled::after {
+    content:"";
+    position:absolute;
+    left:-9px; right:-9px; top:-5px; bottom:-5px;
+    border:2.5px solid #D9534F;
+    border-radius: 44% 56% 52% 48% / 58% 48% 52% 42%;
+    transform: rotate(-1.5deg);
+    pointer-events:none; }
+#tab-summer td.c-friend { text-align:center; font-size:22px; }
+#tab-summer .add-btn {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px; flex-shrink:0; margin-top:3px;
+    border-radius:50%; border:1.5px dashed #C7BCA0; color:#8A8070;
+    font-size:14px; line-height:1; cursor:pointer; user-select:none;
+    -webkit-tap-highlight-color:transparent; transition: all .15s ease; }
+#tab-summer .add-btn:hover { border-color:var(--orange); color:var(--orange); border-style:solid; }
+#tab-summer .actual-log { display:flex; flex-direction:column; gap:3px; margin-top:5px; }
+#tab-summer .actual-entry { display:flex; align-items:flex-start; gap:6px; }
+#tab-summer .actual-text {
+    flex:1; outline:none; min-height:18px; padding:1px 2px;
+    color:#C0392B; font-weight:600; font-size:16px;
+    border-bottom: 1px dashed rgba(192,57,43,0.35); }
+#tab-summer .actual-text:empty::before { content:"実際にやったこと"; color:#E6B3AC; font-weight:400; }
+#tab-summer .actual-remove {
+    flex-shrink:0; margin-top:2px; color:#C0392B; font-size:13px;
+    opacity:0.45; cursor:pointer; user-select:none; }
+#tab-summer .actual-remove:hover { opacity:1; }
+#tab-summer .legend {
+    display:flex; flex-wrap:wrap; gap:16px;
+    background:#fff; border-radius:16px; padding:18px 24px;
+    border:2px solid var(--line); margin: 0 0 18px;
+    font-size:18px; color:var(--text-muted); }
+#tab-summer .legend span.dot { display:inline-block; width:14px; height:14px; border-radius:4px; margin-right:6px; vertical-align:middle; }
+#tab-summer .footnote-bar {
+    background: var(--orange-bg); border: 2px solid var(--orange); border-radius: 16px;
+    padding: 18px 26px; font-size: 19px; color: var(--orange-dark); line-height:1.7; margin-bottom: 16px; }
+#tab-summer .footnote-bar b { color: var(--ink); }
+#tab-summer .closing-bar {
+    background: var(--blue-dark); color:#fff; text-align:center; border-radius: 16px;
+    padding: 20px 24px; font-family:'M PLUS Rounded 1c', sans-serif; font-size: 22.5px; font-weight:700; }
+@media (max-width: 640px) {
+  #tab-summer .axis-row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -952,6 +1138,7 @@
   <button type="button" class="tab-btn active" data-tab="growth">🧭 メタ認知ノート</button>
   <button type="button" class="tab-btn" data-tab="topics">🗂 トピックまとめ</button>
   <button type="button" class="tab-btn" data-tab="lesson">📝 授業の振り返り</button>
+  <button type="button" class="tab-btn" data-tab="summer">☀️ 夏休み計画</button>
 </div>
 
 <div class="container tab-panel active" id="tab-growth">
@@ -1243,6 +1430,75 @@
   <div class="grade-tab-nav" id="gradeTabNav"></div>
   <div id="gradePanels"></div>
 
+</div>
+
+
+<div class="container tab-panel" id="tab-summer">
+<div class="wrap">
+
+  <div class="hero">
+    <div class="mascot">☀️🌈</div>
+    <h1>夏休みの計画表</h1>
+    <p class="subtitle-pill">2026.07.25 〜 2026.08.25　理科の楽しさを伝える授業づくり × 自分を整える</p>
+  </div>
+
+  <div class="axis-row">
+    <div class="axis-circle blue">
+      <div class="circle-icon">📘</div>
+      <h3>学ぶ</h3>
+      <p>楽しい授業を、コツコツ形にする</p>
+    </div>
+    <div class="axis-circle green">
+      <div class="circle-icon">💪</div>
+      <h3>整える</h3>
+      <p>体も心も、すこやかに</p>
+    </div>
+    <div class="axis-circle orange">
+      <div class="circle-icon">🎉</div>
+      <h3>楽しむ</h3>
+      <p>友達との時間も、しっかり満喫</p>
+    </div>
+  </div>
+
+  <div class="progress-card">
+    <div class="progress-head">
+      <span class="progress-title">🚩 この夏の進み具合</span>
+      <span class="progress-stat" id="progressStat"></span>
+    </div>
+    <div class="progress-track" id="progressTrack">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <p class="progress-note" id="progressNote"></p>
+  </div>
+
+  <div class="table-wrap">
+    <div class="scroll-x">
+      <table class="plan">
+        <thead>
+          <tr>
+            <th>日付</th>
+            <th>曜日</th>
+            <th>区分</th>
+            <th>教材研究・アプリ開発</th>
+            <th>運動</th>
+            <th>食事</th>
+            <th>友達</th>
+          </tr>
+        </thead>
+        <tbody id="planBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="footnote-bar">
+    <b>「食事」欄はタップして直接書き込めます。</b>下の丸いタグ（炭水化物・タンパク質・野菜）は、食べた品目に当てはまるものをタップすると色がつきます。カロリーの計算はしません。「今日は炭水化物だけだったな」に気づくための目印です。ブラウザに自動保存されるので、次に開いたときも残っています（このパソコン・このブラウザ内のみ）。中1〜中3の Day は目安なので、進み具合に合わせて前後してOK。
+  </div>
+
+  <div class="closing-bar">頑張った日も、頑張れなかった日も、ちゃんと道のりになる 🌱</div>
+
+</div>
 </div>
 
 <footer>記録はこのブラウザだけに保存されます（他のパソコンとは共有されません）</footer>
@@ -3345,6 +3601,357 @@
 
   render();
   autoGrowAll(document);
+})();
+</script>
+
+<script>
+(function(){
+
+  const weekdayJp = ['日','月','火','水','木','金','土'];
+  function d(y,m,day){ return new Date(y, m-1, day); }
+  function key(dt){ return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`; }
+  function range(s,e){ const out=[]; let c=new Date(s); while(c<=e){ out.push(new Date(c)); c.setDate(c.getDate()+1);} return out; }
+  function startOfDay(dt){ const c = new Date(dt); c.setHours(0,0,0,0); return c; }
+
+  const PLAN_START = d(2026,7,25);
+  const PLAN_END = d(2026,8,25);
+
+  const workHalf = new Set([key(d(2026,7,27)), key(d(2026,7,29)), key(d(2026,7,31))]);
+  const workFull = new Set([key(d(2026,8,4)), key(d(2026,8,6)), key(d(2026,8,8)), key(d(2026,8,9)), key(d(2026,8,24)), key(d(2026,8,25))]);
+  const friendDays = new Set([key(d(2026,8,1)), key(d(2026,8,22)), key(d(2026,8,23))]);
+  const campStart = d(2026,8,10), campEnd = d(2026,8,21);
+
+  function category(dt){
+    const k = key(dt);
+    if(friendDays.has(k)) return 'friend';
+    if(workHalf.has(k)) return 'work-half';
+    if(workFull.has(k)) return 'work-full';
+    if(dt >= campStart && dt <= campEnd) return 'camp';
+    return 'off';
+  }
+  const tagLabel = c => ({friend:'🎉 友達','work-half':'🌤️ 仕事(午前)','work-full':'💼 仕事(終日)',camp:'🌿 休み',off:'🌿 休み'}[c]);
+  const tagClass = c => ({friend:'tag-friend','work-half':'tag-work','work-full':'tag-work-full',camp:'tag-off',off:'tag-off'}[c]);
+  const CAT_OPTIONS = [
+    { value:'work-half', label:'🌤️ 仕事(午前)' },
+    { value:'work-full', label:'💼 仕事(終日)' },
+    { value:'off',       label:'🌿 休み' },
+    { value:'friend',    label:'🎉 友達' },
+  ];
+
+  const studyMap = {};
+  studyMap[key(d(2026,7,25))] = '夏休み計画の立ち上げ';
+  studyMap[key(d(2026,7,26))] = '中1：教科書ページ確認・構成メモ';
+  studyMap[key(d(2026,7,28))] = '中1：ページ構成を詰める';
+  studyMap[key(d(2026,7,30))] = '中1：デジタル化する範囲を確定';
+  [...workHalf].forEach(k => studyMap[k] = '午後〜夜：教材研究');
+  studyMap[key(d(2026,8,2))] = '中1：素材・問題の下準備';
+  studyMap[key(d(2026,8,3))] = '中1：素材・問題の下準備';
+  studyMap[key(d(2026,8,5))] = '中1：下準備の続き・微調整';
+  studyMap[key(d(2026,8,7))] = '中1：素材の最終チェック';
+  studyMap[key(d(2026,8,10))] = '中1 Day1：投入部分を作る';
+  studyMap[key(d(2026,8,11))] = '中1 Day2：本編を作る';
+  studyMap[key(d(2026,8,12))] = '中1 Day3：仕上げ・見た目調整';
+  studyMap[key(d(2026,8,13))] = '中1 Day4：通し確認・完成';
+  studyMap[key(d(2026,8,14))] = '中2 Day1：投入部分を作る';
+  studyMap[key(d(2026,8,15))] = '中2 Day2：本編を作る';
+  studyMap[key(d(2026,8,16))] = '中2 Day3：仕上げ・見た目調整';
+  studyMap[key(d(2026,8,17))] = '中2 Day4：通し確認・完成';
+  studyMap[key(d(2026,8,18))] = '中3 Day1：投入部分を作る';
+  studyMap[key(d(2026,8,19))] = '中3 Day2：本編を作る';
+  studyMap[key(d(2026,8,20))] = '中3 Day3：仕上げ・見た目調整';
+  studyMap[key(d(2026,8,21))] = '中3 Day4：通し確認・完成';
+  studyMap[key(d(2026,8,24))] = '3アプリ通し確認・積み残し調整';
+  studyMap[key(d(2026,8,25))] = '2学期に向けて最終チェック';
+
+  const milestones = [
+    { date: d(2026,8,13), label:'中1完成', emoji:'📗' },
+    { date: d(2026,8,17), label:'中2完成', emoji:'📙' },
+    { date: d(2026,8,21), label:'中3完成', emoji:'📕' },
+  ];
+  const milestoneDays = new Set(milestones.map(m => key(m.date)));
+
+  function exerciseText(dt){
+    const k = key(dt);
+    if(friendDays.has(k)) return '気が向けば軽く';
+    if(workHalf.has(k) || workFull.has(k)) return '30分（軽め）';
+    if(dt >= campStart && dt <= campEnd){
+      const idx = Math.round((dt - campStart)/86400000) % 4;
+      const parts = ['顔・骨盤','太もも・下腹部','肩甲骨・全体','複数部位'];
+      return `1時間（${parts[idx]}）`;
+    }
+    return '1時間（複数部位）';
+  }
+
+  const phases = [
+    { title:'助走期間', color:'blue', start: d(2026,7,25), end: d(2026,7,31) },
+    { title:'仕事メインの週', color:'green', start: d(2026,8,1), end: d(2026,8,9) },
+    { title:'アプリ集中期（中1→中2）', color:'orange', start: d(2026,8,10), end: d(2026,8,16) },
+    { title:'アプリ集中期（中3）＋友達の日', color:'pink', start: d(2026,8,17), end: d(2026,8,23) },
+    { title:'仕上げ・予備日', color:'yellow', start: d(2026,8,24), end: d(2026,8,25) },
+  ];
+  const fmtRange = (s,e) => `${s.getMonth()+1}/${s.getDate()} 〜 ${e.getMonth()+1}/${e.getDate()}`;
+
+  const today = startOfDay(new Date());
+  const todayKey = key(today);
+
+  // ---- build table ----
+  const tbody = document.getElementById('planBody');
+  phases.forEach((ph, i)=>{
+    const trPhase = document.createElement('tr');
+    trPhase.className = 'phase-row ' + ph.color;
+    const td = document.createElement('td');
+    td.colSpan = 7;
+    td.innerHTML = `<div class="phase-row-inner"><span class="phase-row-num">${i+1}</span><span>${ph.title}</span><span class="phase-row-range">${fmtRange(ph.start, ph.end)}</span></div>`;
+    trPhase.appendChild(td);
+    tbody.appendChild(trPhase);
+
+    range(ph.start, ph.end).forEach(dt=>{
+      const k = key(dt);
+      const cat = category(dt);
+      const initialCatValue = (cat === 'camp') ? 'off' : cat;
+      const isMilestone = milestoneDays.has(k);
+      const isFriend = cat === 'friend';
+      const study = studyMap[k] || '';
+      const exercise = isFriend ? '気が向けば軽く' : exerciseText(dt);
+      const isToday = (k === todayKey);
+
+      const catSelectHtml = `<select class="tag tag-select ${tagClass(initialCatValue)}" data-key="cat_${k}">${
+        CAT_OPTIONS.map(o => `<option value="${o.value}"${o.value === initialCatValue ? ' selected' : ''}>${o.label}</option>`).join('')
+      }</select>`;
+
+      const tr = document.createElement('tr');
+      if(isToday) tr.className = 'today-row';
+
+      tr.innerHTML = `
+        <td class="c-date">${isToday ? '<span class="today-arrow">→</span>' : ''}${dt.getMonth()+1}/${dt.getDate()}</td>
+        <td class="c-weekday"><span class="${dt.getDay()===6 ? 'wd-sat' : dt.getDay()===0 ? 'wd-sun' : ''}">（${weekdayJp[dt.getDay()]}）</span></td>
+        <td>${catSelectHtml}</td>
+        <td class="c-study">
+          <div class="cell-row">
+            <span class="stamp" data-key="done_study_${k}" title="できたら押してね"></span>
+            <span class="cell-input" contenteditable="true" data-placeholder="📘 記入" data-key="study_${k}">${study}</span>
+            <span class="add-btn" data-log-key="study_${k}" title="実際にやったことを追加">＋</span>
+          </div>
+          <div class="actual-log" data-log-container="study_${k}"></div>
+          ${isMilestone ? '<span class="milestone-badge">🏔</span>' : ''}
+        </td>
+        <td class="c-exercise">
+          <div class="cell-row">
+            <span class="stamp" data-key="done_exercise_${k}" title="できたら押してね"></span>
+            <span class="cell-input" contenteditable="true" data-placeholder="💪 記入" data-key="exercise_${k}">${exercise}</span>
+            <span class="add-btn" data-log-key="exercise_${k}" title="実際にやったことを追加">＋</span>
+          </div>
+          <div class="actual-log" data-log-container="exercise_${k}"></div>
+        </td>
+        <td class="c-meal">
+          <span class="cell-input" contenteditable="true" data-placeholder="🍚 記入" data-key="meal_${k}"></span>
+          <div class="food-chips" data-food-key="food_${k}">
+            <span class="food-chip" data-group="carb">🍚 炭水化物</span>
+            <span class="food-chip" data-group="protein">🍗 タンパク質</span>
+            <span class="food-chip" data-group="veggie">🥦 野菜</span>
+          </div>
+        </td>
+        <td class="c-friend">${isFriend ? '🎉' : ''}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  });
+
+  // ---- progress bar (based on real today) ----
+  const track = document.getElementById('progressTrack');
+  const fill = document.getElementById('progressFill');
+  const stat = document.getElementById('progressStat');
+  const note = document.getElementById('progressNote');
+
+  const totalMs = PLAN_END - PLAN_START;
+  const totalDays = Math.round(totalMs / 86400000) + 1;
+  let pct, note_text, stat_text;
+
+  if(today < PLAN_START){
+    pct = 0;
+    const daysUntil = Math.round((PLAN_START - today) / 86400000);
+    stat_text = `開始まであと ${daysUntil} 日`;
+    note_text = 'まだ夏休み前。7/25からスタートです！';
+  } else if(today > PLAN_END){
+    pct = 100;
+    stat_text = '完走！';
+    note_text = 'お疲れさまでした。よく頑張りました 🎉';
+  } else {
+    const elapsed = Math.round((today - PLAN_START) / 86400000) + 1;
+    pct = (elapsed / totalDays) * 100;
+    stat_text = `${elapsed} / ${totalDays} 日目`;
+    note_text = `残り ${totalDays - elapsed} 日`;
+  }
+
+  fill.style.width = pct + '%';
+  stat.textContent = stat_text;
+  note.textContent = note_text;
+
+  // milestone + today markers on track (positioned by % across full range)
+  function pctOf(dt){
+    const clamped = Math.min(Math.max(dt, PLAN_START), PLAN_END);
+    return ((clamped - PLAN_START) / totalMs) * 100;
+  }
+
+  milestones.forEach(m=>{
+    const el = document.createElement('div');
+    el.className = 'progress-milestone';
+    el.style.left = pctOf(m.date) + '%';
+    el.innerHTML = `<span class="dot">${m.emoji}</span><span>${m.label}</span>`;
+    track.appendChild(el);
+  });
+
+  const startLabel = document.createElement('div');
+  startLabel.className = 'progress-endlabel';
+  startLabel.style.left = '0%';
+  startLabel.textContent = '7/25';
+  track.appendChild(startLabel);
+
+  const endLabel = document.createElement('div');
+  endLabel.className = 'progress-endlabel';
+  endLabel.style.left = '100%';
+  endLabel.style.transform = 'translateX(-100%)';
+  endLabel.textContent = '8/25';
+  track.appendChild(endLabel);
+
+  if(today >= PLAN_START && today <= PLAN_END){
+    const todayEl = document.createElement('div');
+    todayEl.className = 'progress-today';
+    todayEl.style.left = pctOf(today) + '%';
+    todayEl.innerHTML = `<span class="pin">📍</span><span class="pin-label">今日</span>`;
+    track.appendChild(todayEl);
+  }
+
+  // ---- legend ----
+  document.getElementById('legend').innerHTML = `
+    <span><span class="dot" style="background:#D8CFB6"></span>💼🌤️ 仕事の日</span>
+    <span><span class="dot" style="background:#F1EEE3"></span>🌿 休み</span>
+    <span><span class="dot" style="background:var(--pink)"></span>🎉 友達と遊ぶ日</span>
+    <span>🏔 = アプリ完成の日　📍 = 今日　⚪ = やったら押すと文字が赤丸で囲まれます</span>
+  `;
+
+  // ---- persist editable cells (study / exercise / meal) ----
+  document.querySelectorAll('.cell-input').forEach(el=>{
+    const storeKey = 'summerplan_' + el.dataset.key;
+    const saved = localStorage.getItem(storeKey);
+    if(saved !== null) el.textContent = saved; // respects an explicit edit, even if cleared to empty
+    el.addEventListener('blur', ()=>{ localStorage.setItem(storeKey, el.textContent.trim()); });
+  });
+
+  // ---- done stamps: tap to circle the text red, like marking a finished item on paper ----
+  document.querySelectorAll('.stamp').forEach(el=>{
+    const storeKey = 'summerplan_' + el.dataset.key;
+    const target = el.nextElementSibling; // the .cell-input text to encircle
+    if(localStorage.getItem(storeKey) === '1'){
+      el.classList.add('done');
+      if(target) target.classList.add('circled');
+    }
+    el.addEventListener('click', ()=>{
+      const isDone = el.classList.toggle('done');
+      if(target) target.classList.toggle('circled', isDone);
+      localStorage.setItem(storeKey, isDone ? '1' : '0');
+    });
+  });
+
+  // ---- actual-log: "＋" adds a red line for what was really done ----
+  function saveActualLog(container, logKey){
+    const texts = Array.from(container.querySelectorAll('.actual-text'))
+      .map(e => e.textContent.trim())
+      .filter(t => t.length > 0);
+    localStorage.setItem('summerplan_actual_' + logKey, JSON.stringify(texts));
+  }
+
+  function addActualEntry(container, logKey, text, focusIt){
+    const entry = document.createElement('div');
+    entry.className = 'actual-entry';
+
+    const span = document.createElement('span');
+    span.className = 'actual-text';
+    span.contentEditable = 'true';
+    span.textContent = text || '';
+
+    const remove = document.createElement('span');
+    remove.className = 'actual-remove';
+    remove.textContent = '×';
+    remove.title = '削除';
+
+    span.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter'){ e.preventDefault(); span.blur(); }
+    });
+    span.addEventListener('blur', ()=>{
+      if(span.textContent.trim() === '') entry.remove();
+      saveActualLog(container, logKey);
+    });
+    remove.addEventListener('click', ()=>{
+      entry.remove();
+      saveActualLog(container, logKey);
+    });
+
+    entry.appendChild(span);
+    entry.appendChild(remove);
+    container.appendChild(entry);
+    if(focusIt) span.focus();
+  }
+
+  document.querySelectorAll('.actual-log').forEach(container=>{
+    const logKey = container.dataset.logContainer;
+    const saved = localStorage.getItem('summerplan_actual_' + logKey);
+    const items = saved ? JSON.parse(saved) : [];
+    items.forEach(t => addActualEntry(container, logKey, t, false));
+  });
+
+  document.querySelectorAll('.add-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const logKey = btn.dataset.logKey;
+      const container = btn.closest('td').querySelector('.actual-log');
+      addActualEntry(container, logKey, '', true);
+    });
+  });
+
+  // ---- food balance chips: tap to mark which groups showed up that day ----
+  document.querySelectorAll('.food-chips').forEach(container=>{
+    const foodKey = container.dataset.foodKey;
+    const storeKey = 'summerplan_' + foodKey;
+    let state = {};
+    try{
+      const saved = localStorage.getItem(storeKey);
+      if(saved) state = JSON.parse(saved);
+    }catch(e){ state = {}; }
+
+    container.querySelectorAll('.food-chip').forEach(chip=>{
+      const group = chip.dataset.group;
+      if(state[group]) chip.classList.add('active');
+      chip.addEventListener('click', ()=>{
+        const isActive = chip.classList.toggle('active');
+        state[group] = isActive;
+        localStorage.setItem(storeKey, JSON.stringify(state));
+      });
+    });
+  });
+
+  // ---- persist category selection, and keep the 友達 badge in sync ----
+  document.querySelectorAll('select.tag-select').forEach(sel=>{
+    const storeKey = 'summerplan_' + sel.dataset.key;
+    const saved = localStorage.getItem(storeKey);
+    if(saved !== null){
+      sel.value = saved;
+      sel.className = 'tag tag-select ' + tagClass(saved);
+    }
+    sel.addEventListener('change', ()=>{
+      const val = sel.value;
+      sel.className = 'tag tag-select ' + tagClass(val);
+      localStorage.setItem(storeKey, val);
+      const friendCell = sel.closest('tr').querySelector('.c-friend');
+      if(friendCell) friendCell.textContent = (val === 'friend') ? '🎉' : '';
+    });
+  });
+
+  // ---- scroll today row into view on load ----
+  const todayRow = document.querySelector('tr.today-row');
+  if(todayRow){
+    setTimeout(()=> todayRow.scrollIntoView({ block:'center', behavior:'smooth' }), 300);
+  }
+
 })();
 </script>
 

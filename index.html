@@ -609,6 +609,133 @@
     padding:0 2px;
   }
   .vision-del:hover{ color:var(--warn); }
+  .todo-form{
+    display:flex;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .todo-add-input{
+    flex:1;
+    padding:10px 14px;
+    border:2px solid var(--border);
+    border-radius:12px;
+    font-size:1rem;
+    font-family:inherit;
+    background:#fff;
+    color:var(--text);
+  }
+  .todo-add-input:focus{
+    outline:none;
+    border-color:var(--accent);
+  }
+  .todo-add-btn{
+    padding:10px 18px;
+    white-space:nowrap;
+  }
+  .todo-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .todo-empty-hint{
+    color:var(--sub);
+    font-size:.9rem;
+    padding:6px 2px;
+  }
+  .todo-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    border:2px solid var(--border);
+    border-radius:14px;
+    background:#fff;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .todo-item.done{
+    background:var(--mint-light);
+    border-color:var(--mint-light);
+  }
+  .todo-check{
+    flex-shrink:0;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    border:2.5px solid var(--accent);
+    background:#fff;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.95rem;
+    color:#fff;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+    transition: all .15s ease;
+  }
+  .todo-check:hover{
+    border-color:var(--accent-dark);
+  }
+  .todo-item.done .todo-check{
+    background:var(--mint);
+    border-color:var(--mint);
+  }
+  .todo-text{
+    flex:1;
+    position:relative;
+    font-size:1rem;
+    word-break:break-word;
+    line-height:1.5;
+  }
+  .todo-item.done .todo-text{
+    color:#0a8f68;
+  }
+  .todo-item.done .todo-text::after{
+    content:"";
+    position:absolute;
+    left:-8px; right:-8px; top:-7px; bottom:-7px;
+    border:2.5px solid #ff6f9c;
+    border-radius: 44% 56% 52% 48% / 58% 48% 52% 42%;
+    transform: rotate(-2deg);
+    pointer-events:none;
+  }
+  .todo-hanamaru{
+    display:none;
+    flex-shrink:0;
+    font-size:1.25rem;
+    animation: todoPop .35s ease;
+  }
+  .todo-item.done .todo-hanamaru{
+    display:inline-block;
+  }
+  @keyframes todoPop{
+    0%{ transform:scale(0) rotate(-20deg); opacity:0; }
+    60%{ transform:scale(1.3) rotate(6deg); opacity:1; }
+    100%{ transform:scale(1) rotate(0); opacity:1; }
+  }
+  .todo-del{
+    flex-shrink:0;
+    background:none;
+    border:none;
+    color:var(--sub);
+    cursor:pointer;
+    font-size:1.15rem;
+    line-height:1;
+    padding:2px 4px;
+    opacity:.55;
+  }
+  .todo-del:hover{
+    color:var(--warn);
+    opacity:1;
+  }
+  .todo-sync-hint{
+    margin-top:12px;
+    font-size:.82rem;
+    color:var(--sub);
+  }
   .review-close-row{
     display:flex;
     justify-content:flex-end;
@@ -1068,6 +1195,7 @@
 #tab-summer .stamp.done { background:#B9AF95; border-color:#B9AF95; }
 #tab-summer .stamp:hover { border-color:#C1631F; }
 #tab-summer td.c-meal { min-width: 250px; }
+#tab-summer td.c-beauty { min-width: 200px; }
 #tab-summer .food-chips { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
 #tab-summer .food-chip {
     display:inline-flex; align-items:center; gap:3px;
@@ -1146,6 +1274,16 @@
   <div class="card" id="adviceCard">
     <h2>🌟 今日のひとこと</h2>
     <div id="adviceMessage" class="advice-message"></div>
+  </div>
+
+  <div class="card" id="todoCard">
+    <h2>✅ 今日のやることリスト</h2>
+    <p class="hint">今日やることを箇条書きで書いておきましょう。できたら花丸をタップ。終わったことは要らなくなったら消せます。花丸をつけると「今日の記録」の取り組んだことにも自動でまとめられます。</p>
+    <form id="todoForm" class="todo-form">
+      <input type="text" id="todoInput" class="todo-add-input" placeholder="今日やることを入力">
+      <button type="submit" class="btn btn-primary todo-add-btn">追加</button>
+    </form>
+    <ul class="todo-list" id="todoList"></ul>
   </div>
 
   <div class="card" id="yearCalendarCard">
@@ -1229,8 +1367,8 @@
       <label for="nextSteps">今後やること</label>
       <textarea id="nextSteps" placeholder="次に試したいこと、改善したいこと、調べたいことなど"></textarea>
 
-      <label for="note">一言メモ（任意）</label>
-      <input type="text" id="note" placeholder="今日の一言・感謝・振り返りなど">
+      <label for="note">思ったこと（任意）</label>
+      <textarea id="note" placeholder="今日の一言・感謝・振り返りなど" rows="4"></textarea>
 
       <button type="submit" class="btn btn-primary" id="submitBtn">記録を保存</button>
       <button type="button" class="btn btn-secondary" id="cancelEditBtn" style="display:none;">編集をやめる</button>
@@ -1482,6 +1620,7 @@
             <th>教材研究・アプリ開発</th>
             <th>運動</th>
             <th>食事</th>
+            <th>美容</th>
             <th>友達</th>
           </tr>
         </thead>
@@ -1632,7 +1771,7 @@
           ${e.didToday ? `<div class="field"><div class="tag">取り組んだこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(e.didToday)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
           ${e.learned ? `<div class="field"><div class="tag">学んだこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(e.learned)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
           ${e.nextSteps ? `<div class="field"><div class="tag">今後やること</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(e.nextSteps)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
-          ${e.note ? `<div class="field"><div class="tag">一言メモ</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(e.note)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
+          ${e.note ? `<div class="field"><div class="tag">思ったこと</div><div class="txt-block"><div class="txt txt-clamp">${escapeHtml(e.note)}</div><button type="button" class="txt-toggle" data-action="toggle-txt">続きを読む</button></div></div>` : ''}
           <div class="entry-actions">
             <button class="btn btn-text" data-action="edit" data-id="${e.id}">編集</button>
             <button class="btn btn-danger" data-action="delete" data-id="${e.id}">削除</button>
@@ -1762,7 +1901,7 @@
       if(e.didToday) text += '\n【今日取り組んだこと】\n' + e.didToday + '\n';
       if(e.learned) text += '\n【学んだこと・気づいたこと】\n' + e.learned + '\n';
       if(e.nextSteps) text += '\n【今後やること】\n' + e.nextSteps + '\n';
-      if(e.note) text += '\n【一言メモ】\n' + e.note + '\n';
+      if(e.note) text += '\n【思ったこと】\n' + e.note + '\n';
       text += '\n';
     });
     const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
@@ -1996,7 +2135,7 @@
     {key:'didToday', label:'取り組んだこと'},
     {key:'learned', label:'学んだこと・気づいたこと'},
     {key:'nextSteps', label:'今後やること'},
-    {key:'note', label:'一言メモ'}
+    {key:'note', label:'思ったこと'}
   ];
 
   let activeWeekKey = currentWeekKey;
@@ -3599,6 +3738,105 @@
   renderTopicChips();
   renderGroupedList();
 
+  // ---- 今日のやることリスト ----
+  const TODO_KEY = 'teacherGrowthLog_todos_' + todayStr();
+  const todoForm = document.getElementById('todoForm');
+  const todoInput = document.getElementById('todoInput');
+  const todoList = document.getElementById('todoList');
+
+  function loadTodos(){
+    try{
+      const raw = localStorage.getItem(TODO_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function saveTodos(){
+    localStorage.setItem(TODO_KEY, JSON.stringify(todos));
+  }
+
+  let todos = loadTodos();
+
+  function renderTodos(){
+    if(todos.length === 0){
+      todoList.innerHTML = `<li class="todo-empty-hint">今日やることを書いてみましょう。</li>`;
+      return;
+    }
+    todoList.innerHTML = todos.map(t => `
+      <li class="todo-item ${t.done ? 'done' : ''}" data-id="${t.id}">
+        <span class="todo-check" data-action="toggle" data-id="${t.id}" title="できたらタップ">${t.done ? '✓' : ''}</span>
+        <span class="todo-text">${escapeHtml(t.text)}</span>
+        <span class="todo-hanamaru">🌸</span>
+        <button type="button" class="todo-del" data-action="delete" data-id="${t.id}" title="削除">×</button>
+      </li>
+    `).join('');
+  }
+
+  // 完了したタスクを「今日の記録」の取り組んだことに自動でまとめる
+  function syncTodoToEntry(text){
+    const today = todayStr();
+    const line = '・' + text;
+    let entry = entries.find(e => e.date === today);
+    if(entry){
+      const existingLines = (entry.didToday || '').split('\n').map(s => s.trim());
+      if(!existingLines.includes(line)){
+        entry.didToday = entry.didToday ? entry.didToday + '\n' + line : line;
+      }
+    } else {
+      entry = {
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+        date: today,
+        createdAt: new Date().toISOString(),
+        didToday: line,
+        learned: '',
+        nextSteps: '',
+        note: '',
+      };
+      entries.push(entry);
+    }
+    saveEntries(entries);
+    render();
+    if(typeof refreshPivot === 'function') refreshPivot();
+    if(typeof renderAdvice === 'function') renderAdvice();
+  }
+
+  todoForm.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    const text = todoInput.value.trim();
+    if(!text) return;
+    todos.push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+      text,
+      done:false,
+    });
+    saveTodos();
+    todoInput.value = '';
+    renderTodos();
+  });
+
+  todoList.addEventListener('click', function(ev){
+    const target = ev.target.closest('[data-action]');
+    if(!target) return;
+    const action = target.dataset.action;
+    const id = target.dataset.id;
+    const item = todos.find(t => t.id === id);
+    if(!item) return;
+
+    if(action === 'toggle'){
+      item.done = !item.done;
+      saveTodos();
+      renderTodos();
+      if(item.done){
+        syncTodoToEntry(item.text);
+      }
+    } else if(action === 'delete'){
+      todos = todos.filter(t => t.id !== id);
+      saveTodos();
+      renderTodos();
+    }
+  });
+
+  renderTodos();
+
   render();
   autoGrowAll(document);
 })();
@@ -3750,6 +3988,9 @@
             <span class="food-chip" data-group="protein">🍗 タンパク質</span>
             <span class="food-chip" data-group="veggie">🥦 野菜</span>
           </div>
+        </td>
+        <td class="c-beauty">
+          <span class="cell-input" contenteditable="true" data-placeholder="💄 記入" data-key="beauty_${k}"></span>
         </td>
         <td class="c-friend">${isFriend ? '🎉' : ''}</td>
       `;

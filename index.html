@@ -676,6 +676,52 @@
     -webkit-tap-highlight-color:transparent;
     transition: all .15s ease;
   }
+  .todo-drag-handle{
+    flex-shrink:0;
+    width:20px;
+    text-align:center;
+    color:var(--sub);
+    font-size:1.05rem;
+    line-height:1;
+    cursor:grab;
+    touch-action:none;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .todo-drag-handle:active{
+    cursor:grabbing;
+    color:var(--accent-dark);
+  }
+  .todo-item.dragging-source{
+    opacity:.4;
+  }
+  .todo-drag-ghost{
+    position:fixed;
+    left:0; top:0;
+    z-index:9999;
+    pointer-events:none;
+    padding:8px 14px;
+    border-radius:12px;
+    background:var(--accent-dark);
+    color:#fff;
+    font-weight:700;
+    font-size:.9rem;
+    box-shadow:0 8px 20px rgba(103,65,217,0.35);
+    max-width:220px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    transform:translate(-50%, -130%);
+  }
+  .todo-drag-hint{
+    margin-top:10px;
+    font-size:.8rem;
+    color:var(--sub);
+  }
+  .day-plan-row.drop-target{
+    background:var(--mint-light);
+    box-shadow: inset 0 0 0 2px var(--mint);
+  }
   .todo-check:hover{
     border-color:var(--accent-dark);
   }
@@ -687,6 +733,8 @@
     flex:1;
     position:relative;
     font-size:1rem;
+    font-weight:600;
+    color:#1f1730;
     word-break:break-word;
     line-height:1.5;
   }
@@ -735,6 +783,150 @@
     margin-top:12px;
     font-size:.82rem;
     color:var(--sub);
+  }
+  .day-plan{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:6px 10px;
+  }
+  .day-plan-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:8px 4px;
+    border-bottom:1px dashed var(--border);
+    border-radius:8px;
+    transition: background .15s ease;
+  }
+  .day-plan-row:last-child{
+    border-bottom:none;
+  }
+  .day-plan-row.now{
+    background:var(--accent-light);
+  }
+  .day-plan-dot{
+    flex-shrink:0;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--border);
+    margin-top:9px;
+  }
+  .day-plan-row.now .day-plan-dot{
+    background:var(--pink);
+  }
+  .day-plan-time{
+    flex-shrink:0;
+    width:48px;
+    padding-top:4px;
+    font-size:.8rem;
+    font-weight:800;
+    color:var(--accent-dark);
+    font-family:'M PLUS Rounded 1c', sans-serif;
+  }
+  .day-plan-row.now .day-plan-time{
+    color:var(--pink);
+  }
+  .day-plan-items{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    min-width:0;
+    padding-top:2px;
+  }
+  .day-plan-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .day-plan-stamp{
+    flex-shrink:0;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    border:2px solid var(--border);
+    background:#fff;
+    cursor:pointer;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+    transition:all .15s ease;
+  }
+  .day-plan-stamp:hover{
+    border-color:var(--accent);
+  }
+  .day-plan-stamp.done{
+    background:var(--mint);
+    border-color:var(--mint);
+  }
+  .day-plan-item-text{
+    flex:1;
+    position:relative;
+    outline:none;
+    font-size:.92rem;
+    font-weight:600;
+    color:#1f1730;
+    padding:2px 6px;
+    border-radius:6px;
+    min-height:20px;
+    min-width:10px;
+    line-height:1.5;
+    word-break:break-word;
+  }
+  .day-plan-item-text:focus{
+    background:#fff;
+    box-shadow:0 0 0 2px var(--accent-light);
+  }
+  .day-plan-item-text:empty::before{
+    content:"予定を入力";
+    color:var(--sub);
+    opacity:.5;
+  }
+  .day-plan-item-text.circled::after{
+    content:"";
+    position:absolute;
+    left:-7px; right:-7px; top:-5px; bottom:-5px;
+    border:2.5px solid var(--warn);
+    border-radius: 44% 56% 52% 48% / 58% 48% 52% 42%;
+    transform: rotate(-1.5deg);
+    pointer-events:none;
+  }
+  .day-plan-item-del{
+    flex-shrink:0;
+    color:var(--sub);
+    cursor:pointer;
+    font-size:1rem;
+    line-height:1;
+    padding:2px 4px;
+    opacity:.5;
+  }
+  .day-plan-item-del:hover{
+    color:var(--warn);
+    opacity:1;
+  }
+  .day-plan-add{
+    align-self:flex-start;
+    font-size:.78rem;
+    color:var(--sub);
+    cursor:pointer;
+    padding:3px 8px;
+    border-radius:6px;
+    opacity:.75;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .day-plan-add:hover{
+    opacity:1;
+    color:var(--accent-dark);
+    background:var(--accent-light);
+  }
+  .day-plan-hint{
+    font-size:.82rem;
+    color:var(--sub);
+    margin-top:10px;
   }
   .review-close-row{
     display:flex;
@@ -1284,6 +1476,14 @@
       <button type="submit" class="btn btn-primary todo-add-btn">追加</button>
     </form>
     <ul class="todo-list" id="todoList"></ul>
+    <p class="todo-drag-hint">⠿ を指でつまんで下の時間割にスライドすると、その時間の予定に入れられます。</p>
+  </div>
+
+  <div class="card" id="dayPlanCard">
+    <h2>📖 今日の時間割</h2>
+    <p class="hint">今日一日の予定を1時間ごとに書き込める、手帳のようなスペースです。</p>
+    <div class="day-plan" id="dayPlanList"></div>
+    <p class="day-plan-hint">※ ここは今日だけのメモです。日付が変わるとまっさらに戻り、過去分は保存されません。</p>
   </div>
 
   <div class="card" id="yearCalendarCard">
@@ -3763,6 +3963,7 @@
     }
     todoList.innerHTML = todos.map(t => `
       <li class="todo-item ${t.done ? 'done' : ''}" data-id="${t.id}">
+        <span class="todo-drag-handle" title="つまんで時間割にドラッグ">⠿</span>
         <span class="todo-check" data-action="toggle" data-id="${t.id}" title="できたらタップ">${t.done ? '✓' : ''}</span>
         <span class="todo-text">${escapeHtml(t.text)}</span>
         <span class="todo-hanamaru">🌸</span>
@@ -3836,6 +4037,206 @@
   });
 
   renderTodos();
+
+  // ---- 今日の時間割（手帳イメージ・その日だけのメモ） ----
+  const DAYPLAN_KEY = 'teacherGrowthLog_dayplan_' + todayStr();
+  const DAY_PLAN_HOURS = [];
+  for(let h = 6; h <= 23; h++) DAY_PLAN_HOURS.push(h);
+
+  function loadDayPlan(){
+    try{
+      const raw = localStorage.getItem(DAYPLAN_KEY);
+      const parsed = raw ? JSON.parse(raw) : null;
+      if(parsed && parsed.items) return parsed;
+      if(parsed && parsed.text){
+        // 旧形式（1時間1本のテキスト）からの簡易移行。「 / 」区切りを別項目として復元する
+        const items = {};
+        Object.keys(parsed.text).forEach(h => {
+          const done = !!(parsed.done && parsed.done[h]);
+          items[h] = String(parsed.text[h] || '').split(' / ').map(t => t.trim()).filter(Boolean).map(t => ({
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+            text: t,
+            done,
+          }));
+        });
+        return { items };
+      }
+      return { items: {} };
+    }catch(e){ return { items: {} }; }
+  }
+  function saveDayPlan(){
+    localStorage.setItem(DAYPLAN_KEY, JSON.stringify(dayPlan));
+  }
+
+  let dayPlan = loadDayPlan();
+
+  function renderDayPlan(){
+    const nowHour = new Date().getHours();
+    const listEl = document.getElementById('dayPlanList');
+    listEl.innerHTML = DAY_PLAN_HOURS.map(h => {
+      const items = dayPlan.items[h] || [];
+      const itemsHtml = items.map(it => `
+        <div class="day-plan-item" data-hour="${h}" data-item-id="${it.id}">
+          <span class="day-plan-stamp ${it.done ? 'done' : ''}" data-action="toggle" data-hour="${h}" data-item-id="${it.id}" title="できたら押してね"></span>
+          <span class="day-plan-item-text ${it.done ? 'circled' : ''}" contenteditable="true" data-hour="${h}" data-item-id="${it.id}">${escapeHtml(it.text)}</span>
+          <span class="day-plan-item-del" data-action="delete" data-hour="${h}" data-item-id="${it.id}" title="削除">×</span>
+        </div>
+      `).join('');
+      return `
+      <div class="day-plan-row ${h === nowHour ? 'now' : ''}" data-hour="${h}">
+        <span class="day-plan-dot"></span>
+        <span class="day-plan-time">${h}:00</span>
+        <div class="day-plan-items">
+          ${itemsHtml}
+          <span class="day-plan-add" data-hour="${h}" title="この時間の予定を追加">＋ 予定を追加</span>
+        </div>
+      </div>
+      `;
+    }).join('');
+
+    // 各項目のテキストを編集・保存（空にしたら削除）
+    listEl.querySelectorAll('.day-plan-item-text').forEach(function(el){
+      el.addEventListener('keydown', function(ev){
+        if(ev.key === 'Enter'){ ev.preventDefault(); el.blur(); }
+      });
+      el.addEventListener('blur', function(){
+        const h = el.dataset.hour;
+        const id = el.dataset.itemId;
+        const arr = dayPlan.items[h] || [];
+        const text = el.textContent.trim();
+        if(!text){
+          dayPlan.items[h] = arr.filter(x => x.id !== id);
+          saveDayPlan();
+          renderDayPlan();
+          return;
+        }
+        const it = arr.find(x => x.id === id);
+        if(it && it.text !== text){ it.text = text; saveDayPlan(); }
+      });
+    });
+
+    // 赤丸（完了）の切り替えと削除
+    listEl.querySelectorAll('[data-action]').forEach(function(el){
+      el.addEventListener('click', function(){
+        const action = el.dataset.action;
+        const h = el.dataset.hour;
+        const id = el.dataset.itemId;
+        const arr = dayPlan.items[h] || [];
+        const it = arr.find(x => x.id === id);
+        if(!it) return;
+        if(action === 'toggle'){
+          it.done = !it.done;
+          saveDayPlan();
+          renderDayPlan();
+        } else if(action === 'delete'){
+          dayPlan.items[h] = arr.filter(x => x.id !== id);
+          saveDayPlan();
+          renderDayPlan();
+        }
+      });
+    });
+
+    // 「＋ 予定を追加」：その時間に新しい項目を1つ増やして、すぐ入力できるようにする
+    listEl.querySelectorAll('.day-plan-add').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        const h = btn.dataset.hour;
+        if(!dayPlan.items[h]) dayPlan.items[h] = [];
+        const newItem = {
+          id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+          text: '',
+          done: false,
+        };
+        dayPlan.items[h].push(newItem);
+        saveDayPlan();
+        renderDayPlan();
+        const newEl = listEl.querySelector('.day-plan-item-text[data-item-id="' + newItem.id + '"]');
+        if(newEl) newEl.focus();
+      });
+    });
+  }
+
+  renderDayPlan();
+
+  // ---- やることリストの項目を時間割へドラッグして入れる ----
+  let dragGhost = null;
+  let dragSourceEl = null;
+  let dragTodoId = null;
+  let dragActive = false;
+  let dragDropRow = null;
+
+  function cleanupDrag(){
+    if(dragGhost){ dragGhost.remove(); dragGhost = null; }
+    if(dragSourceEl){ dragSourceEl.classList.remove('dragging-source'); dragSourceEl = null; }
+    if(dragDropRow){ dragDropRow.classList.remove('drop-target'); dragDropRow = null; }
+    dragTodoId = null;
+    dragActive = false;
+  }
+
+  function moveDragGhost(x, y){
+    if(!dragGhost) return;
+    dragGhost.style.left = x + 'px';
+    dragGhost.style.top = y + 'px';
+  }
+
+  document.addEventListener('pointerdown', function(ev){
+    const handle = ev.target.closest('.todo-drag-handle');
+    if(!handle) return;
+    const li = handle.closest('.todo-item');
+    if(!li) return;
+    const item = todos.find(t => t.id === li.dataset.id);
+    if(!item) return;
+
+    dragActive = true;
+    dragTodoId = item.id;
+    dragSourceEl = li;
+    li.classList.add('dragging-source');
+
+    dragGhost = document.createElement('div');
+    dragGhost.className = 'todo-drag-ghost';
+    dragGhost.textContent = item.text;
+    document.body.appendChild(dragGhost);
+    moveDragGhost(ev.clientX, ev.clientY);
+
+    try{ handle.setPointerCapture(ev.pointerId); }catch(e){ /* ignore */ }
+    ev.preventDefault();
+  });
+
+  document.addEventListener('pointermove', function(ev){
+    if(!dragActive) return;
+    moveDragGhost(ev.clientX, ev.clientY);
+
+    const el = document.elementFromPoint(ev.clientX, ev.clientY);
+    const row = el ? el.closest('.day-plan-row') : null;
+    if(row !== dragDropRow){
+      if(dragDropRow) dragDropRow.classList.remove('drop-target');
+      if(row) row.classList.add('drop-target');
+      dragDropRow = row;
+    }
+  });
+
+  function finishDrag(ev){
+    if(!dragActive) return;
+    const el = document.elementFromPoint(ev.clientX, ev.clientY);
+    const row = el ? el.closest('.day-plan-row') : null;
+    if(row){
+      const h = row.dataset.hour;
+      const item = todos.find(t => t.id === dragTodoId);
+      if(h && item){
+        if(!dayPlan.items[h]) dayPlan.items[h] = [];
+        dayPlan.items[h].push({
+          id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+          text: item.text,
+          done: false,
+        });
+        saveDayPlan();
+        renderDayPlan();
+      }
+    }
+    cleanupDrag();
+  }
+
+  document.addEventListener('pointerup', finishDrag);
+  document.addEventListener('pointercancel', cleanupDrag);
 
   render();
   autoGrowAll(document);

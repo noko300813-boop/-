@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🧭 メタ認知ノート</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#f5f2ff;
-    --card:#ffffff;
-    --accent:#9775fa;
-    --accent-light:#efe9ff;
-    --accent-dark:#6741d9;
-    --text:#332b3d;
-    --sub:#726a80;
-    --border:#e3daff;
-    --warn:#ff6b6b;
+    --bg:#f1ead4;
+    --card:#fffdf6;
+    --accent:#3d5a8a;
+    --accent-light:#e7edf6;
+    --accent-dark:#24365a;
+    --text:#332c22;
+    --sub:#8a8070;
+    --border:#e2d8bc;
+    --warn:#c0392b;
     --mint:#20c997;
     --mint-light:#d3f9e5;
     --sky:#4dabf7;
@@ -24,15 +24,17 @@
     --peach:#ff922b;
     --pink:#ff6f9c;
     --pink-light:#ffe3ee;
+    --rule:#d7c9a8;
+    --margin:#c0605a;
   }
   *{box-sizing:border-box;}
   body{
     margin:0;
-    font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+    font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
     background:
-      radial-gradient(circle at 10% 0%, #e9f0ff 0%, transparent 45%),
-      radial-gradient(circle at 90% 10%, #eee3ff 0%, transparent 45%),
-      radial-gradient(circle at 50% 100%, #e2fff3 0%, transparent 50%),
+      linear-gradient(90deg, transparent 0 42px, rgba(192,96,90,.4) 42px 44px, transparent 44px 100%),
+      repeating-linear-gradient(0deg, transparent 0 33px, var(--rule) 33px 34px, transparent 34px 35px),
+      radial-gradient(circle at 15% 5%, rgba(255,255,255,.5) 0%, transparent 40%),
       var(--bg);
     background-attachment:fixed;
     color:var(--text);
@@ -40,24 +42,43 @@
     overflow-x:hidden;
   }
   header{
-    background:linear-gradient(120deg, #6741d9 0%, #4a3f72 100%);
-    color:#fff;
-    padding:30px 20px;
+    position:relative;
+    background:var(--card);
+    color:var(--text);
+    padding:26px 20px 22px;
+    margin:18px 24px 0;
     text-align:center;
-    border-radius:0 0 20px 20px;
-    box-shadow:0 3px 12px rgba(74,63,114,0.25);
+    border-radius:3px;
+    border:1px solid var(--border);
+    box-shadow:0 8px 16px rgba(60,45,20,0.12), 0 2px 4px rgba(60,45,20,0.08);
+    transform:rotate(-0.4deg);
   }
+  header::before,
+  header::after{
+    content:"";
+    position:absolute;
+    top:-11px;
+    width:64px;
+    height:22px;
+    background:rgba(255,146,43,0.35);
+    border:1px solid rgba(255,146,43,0.45);
+    box-shadow:0 2px 3px rgba(60,45,20,0.12);
+  }
+  header::before{ left:26px; transform:rotate(-6deg); }
+  header::after{ right:26px; transform:rotate(5deg); background:rgba(77,171,247,0.3); border-color:rgba(77,171,247,0.4); }
   header h1{
-    margin:0 0 8px;
-    font-size:1.65rem;
-    letter-spacing:.06em;
-    font-weight:800;
-    text-shadow:0 2px 6px rgba(0,0,0,0.08);
+    margin:0 0 6px;
+    font-family:'Klee One', sans-serif;
+    font-size:1.7rem;
+    letter-spacing:.04em;
+    font-weight:600;
+    color:var(--accent-dark);
   }
   header p{
     margin:0;
-    font-size:.96rem;
-    opacity:.96;
+    font-size:.92rem;
+    color:var(--sub);
+    font-family:'Klee One', sans-serif;
   }
   .container{
     max-width:100%;
@@ -72,32 +93,37 @@
   }
   .tab-nav{
     display:flex;
-    gap:10px;
+    gap:6px;
     max-width:100%;
-    margin:20px auto 0;
+    margin:22px auto 0;
     padding:0 24px;
   }
   .tab-btn{
     flex:1;
-    padding:12px 14px;
-    border:2px solid var(--border);
-    border-radius:999px;
-    background:#fff;
+    padding:12px 10px 10px;
+    border:1px solid var(--border);
+    border-bottom:none;
+    border-radius:10px 10px 0 0;
+    background:#ece3c8;
     color:var(--sub);
-    font-weight:800;
-    font-size:.94rem;
+    font-weight:700;
+    font-size:.88rem;
     cursor:pointer;
-    font-family:inherit;
-    transition:transform .12s ease, box-shadow .12s ease;
+    font-family:'Zen Maru Gothic', inherit;
+    box-shadow:0 -1px 3px rgba(60,45,20,0.05) inset;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+    transform:translateY(4px);
   }
   .tab-btn:hover{
-    transform:translateY(-1px);
+    transform:translateY(1px);
+    color:var(--text);
   }
   .tab-btn.active{
-    background:var(--accent-dark);
-    color:#fff;
-    border-color:transparent;
-    box-shadow:0 2px 8px rgba(103,65,217,0.25);
+    background:var(--card);
+    color:var(--accent-dark);
+    border-color:var(--border);
+    box-shadow:0 -4px 10px rgba(60,45,20,0.1);
+    transform:translateY(0);
   }
   .grade-tab-nav{
     display:flex;
@@ -237,20 +263,37 @@
     color:var(--sub);
   }
   .card{
+    position:relative;
     background:var(--card);
     border:1px solid var(--border);
-    border-radius:20px;
-    padding:22px;
-    margin-bottom:22px;
-    box-shadow:0 6px 18px rgba(255,111,156,0.1);
+    border-radius:4px 4px 10px 10px;
+    padding:24px 22px 22px;
+    margin:30px 0 26px;
+    box-shadow:0 4px 14px rgba(60,45,20,0.1), 0 1px 3px rgba(60,45,20,0.07);
   }
+  .card:nth-of-type(odd){ transform:rotate(-0.3deg); }
+  .card:nth-of-type(even){ transform:rotate(0.3deg); }
+  .card::before{
+    content:"";
+    position:absolute;
+    top:-10px; left:22px;
+    width:52px; height:18px;
+    background:rgba(32,201,151,0.28);
+    border:1px solid rgba(32,201,151,0.4);
+    box-shadow:0 2px 3px rgba(60,45,20,0.1);
+    transform:rotate(-3deg);
+  }
+  .card:nth-of-type(4n+2)::before{ background:rgba(77,171,247,0.25); border-color:rgba(77,171,247,0.4); }
+  .card:nth-of-type(4n+3)::before{ background:rgba(255,146,43,0.25); border-color:rgba(255,146,43,0.4); transform:rotate(3deg); }
+  .card:nth-of-type(4n+4)::before{ background:rgba(255,111,156,0.25); border-color:rgba(255,111,156,0.4); }
   .card h2{
     margin:0 0 14px;
-    font-size:1.22rem;
-    font-weight:800;
+    font-family:'Klee One', sans-serif;
+    font-size:1.2rem;
+    font-weight:600;
     color:var(--accent-dark);
-    border-left:6px solid var(--accent);
-    border-radius:3px;
+    border-left:4px solid var(--accent);
+    border-radius:2px;
     padding-left:12px;
   }
   label{
@@ -292,13 +335,13 @@
     transform:translateY(-1px);
   }
   .btn-primary{
-    background:linear-gradient(120deg, #b197fc, #9775fa);
+    background:linear-gradient(120deg, #4a6fa5, #3d5a8a);
     color:#fff;
     margin-top:16px;
-    box-shadow:0 4px 12px rgba(151,117,250,0.35);
+    box-shadow:0 4px 12px rgba(61,90,138,0.3);
   }
   .btn-primary:hover{
-    box-shadow:0 6px 16px rgba(151,117,250,0.45);
+    box-shadow:0 6px 16px rgba(61,90,138,0.4);
   }
   .btn-secondary{
     background:var(--accent-light);
@@ -375,7 +418,7 @@
     font-size:.78rem;
     font-weight:700;
     color:#fff;
-    background:linear-gradient(120deg, #b197fc, #9775fa);
+    background:linear-gradient(120deg, #4a6fa5, #3d5a8a);
     border-radius:999px;
     padding:3px 11px;
     margin-bottom:4px;
@@ -497,8 +540,8 @@
     color:var(--sub);
   }
   .vision-card{
-    background:linear-gradient(160deg, #f7f3ff, #f4fffb);
-    border:3px dashed #d0bfff;
+    background:linear-gradient(160deg, #fdfaf0, #f4fbf6);
+    border:3px dashed #cbb98f;
   }
   .vision-card-head{
     display:flex;
@@ -519,8 +562,8 @@
     border-radius:999px;
     padding:5px 12px;
     transform:rotate(-4deg);
-    background:linear-gradient(120deg, #9775fa, #4dabf7);
-    box-shadow:0 3px 8px rgba(151,117,250,0.35);
+    background:linear-gradient(120deg, #d9534f, #e8823c);
+    box-shadow:0 3px 8px rgba(192,57,43,0.3);
     white-space:nowrap;
   }
   .vision-grid{
@@ -549,7 +592,7 @@
   .vision-col[data-point="week"] .vision-col-head{ background:linear-gradient(120deg, #74c0fc, #4dabf7); }
   .vision-col[data-point="month"] .vision-col-head{ background:linear-gradient(120deg, #63e6be, #20c997); }
   .vision-col[data-point="year"] .vision-col-head{ background:linear-gradient(120deg, #ffb366, #ff922b); }
-  .vision-col[data-point="leaving"] .vision-col-head{ background:linear-gradient(120deg, #b197fc, #9775fa); }
+  .vision-col[data-point="leaving"] .vision-col-head{ background:linear-gradient(120deg, #4a6fa5, #3d5a8a); }
   .vision-icon{
     font-size:1.05rem;
   }
@@ -590,7 +633,7 @@
   .vision-text{
     font-size:1.22rem;
     font-weight:800;
-    color:#1f1730;
+    color:#2b2419;
     letter-spacing:.01em;
     line-height:1.5;
   }
@@ -706,7 +749,7 @@
     color:#fff;
     font-weight:700;
     font-size:.9rem;
-    box-shadow:0 8px 20px rgba(103,65,217,0.35);
+    box-shadow:0 8px 20px rgba(36,54,90,0.3);
     max-width:220px;
     white-space:nowrap;
     overflow:hidden;
@@ -734,7 +777,7 @@
     position:relative;
     font-size:1rem;
     font-weight:600;
-    color:#1f1730;
+    color:#2b2419;
     word-break:break-word;
     line-height:1.5;
   }
@@ -868,7 +911,7 @@
     outline:none;
     font-size:.92rem;
     font-weight:600;
-    color:#1f1730;
+    color:#2b2419;
     padding:2px 6px;
     border-radius:6px;
     min-height:20px;
@@ -960,7 +1003,7 @@
     background:var(--accent-dark);
     color:#fff;
     border-color:transparent;
-    box-shadow:0 2px 8px rgba(103,65,217,0.25);
+    box-shadow:0 2px 8px rgba(36,54,90,0.22);
   }
   .topic-empty-hint{
     color:var(--sub);
@@ -1135,7 +1178,7 @@
   }
   .year-progress-fill{
     height:100%;
-    background:linear-gradient(90deg, #b197fc, var(--accent));
+    background:linear-gradient(90deg, #7a97c2, var(--accent));
     border-radius:7px;
   }
   .ypb-tick{
@@ -1144,7 +1187,7 @@
     bottom:0;
     width:1px;
     background:rgba(255,255,255,0.85);
-    box-shadow:0 0 1px rgba(103,65,217,0.5);
+    box-shadow:0 0 1px rgba(36,54,90,0.4);
   }
   .year-progress-month-labels{
     position:relative;
@@ -1332,8 +1375,12 @@
 #tab-summer .progress-note { font-size:18px; color:var(--text-muted); text-align:center; margin-top: 2px; }
 #tab-summer .table-wrap {
     background:#fff; border-radius: 18px; overflow:hidden;
-    border: 2px solid var(--line); margin-bottom: 24px; }
-#tab-summer .scroll-x { overflow-x:auto; }
+    border: 2px solid var(--line); margin-bottom: 24px;
+    width: 100vw; max-width: 100vw;
+    position: relative; left: 50%; right: 50%;
+    margin-left: -50vw; margin-right: -50vw;
+    box-sizing: border-box; }
+#tab-summer .scroll-x { overflow-x:auto; padding: 0 16px; box-sizing: border-box; }
 #tab-summer table.plan { border-collapse: collapse; width:100%; min-width: 1020px; }
 #tab-summer table.plan th {
     font-family:'M PLUS Rounded 1c', sans-serif; font-size:17px; font-weight:700;
@@ -1419,13 +1466,35 @@
     font-size:14px; line-height:1; cursor:pointer; user-select:none;
     -webkit-tap-highlight-color:transparent; transition: all .15s ease; }
 #tab-summer .add-btn:hover { border-color:var(--orange); color:var(--orange); border-style:solid; }
+#tab-summer .plan-log { display:flex; flex-direction:column; gap:3px; margin-top:3px; }
+#tab-summer .row-remove {
+    flex-shrink:0; margin-top:6px; color:#B9AF95; font-size:13px;
+    opacity:0.5; cursor:pointer; user-select:none; }
+#tab-summer .row-remove:hover { opacity:1; color:#C1631F; }
+#tab-summer .add-btn-text {
+    display:inline-flex; align-items:center; gap:4px;
+    margin-top:6px; padding:3px 10px;
+    border-radius:999px; border:1.5px dashed #C7BCA0; color:#8A8070;
+    font-size:12px; cursor:pointer; user-select:none;
+    -webkit-tap-highlight-color:transparent; transition: all .15s ease; }
+#tab-summer .add-btn-text:hover { border-color:var(--orange); color:var(--orange); border-style:solid; }
 #tab-summer .actual-log { display:flex; flex-direction:column; gap:3px; margin-top:5px; }
 #tab-summer .actual-entry { display:flex; align-items:flex-start; gap:6px; }
+#tab-summer .actual-entry .stamp { width:18px; height:18px; margin-top:1px; }
 #tab-summer .actual-text {
+    position:relative;
     flex:1; outline:none; min-height:18px; padding:1px 2px;
     color:#C0392B; font-weight:600; font-size:16px;
     border-bottom: 1px dashed rgba(192,57,43,0.35); }
-#tab-summer .actual-text:empty::before { content:"実際にやったこと"; color:#E6B3AC; font-weight:400; }
+#tab-summer .actual-text:empty::before { content:"＋αで取り組めたこと"; color:#E6B3AC; font-weight:400; }
+#tab-summer .actual-text.circled::after {
+    content:"";
+    position:absolute;
+    left:-8px; right:-8px; top:-4px; bottom:-4px;
+    border:2.5px solid #D9534F;
+    border-radius: 44% 56% 52% 48% / 58% 48% 52% 42%;
+    transform: rotate(-1.5deg);
+    pointer-events:none; }
 #tab-summer .actual-remove {
     flex-shrink:0; margin-top:2px; color:#C0392B; font-size:13px;
     opacity:0.45; cursor:pointer; user-select:none; }
@@ -4369,18 +4438,22 @@
           <div class="cell-row">
             <span class="stamp" data-key="done_study_${k}" title="できたら押してね"></span>
             <span class="cell-input" contenteditable="true" data-placeholder="📘 記入" data-key="study_${k}">${study}</span>
-            <span class="add-btn" data-log-key="study_${k}" title="実際にやったことを追加">＋</span>
+            <span class="add-btn" data-plan-key="study_${k}" title="予定をもう1つ追加">＋</span>
           </div>
+          <div class="plan-log" data-plan-container="study_${k}"></div>
           <div class="actual-log" data-log-container="study_${k}"></div>
+          <span class="add-btn-text" data-log-key="study_${k}" title="＋αで取り組めたことを記録">＋ ＋αで取り組めたこと</span>
           ${isMilestone ? '<span class="milestone-badge">🏔</span>' : ''}
         </td>
         <td class="c-exercise">
           <div class="cell-row">
             <span class="stamp" data-key="done_exercise_${k}" title="できたら押してね"></span>
             <span class="cell-input" contenteditable="true" data-placeholder="💪 記入" data-key="exercise_${k}">${exercise}</span>
-            <span class="add-btn" data-log-key="exercise_${k}" title="実際にやったことを追加">＋</span>
+            <span class="add-btn" data-plan-key="exercise_${k}" title="予定をもう1つ追加">＋</span>
           </div>
+          <div class="plan-log" data-plan-container="exercise_${k}"></div>
           <div class="actual-log" data-log-container="exercise_${k}"></div>
+          <span class="add-btn-text" data-log-key="exercise_${k}" title="＋αで取り組めたことを記録">＋ ＋αで取り組めたこと</span>
         </td>
         <td class="c-meal">
           <span class="cell-input" contenteditable="true" data-placeholder="🍚 記入" data-key="meal_${k}"></span>
@@ -4495,28 +4568,118 @@
     });
   });
 
-  // ---- actual-log: "＋" adds a red line for what was really done ----
-  function saveActualLog(container, logKey){
-    const texts = Array.from(container.querySelectorAll('.actual-text'))
-      .map(e => e.textContent.trim())
-      .filter(t => t.length > 0);
-    localStorage.setItem('summerplan_actual_' + logKey, JSON.stringify(texts));
+  // ---- plan-log: the "＋" next to the main entry adds another plan line, each with its own stamp ----
+  function savePlanExtra(container, planKey){
+    const items = Array.from(container.querySelectorAll('.cell-row')).map(row=>{
+      const textEl = row.querySelector('.cell-input');
+      const stampEl = row.querySelector('.stamp');
+      return { text: textEl.textContent.trim(), done: stampEl.classList.contains('done') };
+    }).filter(it => it.text.length > 0);
+    localStorage.setItem('summerplan_planextra_' + planKey, JSON.stringify(items));
   }
 
-  function addActualEntry(container, logKey, text, focusIt){
+  function addPlanRow(container, planKey, item, focusIt){
+    const text = (typeof item === 'string') ? item : ((item && item.text) || '');
+    const done = (typeof item === 'object' && item) ? !!item.done : false;
+    const placeholder = planKey.startsWith('exercise_') ? '💪 追加の予定' : '📘 追加の予定';
+
+    const row = document.createElement('div');
+    row.className = 'cell-row';
+
+    const stamp = document.createElement('span');
+    stamp.className = 'stamp' + (done ? ' done' : '');
+    stamp.title = 'できたら押してね';
+
+    const span = document.createElement('span');
+    span.className = 'cell-input' + (done ? ' circled' : '');
+    span.contentEditable = 'true';
+    span.dataset.placeholder = placeholder;
+    span.textContent = text;
+
+    const remove = document.createElement('span');
+    remove.className = 'row-remove';
+    remove.textContent = '×';
+    remove.title = '削除';
+
+    stamp.addEventListener('click', ()=>{
+      const isDone = stamp.classList.toggle('done');
+      span.classList.toggle('circled', isDone);
+      savePlanExtra(container, planKey);
+    });
+    span.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter'){ e.preventDefault(); span.blur(); }
+    });
+    span.addEventListener('blur', ()=>{
+      if(span.textContent.trim() === '') row.remove();
+      savePlanExtra(container, planKey);
+    });
+    remove.addEventListener('click', ()=>{
+      row.remove();
+      savePlanExtra(container, planKey);
+    });
+
+    row.appendChild(stamp);
+    row.appendChild(span);
+    row.appendChild(remove);
+    container.appendChild(row);
+    if(focusIt) span.focus();
+  }
+
+  document.querySelectorAll('.plan-log').forEach(container=>{
+    const planKey = container.dataset.planContainer;
+    const saved = localStorage.getItem('summerplan_planextra_' + planKey);
+    let items = [];
+    if(saved){
+      try{ items = JSON.parse(saved); }catch(e){ items = []; }
+    }
+    items.forEach(it => addPlanRow(container, planKey, it, false));
+  });
+
+  document.querySelectorAll('.add-btn[data-plan-key]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const planKey = btn.dataset.planKey;
+      const container = btn.closest('td').querySelector('.plan-log');
+      addPlanRow(container, planKey, '', true);
+    });
+  });
+
+  // ---- actual-log: "＋ 実際の記録" adds another line, each with its own stamp you can circle red ----
+  function saveActualLog(container, logKey){
+    const items = Array.from(container.querySelectorAll('.actual-entry')).map(entry=>{
+      const textEl = entry.querySelector('.actual-text');
+      const stampEl = entry.querySelector('.stamp');
+      return { text: textEl.textContent.trim(), done: stampEl.classList.contains('done') };
+    }).filter(it => it.text.length > 0);
+    localStorage.setItem('summerplan_actual_' + logKey, JSON.stringify(items));
+  }
+
+  function addActualEntry(container, logKey, item, focusIt){
+    // item may be a plain string (old data) or {text, done} (new data)
+    const text = (typeof item === 'string') ? item : ((item && item.text) || '');
+    const done = (typeof item === 'object' && item) ? !!item.done : false;
+
     const entry = document.createElement('div');
     entry.className = 'actual-entry';
 
+    const stamp = document.createElement('span');
+    stamp.className = 'stamp' + (done ? ' done' : '');
+    stamp.title = 'できたら押してね';
+
     const span = document.createElement('span');
-    span.className = 'actual-text';
+    span.className = 'actual-text' + (done ? ' circled' : '');
     span.contentEditable = 'true';
-    span.textContent = text || '';
+    span.textContent = text;
 
     const remove = document.createElement('span');
     remove.className = 'actual-remove';
     remove.textContent = '×';
     remove.title = '削除';
 
+    stamp.addEventListener('click', ()=>{
+      const isDone = stamp.classList.toggle('done');
+      span.classList.toggle('circled', isDone);
+      saveActualLog(container, logKey);
+    });
     span.addEventListener('keydown', (e)=>{
       if(e.key === 'Enter'){ e.preventDefault(); span.blur(); }
     });
@@ -4529,6 +4692,7 @@
       saveActualLog(container, logKey);
     });
 
+    entry.appendChild(stamp);
     entry.appendChild(span);
     entry.appendChild(remove);
     container.appendChild(entry);
@@ -4538,11 +4702,14 @@
   document.querySelectorAll('.actual-log').forEach(container=>{
     const logKey = container.dataset.logContainer;
     const saved = localStorage.getItem('summerplan_actual_' + logKey);
-    const items = saved ? JSON.parse(saved) : [];
-    items.forEach(t => addActualEntry(container, logKey, t, false));
+    let items = [];
+    if(saved){
+      try{ items = JSON.parse(saved); }catch(e){ items = []; }
+    }
+    items.forEach(it => addActualEntry(container, logKey, it, false));
   });
 
-  document.querySelectorAll('.add-btn').forEach(btn=>{
+  document.querySelectorAll('.add-btn-text').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const logKey = btn.dataset.logKey;
       const container = btn.closest('td').querySelector('.actual-log');

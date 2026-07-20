@@ -1373,6 +1373,49 @@
 #tab-summer .progress-endlabel {
     position:absolute; top:24px; font-size:15px; color:var(--text-muted); font-weight:500; }
 #tab-summer .progress-note { font-size:18px; color:var(--text-muted); text-align:center; margin-top: 2px; }
+#tab-summer .wishlist-card{
+    position:relative;
+    background:#FFFBEA;
+    border:2px dashed #E3C465;
+    border-radius:14px;
+    padding:20px 20px 16px;
+    margin-bottom:24px;
+    transform:rotate(-0.5deg);
+    box-shadow:0 6px 14px rgba(60,45,20,0.1); }
+#tab-summer .wishlist-card::before{
+    content:"📌";
+    position:absolute;
+    top:-16px; left:28px;
+    transform:rotate(-10deg);
+    font-size:24px; }
+#tab-summer .wishlist-head{ margin-bottom:12px; }
+#tab-summer .wishlist-title{
+    display:block; font-family:'Klee One', sans-serif;
+    font-size:19px; font-weight:600; color:var(--orange-dark); }
+#tab-summer .wishlist-sub{ display:block; font-size:14px; color:var(--text-muted); margin-top:3px; }
+#tab-summer .wishlist-form{ display:flex; gap:8px; margin-bottom:12px; }
+#tab-summer .wishlist-input{
+    flex:1; padding:10px 13px; border:1.5px solid #E3C465; border-radius:10px;
+    font-family:inherit; font-size:15px; background:#fff; color:var(--ink); }
+#tab-summer .wishlist-input:focus{ outline:none; border-color:var(--orange); }
+#tab-summer .wishlist-add-btn{
+    background:var(--orange); color:#fff; border:none; border-radius:10px;
+    padding:0 18px; font-weight:700; font-size:14px; cursor:pointer;
+    font-family:inherit; transition:background .12s ease; }
+#tab-summer .wishlist-add-btn:hover{ background:var(--orange-dark); }
+#tab-summer .wishlist-items{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:2px; }
+#tab-summer .wishlist-item{
+    display:flex; align-items:flex-start; gap:9px; padding:7px 4px;
+    border-bottom:1px dashed #EAD9A0; font-size:15.5px; }
+#tab-summer .wishlist-item:last-child{ border-bottom:none; }
+#tab-summer .wishlist-check{ margin-top:4px; width:17px; height:17px; accent-color:var(--orange); cursor:pointer; flex-shrink:0; }
+#tab-summer .wishlist-text{ flex:1; word-break:break-word; padding-top:1px; }
+#tab-summer .wishlist-item.done .wishlist-text{ text-decoration:line-through; color:var(--text-muted); }
+#tab-summer .wishlist-del{
+    background:none; border:none; color:#C7A254; cursor:pointer;
+    font-size:16px; line-height:1; padding:2px 3px; flex-shrink:0; opacity:.7; }
+#tab-summer .wishlist-del:hover{ opacity:1; color:var(--orange-dark); }
+#tab-summer .wishlist-empty{ color:var(--text-muted); font-size:14.5px; padding:4px 4px 2px; }
 #tab-summer .table-wrap {
     background:#fff; border-radius: 18px; overflow:hidden;
     border: 2px solid var(--line); margin-bottom: 24px;
@@ -1876,6 +1919,18 @@
       <div class="progress-fill" id="progressFill"></div>
     </div>
     <p class="progress-note" id="progressNote"></p>
+  </div>
+
+  <div class="wishlist-card">
+    <div class="wishlist-head">
+      <span class="wishlist-title">📌 番外編：やりたいことメモ</span>
+      <span class="wishlist-sub">計画には入れてないけどやりたいこと</span>
+    </div>
+    <form id="wishlistForm" class="wishlist-form">
+      <input type="text" id="wishlistInput" class="wishlist-input" placeholder="やりたいことを書く…" maxlength="60" autocomplete="off">
+      <button type="submit" class="wishlist-add-btn">追加</button>
+    </form>
+    <ul class="wishlist-items" id="wishlistItems"></ul>
   </div>
 
   <div class="table-wrap">
@@ -4760,6 +4815,86 @@
   if(todayRow){
     setTimeout(()=> todayRow.scrollIntoView({ block:'center', behavior:'smooth' }), 300);
   }
+
+  // ---- wishlist memo: "計画には入れてないけどやりたいこと" ----
+  (function(){
+    const WL_KEY = 'summerplan_wishlist';
+    const form = document.getElementById('wishlistForm');
+    const input = document.getElementById('wishlistInput');
+    const list = document.getElementById('wishlistItems');
+    if(!form || !input || !list) return;
+
+    function loadWishlist(){
+      try{
+        const saved = localStorage.getItem(WL_KEY);
+        return saved ? JSON.parse(saved) : [];
+      }catch(e){ return []; }
+    }
+    function saveWishlist(items){
+      localStorage.setItem(WL_KEY, JSON.stringify(items));
+    }
+    function renderWishlist(){
+      const items = loadWishlist();
+      list.innerHTML = '';
+      if(items.length === 0){
+        const empty = document.createElement('li');
+        empty.className = 'wishlist-empty';
+        empty.textContent = 'まだ何もないよ。気になることがあったら書いてみよう。';
+        list.appendChild(empty);
+        return;
+      }
+      items.forEach(item=>{
+        const li = document.createElement('li');
+        li.className = 'wishlist-item' + (item.done ? ' done' : '');
+
+        const check = document.createElement('input');
+        check.type = 'checkbox';
+        check.className = 'wishlist-check';
+        check.checked = !!item.done;
+        check.title = 'できたら押してね';
+        check.addEventListener('change', ()=>{
+          const items2 = loadWishlist();
+          const target = items2.find(i => i.id === item.id);
+          if(target){ target.done = check.checked; saveWishlist(items2); }
+          li.classList.toggle('done', check.checked);
+        });
+
+        const text = document.createElement('span');
+        text.className = 'wishlist-text';
+        text.textContent = item.text;
+
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'wishlist-del';
+        del.textContent = '×';
+        del.title = '削除';
+        del.addEventListener('click', ()=>{
+          const items2 = loadWishlist().filter(i => i.id !== item.id);
+          saveWishlist(items2);
+          renderWishlist();
+        });
+
+        li.appendChild(check);
+        li.appendChild(text);
+        li.appendChild(del);
+        list.appendChild(li);
+      });
+    }
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const text = input.value.trim();
+      if(!text) return;
+      const items = loadWishlist();
+      items.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2,7), text, done:false });
+      saveWishlist(items);
+      input.value = '';
+      renderWishlist();
+      input.focus();
+    });
+
+    renderWishlist();
+  })();
 
 })();
 </script>

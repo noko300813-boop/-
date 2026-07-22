@@ -1580,6 +1580,16 @@
     <div id="adviceMessage" class="advice-message"></div>
   </div>
 
+  <div class="card" id="backlogCard">
+    <h2>📌 やることリスト</h2>
+    <p class="hint">その日のうちに終わらなかったことや、後日やる必要があることを書いておく欄です。ここは日付が変わっても消えません。「今日へ」ボタンで下の「今日のやることリスト」に移せます。</p>
+    <form id="backlogForm" class="todo-form">
+      <input type="text" id="backlogInput" class="todo-add-input" placeholder="後日やることを入力">
+      <button type="submit" class="btn btn-primary todo-add-btn">追加</button>
+    </form>
+    <ul class="todo-list" id="backlogList"></ul>
+  </div>
+
   <div class="card" id="todoCard">
     <h2>✅ 今日のやることリスト</h2>
     <p class="hint">今日やることを箇条書きで書いておきましょう。できたら花丸をタップ。終わったことは要らなくなったら消せます。花丸をつけると「今日の記録」の取り組んだことにも自動でまとめられます。</p>
@@ -4161,6 +4171,86 @@
   });
 
   renderTodos();
+
+  // ---- やることリスト（後日でもよいこと・日をまたいでも消えない保存欄） ----
+  const BACKLOG_KEY = 'teacherGrowthLog_backlog';
+  const backlogForm = document.getElementById('backlogForm');
+  const backlogInput = document.getElementById('backlogInput');
+  const backlogList = document.getElementById('backlogList');
+
+  function loadBacklog(){
+    try{
+      const raw = localStorage.getItem(BACKLOG_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function saveBacklog(){
+    localStorage.setItem(BACKLOG_KEY, JSON.stringify(backlog));
+  }
+
+  let backlog = loadBacklog();
+
+  function renderBacklog(){
+    if(backlog.length === 0){
+      backlogList.innerHTML = `<li class="todo-empty-hint">後日やることがあれば、ここに書いておきましょう。</li>`;
+      return;
+    }
+    backlogList.innerHTML = backlog.map(t => `
+      <li class="todo-item ${t.done ? 'done' : ''}" data-id="${t.id}">
+        <span class="todo-check" data-action="toggle" data-id="${t.id}" title="できたらタップ">${t.done ? '✓' : ''}</span>
+        <span class="todo-text">${escapeHtml(t.text)}</span>
+        <span class="todo-hanamaru">🌸</span>
+        <button type="button" class="btn btn-text" data-action="move-today" data-id="${t.id}" title="今日のやることリストに移す">今日へ</button>
+        <button type="button" class="todo-del" data-action="delete" data-id="${t.id}" title="削除">×</button>
+      </li>
+    `).join('');
+  }
+
+  backlogForm.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    const text = backlogInput.value.trim();
+    if(!text) return;
+    backlog.push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+      text,
+      done:false,
+    });
+    saveBacklog();
+    backlogInput.value = '';
+    renderBacklog();
+  });
+
+  backlogList.addEventListener('click', function(ev){
+    const target = ev.target.closest('[data-action]');
+    if(!target) return;
+    const action = target.dataset.action;
+    const id = target.dataset.id;
+    const item = backlog.find(t => t.id === id);
+    if(!item) return;
+
+    if(action === 'toggle'){
+      item.done = !item.done;
+      saveBacklog();
+      renderBacklog();
+    } else if(action === 'delete'){
+      backlog = backlog.filter(t => t.id !== id);
+      saveBacklog();
+      renderBacklog();
+    } else if(action === 'move-today'){
+      todos.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+        text: item.text,
+        done:false,
+      });
+      saveTodos();
+      renderTodos();
+      backlog = backlog.filter(t => t.id !== id);
+      saveBacklog();
+      renderBacklog();
+    }
+  });
+
+  renderBacklog();
 
   // ---- 今日の時間割（手帳イメージ・その日だけのメモ） ----
   const DAYPLAN_KEY = 'teacherGrowthLog_dayplan_' + todayStr();
